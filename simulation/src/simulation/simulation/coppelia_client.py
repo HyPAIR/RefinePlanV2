@@ -1,215 +1,398 @@
-# import rclpy
-# import rclpy.logging
-# from rclpy.node import Node
-
-# from std_msgs.msg import String
-
-#coppeliasim imports
-import time
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
-from math import pi
-
-class RoboticEnvironment():
+import math
+import numpy as np
+import copy
+from gripper import Robotiq85F
+class RoboticsEnvironment():
     def __init__(self):
-
-        #initalise ros stuff
-
-        #coppelia configs
         self.client = RemoteAPIClient('localhost',23000)
         self.sim = self.client.getObject('sim')
         self.simIK = self.client.require('simIK')
-        self.joint_handles=[]
-        self.base_handle=None
-        self.ee_handle =None
-        self.target_dummy =None
-        self.ik_env =None
-        self.ik_group=None
-
+        self.simOMPL =self.client.require('simOMPL')
+        
     def connect(self):
+        '''
+        Connects to coppeliasim and sets sim parameters
+        '''
         self.sim.startSimulation()
-        print('Connected to simulation')
-
+        print('connected to simulation')
+        self.sim.setStepping(True)
+        print('simulation is explicitly stepped')
+    
     def stop_simulation(self):
+        '''
+        stops simulation
+        '''
         self.sim.stopSimulation()
-        print('simulation stopped')
 
-    def initialize_handles(self):
-        self.base_handle=self.sim.getObject('/UR10')
-        print('Base handle retrieved')
-        joints = ['/UR10/joint'+str(i) for i in range(1,7)]
-        self.joint_handles = [self.sim.getObject(joint) for joint in joints]
+    def initialize_params(self):
+        '''
+        Initialise robot parameters and solver configs
+        '''
+
+        #get joint handles
+        joint_names = ['/UR10/joint'+str(i) for i in range(1,7)]
+        self.joints = [self.sim.getObject(joint) for joint in joint_names]
         print('Joint handles retrieved')
-        self.ee_handle = self.sim.getObject('/UR10/tip')
-        print('End effector handle retrieved')
-        self.target_dummy = self.sim.getObject('/Dummy')
-        print(f"Position:{self.sim.getObjectPosition(self.target_dummy)}, Orientation: {self.sim.getObjectOrientation(self.target_dummy)}")
-    def create_dummy(self,position,orientation):
-        dummy_handle = self.sim.createDummy(0.01)
-        self.sim.setObjectPosition(dummy_handle,-1,position)
-        self.sim.setObjectOrientation(dummy_handle,-1,orientation)
-        print("Target dummy created")
-        return dummy_handle
+        #TODO: get gripper sensor handle
 
-    def setup_ik(self):
-        self.ik_env = self.simIK.createEnvironment()
-        self.ik_group = self.simIK.createGroup(self.ik_env)
-        self.simIK.setGroupCalculation(self.ik_env,self.ik_group,self.simIK.method_damped_least_squares, 0.3, 99)
+        #get tip handle
+        self.robotTip = self.sim.getObject('/UR10/tip')
+        #get target handle
+        self.robotTarget = self.sim.getObject('/UR10/target')
+        #get base handle
+        self.robotBase=self.sim.getObject('/UR10')
+        #create a robot collectoin
+        self.robotCollection = self.sim.createCollection()
+        self.sim.addItemToCollection(self.robotCollection,self.sim.handle_tree,self.robotBase,0)
+        self.pathPlanningMaxtime = 4.0
+        self.pathPlanningSimplificationTime=4.0
+        self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTstar
+
+        self.gripper = Robotiq85F(self)
+
+        #IK Motions
+        self.ikMaxVel=[0.4,0.4,0.4,1.8]
+        self.ikMaxAccel=[0.8,0.8,0.8,0.9]
+        self.ikMaxJerk=[0.6,0.6,0.6,0.8]
+
+        #FK Motions
+        fkVel=180
+        fkAccel=40
+        fkJerk=80
         
-        constraints =0
-        if hasattr(self.simIK,'constraint_pose'):
-            constraints = self.simIK.constraint_pose
-            print(f'using constraints {constraints}')
-        try:
-            self.simIK.addElementFromScene(self.ik_env,self.ik_group,self.base_handle,self.ee_handle,self.target_dummy,constraints)
-        except Exception as e:
-            print(f"Error setting up IK ")
-    # def setup_ik(self):
-    #     self.ik_env = self.simIK.createEnvironment()
-    #     self.ik_group = self.simIK.createGroup(self.ik_env)
-    #     self.simIK.setGroupCalculation(self.ik_env, self.ik_group, self.simIK.method_damped_least_squares, 0.3, 99)
+        self.fkMaxVel = [fkVel*math.pi/180]*6
+        self.fkMaxAccel = [fkAccel*math.pi/180]*6
+        self.fkMaxJerk =[fkJerk*math.pi/180]*6
 
-    #     constraints = 0
-    #     if hasattr(self.simIK, 'constraint_pose'):
-    #         constraints = self.simIK.constraint_pose
-    #         print(f'Using constraints: {constraints}')
+    
+    def getConfig(self):
+        '''
+        gets current robot configuration 
 
-    #     try:
-    #         # Extract relevant IK data
-    #         ikElement, simToIkObjectMap, ikToSimObjectMap = self.simIK.addElementFromScene(
-    #             self.ik_env, self.ik_group, self.base_handle, self.ee_handle, self.target_dummy, constraints
-    #         )
-
-    #         print(f"simToIkObjectMap: {simToIkObjectMap}")
-    #         print(f"ikToSimObjectMap: {ikToSimObjectMap}")
-
-    #         # Extract joint handles from the mapping
-    #         extracted_joints = sorted(simToIkObjectMap.keys())  # Sorted to maintain order
-    #         print(f"Extracted joint handles from IK: {extracted_joints}")
-
-    #         # Compare with manually defined joints
-    #         print(f"Manually defined joint handles: {self.joint_handles}")
-
-    #         # If there’s a mismatch, update self.joint_handles
-    #         if set(self.joint_handles) != set(extracted_joints):
-    #             print("Mismatch detected! Using extracted joints instead.")
-    #             self.joint_handles = extracted_joints
-
-    #     except Exception as e:
-    #         print(f"Error setting up IK: {e}")
-
-
-    def get_distance(self, handle1, handle2):
-        position1 = self.sim.getObjectPosition(handle1, -1)
-        position2 = self.sim.getObjectPosition(handle2, -1)
-        # Calculate the Euclidean distance in 3D space (x, y, z)
-        return sum((p1 - p2) ** 2 for p1, p2 in zip(position1, position2)) ** 0.5
-
-    def move_to_configuration(self,target_pose):
-        #create a dummy at the pose
-        # self.target_dummy =self.create_dummy([1.850,0.325,0.606],[-pi/2,0,-pi/2])
-        self.setup_ik()
-        # configs = [self.sim.getJointPosition(joint) for joint in self.joint_handles]
-        # print(configs)
-        tries=0
-        result,reason,precision = self.simIK.handleGroup(self.ik_env,self.ik_group,{'syncWorlds':True})
-        # ikconfigs= self.simIK.findConfig(self.ik_env,self.ik_group,self.joint_handles)
-        # print(ikconfigs)
-        while True:
-            reso =self.get_distance(self.ee_handle,self.target_dummy)
-            
-            if reso<0.01 or tries>1000:
-                configs = [self.sim.getJointPosition(joint) for joint in self.joint_handles]
-                print(configs)
+        Input: None
+        Output: c space variable configuration q of dimention 1xn_joints
+        '''
+        return [self.sim.getJointPosition(joint) for joint in self.joints]
+    
+    def collides(self,target_configs):
+        '''
+        checks if any configuration self collides
+        input: List of configurations
+        output:bool collision 
+        '''
+        retVal = False
+        bufferedConfig = self.getConfig()
+        for target in target_configs:
+            self.setConfig(target)
+            res = self.sim.checkCollision(self.robotCollection,self.sim.handle_all)[0]
+            if res >0:
+                retVal = True
                 break
-            tries+=1
-        if result:
-            print("IK calculation succeeded")
-            return True
-        else:
-            print("failed to handle IK group")
-            return False
-   
-        
-    def get_target_configuration(self, target_pose):
-        """
-        Gets a joint configuration that would achieve the target_pose without moving the robot.
-        
-        :param target_pose: A tuple or list with 6 values (x, y, z, alpha, beta, gamma)
-                            representing the desired position and orientation (in radians).
-        :return: A list of joint values (configuration) if found, otherwise None.
-        """
-        # Set the target dummy's pose to the desired target_pose.
-        # Assuming target_pose = [x, y, z, alpha, beta, gamma]
-        # self.sim.setObjectPosition(self.target_dummy, -1, target_pose[0:3])
-        # self.sim.setObjectOrientation(self.target_dummy, -1, target_pose[3:6])
-        
-        # (Re)initialize IK environment/group if needed
-        self.setup_ik()  # Ensure self.ik_env and self.ik_group are correctly set up.
-        
-        # Set up search parameters for findConfigs.
-        params = {
-            'maxDist': 0.1,         # Only consider configurations that produce a tip close to target.
-            'maxTime': 2.0,         # Maximum time (in seconds) to search.
-            'pMetric': [1, 1, 1, 0.5],  # Pose metric: weights for [dx, dy, dz, dAngle]. Adjust as needed.
-            'findMultiple': False   # Only the best (first) solution is required.
-            # You can add more parameters such as 'cMetric', 'findAlt', or a callback 'cb' if needed.
+            else:
+                res= self.sim.checkCollision(self.robotCollection,self.robotCollection)[0]
+                if res >0:
+                    retVal = True
+                    break
+        self.setConfig(bufferedConfig)
+        return retVal
+    def setConfig(self,config):
+        '''
+        sets joint position to given configuration
+        '''
+        n_joints = len(self.joints)
+        for i in range(n_joints):
+            self.sim.setJointPosition(self.joints[i],config[i])
+    def setTargetConfig(self,c):
+        for i in range(len(self.joints)):
+            self.sim.setJointTargetPosition(self.joints[i],c[i])
+    
+    def findConfigs(self,pose):
+        '''
+        returns configurations for the manipultor for given pose
+        '''
+        ikEnv = self.simIK.createEnvironment()
+        ikGroup = self.simIK.createGroup(ikEnv)
+        ikEl,simToIk,ikToSim = self.simIK.addElementFromScene(ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,self.simIK.constraint_pose)
+        ikJoints=[simToIk[joint] for joint in self.joints]
+        self.sim.setObjectPose(self.robotTarget,pose)
+        self.simIK.syncFromSim(ikEnv,[ikGroup])
+        p={
+            'maxDist':0.28,
+            'maxTime':1,
+            'cMetric':[8,8,8,0.8,0.6,0.3],
+            'findMultiple': True
         }
-        #Give a config as seed
-        current_config = [0]*len(self.joint_handles)#[self.sim.getJointPosition(joint) for joint in self.joint_handles]
-        # Call simIK.findConfigs to search for a configuration that matches the target dummy pose.
-        configs = self.simIK.findConfigs(self.ik_env, self.ik_group, self.joint_handles, params, current_config)
-        
-        if configs and len(configs) > 0:
-            chosen_config = configs[0]  # The first configuration is the best one found.
-            print("Found a valid IK configuration:")
-            for i, joint_value in enumerate(chosen_config):
-                print(f"Joint {i+1}: {joint_value}")
-            return chosen_config
+        retVal = self.simIK.findConfigs(ikEnv,ikGroup,ikJoints,p)
+        self.simIK.eraseEnvironment(ikEnv)
+        return retVal
+    
+    def selectOneValidConfig(self,configs,approachIKTr,withdrawIkTr):
+        '''
+        Picks a valid configuration out of available ik configs
+
+        input: list of configs, approach,withsraw IK transforms
+        returns: a valid configuration, a visualisation object
+        '''
+        bufferedConfig = self.getConfig()
+        i=0
+        target = configs[i]
+        retVal=None
+        passiveVizShape = None
+        for i in range(len(configs)):
+            target = configs[i]
+            if not self.collides([target]):
+                print("found no collision")    
+                self.setConfig(target)
+
+                if approachIKTr:
+                    pose = self.sim.getObjectPose(self.robotTip)
+                    targetPose = self.sim.multiplyPoses(pose,approachIKTr)
+                    self.sim.setObjectPose(self.robotTarget,targetPose)
+                    ikEnv = self.simIK.createEnvironment()
+                    ikGroup = self.simIK.createGroup(ikEnv)
+                    ikEl,simToIk,ikToSim = self.simIK.addElementFromScene(ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,self.simIK.constraint_pose)
+                    ikJoints=[]
+                    for joint in self.joints:
+                        ikJoints.append(simToIk[joint])
+                    
+                    path = self.simIK.generatePath(ikEnv,ikGroup,ikJoints,simToIk[self.robotTip],4)
+                    self.simIK.eraseEnvironment(ikEnv)
+                    if path:
+                        #convert path into a list of configs to check for collisions
+                        path = np.array(path)
+                        c_space_dim = len(self.joints)
+                        path = np.resize(path,(path.size//c_space_dim,c_space_dim))
+                        #if there is a collision in any of the configs in the path, invalidate target config
+                        if self.collides(path):
+                            print("Potential collision in projected path")
+                            target=None
+                        else:
+                            #if there is no collision in any of the configs in the path check if witdraw transformation is valid
+                            if withdrawIkTr:
+                                targetPose = self.sim.multiplyPoses(targetPose,withdrawIkTr)
+                                self.sim.setObjectPose(self.robotTarget,targetPose)
+                                ikEnv = self.simIK.createEnvironment()
+                                ikGroup = self.simIK.createGroup(ikEnv)
+                                ikEl,simToIk,ikToSim = self.simIK.addElementFromScene(ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,self.simIK.constraint_pose)
+                                ikJoints=[]
+                                for joint in self.joints:
+                                    ikJoints.append(simToIk[joint])
+                                path = self.simIK.generatePath(ikEnv,ikGroup,ikJoints,simToIk[self.robotTip],4)
+                                self.simIK.eraseEnvironment(ikEnv)
+                                if path:
+                                    path = np.array(path)
+                                    path = np.resize(path,(path.size//c_space_dim,c_space_dim))
+                                    if self.collides(path):
+                                        target=None
+                                else:
+                                    target = None
+                    else:
+                        #if there isn't a valid path invalidate target config
+                        target = None
+                        break
+            else:
+                print(f"collision in config {i}")
+                #collision in base config invalidates target config
+                target = None
+            
+            if target:
+                retVal =target
+                objectList = self.sim.getObjectsInTree(self.robotBase,self.sim.sceneobject_shape)
+                objectCloneList = copy.deepcopy(objectList)
+                objectList =[]
+                for obj in objectCloneList:
+                    if self.sim.getBoolProperty(obj,'visible'):
+                        objectList.append(obj)
+                objectList = self.sim.copyPasteObjects(objectList)
+                passiveVizShape = self.sim.groupShapes(objectList,True)
+                self.sim.setBoolProperty(passiveVizShape, 'respondable',False)
+                self.sim.setBoolProperty(passiveVizShape, 'dynamic',False)
+                self.sim.setBoolProperty(passiveVizShape,'collidable',False)
+                self.sim.setBoolProperty(passiveVizShape,'measurable',False)
+                self.sim.setBoolProperty(passiveVizShape,'detectable',False)
+                self.sim.setColorProperty(self.sim.getIntArrayProperty(passiveVizShape,'meshes')[0],'color.diffuse',[1,0,0])
+                self.sim.setObjectAlias(passiveVizShape,'passiveVisualizationShape')
+                break
+        self.setConfig(bufferedConfig)
+        return retVal,passiveVizShape
+    def findPath(self,config):
+        #set true for joints who's positions are to be used for default values
+        useForProjection=[]
+        for i in range(len(self.joints)):
+            useForProjection.append(i<3 and 1 or 0)       
+
+        task = self.simOMPL.createTask('task')
+        self.simOMPL.setAlgorithm(task,self.pathPlanningAlgo)
+        self.simOMPL.setStateSpaceForJoints(task,self.joints,useForProjection)
+        self.simOMPL.setCollisionPairs(task,[self.robotCollection,self.sim.handle_all,self.robotCollection,self.robotCollection])
+        self.simOMPL.setStartState(task,self.getConfig())
+        self.simOMPL.setGoalState(task,config)
+        self.simOMPL.setup(task)
+
+        if self.simOMPL.solve(task,self.pathPlanningMaxtime) and self.simOMPL.hasExactSolution(task):
+            self.simOMPL.simplifyPath(task,self.pathPlanningSimplificationTime)
+            retVal = self.simOMPL.getPath(task)
         else:
-            print("No valid IK configuration found for the target pose.")
-            return None
+            retVal = None
+        self.simOMPL.destroyTask(task)
+        return retVal
+    def followPath(self,path):
+        minMaxVel=[]
+        for vel in self.fkMaxVel:
+            minMaxVel.append(-vel)
+            minMaxVel.append(vel)
+        minMaxAcc =[]
+        for acc in self.fkMaxAccel:
+            minMaxAcc.append(-acc)
+            minMaxAcc.append(acc)
+        pl,_ = self.sim.getPathLengths(path,6)
+        try :
+            followPathScript = followPathScript
+        except:
+            followPathScript =-1
+        pathPts,times,followPathScript = self.sim.generateTimeOptimalTrajectory(path,pl,minMaxVel,minMaxAcc,1000,'not-a-knot',5,None)
+        st = self.sim.getSimulationTime()
+        dt =0
+        while dt < times[-1]:
+            p = self.sim.getPathInterpolatedConfig(pathPts,times,dt)
+            self.setTargetConfig(p)
+            self.sim.step()
+            dt = self.sim.getSimulationTime() -st
+        p = self.sim.getPathInterpolatedConfig(pathPts,times,times[-1])
+        self.setTargetConfig(p)
 
- 
-    def move_to_config(self,target_config):
-        #moves manipulator to target c space config in radians
-        n_joints = len(self.joint_handles)
-        maxVel = [2.094395102]*n_joints #rad/s
-        maxAccel = [0.698131701]*n_joints #rad/s^2
-        maxJerk = [1.396263402]*n_joints #rad/s^3
-
-        state =self.sim.moveToConfig({
-
-            'joints':self.joint_handles,
-            'maxVel':maxVel,
-            'maxAccel':maxAccel,
-            'maxJerk':maxJerk,
-            'targetPos': target_config
+    def moveToPose(self,pose):
+        '''
+        This works based on the rucking trajectory generator
+        Interpolation between current pose and target pose. No planning
+        '''
+        p={
+            'ik' :{
+                'tip' : self.robotTip,
+                'target' : self.robotTarget,
+                'base' : self.robotBase,
+                'joints' : self.joints
+            },
+            'targetPose' : pose,
+            'maxVel' : self.ikMaxVel,
+            'maxAccel' : self.ikMaxAccel,
+            'maxJerk' : self.ikMaxJerk 
         }
-            )
-        return state
+        self.sim.moveToPose(p)
 
+    def ActionPick(self,pickPose,approachIKTr,withdrawIktr):
+
+        '''
+        Action to pick objects (does not close the gripper )
+        '''
+        #fing possible configurations
+        configs = self.findConfigs(pickPose)
+        #if more than one configuration is present, pick a valid one 
+        n_configs=len(configs)
+        if n_configs>0:
+            #A funciton to select valid configurations
+            print(f'Found {n_configs} potential configurations')
+            pickConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIKTr,withdrawIktr)
+            if pickConfig is None:
+                path = None
+                print('Failed to find a valid configuration for the desired pick')
+                return 0
+            self.sim.step()
+            print(f'selected configuration: {pickConfig}')
+            #plan path to the selected configuration
+            path = self.findPath(pickConfig)
+            if passiveVizShape:
+                self.sim.removeObjects([passiveVizShape])
+            if path:
+                print('Found a path from current config to pick config')
+                #follow the path
+                self.followPath(path)
+                self.sim.wait(1)
+                #delete the visualization
+            #Approach the object
+            pose = self.sim.getObjectPose(self.robotTip)
+            pose = self.sim.multiplyPoses(pose,approachIKTr)
+            #TODO: open the gripper and wait
+            gripper = self.gripper
+            gripper.openGripper()
+            self.sim.wait(2)
+            self.moveToPose(pose)
+            #close the gripper and hold the item
+            gripper.closeGripper(self.sim.getObject('/pillar1'))
+            self.sim.wait(5)
+            #witdraw from position
+            pose = self.sim.getObjectPose(self.robotTip)
+            pose = self.sim.multiplyPoses(pose,withdrawIktr)
+            self.moveToPose(pose)
+            return 1
+        else:
+            print('Failed to find a valid configuration for the desired pick')
+            return 0
+    def ActionPlace(self,placePose,approachIkTr):
+        '''
+        Action to pick objects (does not close the gripper )
+        '''
+        #fing possible configurations
+        configs = self.findConfigs(placePose)
+        #if more than one configuration is present, pick a valid one 
+        n_configs=len(configs)
+        if n_configs>0:
+            #A funciton to select valid configurations
+            print(f'Found {n_configs} potential configurations')
+            placeConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIkTr,[])
+            if placeConfig is None:
+                path = None
+                print('Failed to find a valid configuration for the desired pick')
+                return 0
+            self.sim.step()
+            print(f'selected configuration: {placeConfig}')
+            #plan path to the selected configuration
+            path = self.findPath(placeConfig)
+            if passiveVizShape:
+                self.sim.removeObjects([passiveVizShape])
+            if path:
+                print('Found a path from current config to place config')
+                #follow the path
+                self.followPath(path)
+                self.sim.wait(1)
+                #delete the visualization
+            #Approach the object
+            pose = self.sim.getObjectPose(self.robotTip)
+            pose = self.sim.multiplyPoses(pose,approachIkTr)
+            #TODO: open the gripper and wait
+            gripper = self.gripper
+            # gripper.disconnect()
+            self.moveToPose(pose)
+            gripper.openGripper()
+            self.sim.wait(2)
+            
+            return 1
+        else:
+            print('Failed to find a valid configuration for the desired place')
+            return 0
+        
+    def sample_pick_poses():
+        yield()
 
 def main():
-    env = RoboticEnvironment()
+    env = RoboticsEnvironment()
     env.connect()
-    env.initialize_handles()
-    env.move_to_configuration(9)
-    # env.set_joint_to_config([])
-    # env.move_to_config([0.23141078789183975, 1.2240021699772328, 1.9758523090714766, -1.541240219625911, 1.591575825355268, -0.7027195550025449])
-    # env.move_to_config([0.3989910845719479, 2.1435238238363294, -0.15221753013363898, -2.1080604947994734, 2.6365143775571744, 0.9988351580545902])#([0.38761265523134303, 1.4816286443570872, 1.3111003213041332, -2.5730493290047773, 2.7319379968363147, -0.2711492036361079])
-    # env.move_to_config( [0.9003445122443277, 0.046505136555976545, 1.8862136715987274, -1.7909194909514174, 0.6752951007542772, -0.582252705721346])
+    env.initialize_params()
+    initConfig = env.getConfig()
+    #get a pick pose
+    pickItem = env.sim.getObject('/pickPose')
+    pickPose = env.sim.getObjectPose(pickItem)
+    #the appoach and withdrawal transforms have distance as pose transform
+    outcome_pick = env.ActionPick(pickPose,[ -0.10,0,0, 0, 0, 0, 1],[0.10,0,0, 0, 0, 0, 1])
+    placeTarget = env.sim.getObject('/placePose')
+    placePose =env.sim.getObjectPose(placeTarget)
+    # placePose[0]+=0.6
+    outcome_place = env.ActionPlace(placePose,[ -0.10,0,0, 0, 0, 0, 1])
+    #pick the item
 
-    #keep the sim alive
-    # rclpy.spin(env)
-
-    #stop simulation and destroy node
+    # q = input('Quit ?')
     env.stop_simulation()
-    # env.destroy_node()
-    # rclpy.shutdown()
 
- 
 if __name__ == '__main__':
     main()
-
-
-

@@ -49,7 +49,7 @@ class RoboticsEnvironment():
         self.pathPlanningSimplificationTime=4.0
         self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTstar
 
-        #TODO:define dropping point poses
+        self.gripper = Robotiq85F(self)
 
         #IK Motions
         self.ikMaxVel=[0.4,0.4,0.4,1.8]
@@ -64,6 +64,7 @@ class RoboticsEnvironment():
         self.fkMaxVel = [fkVel*math.pi/180]*6
         self.fkMaxAccel = [fkAccel*math.pi/180]*6
         self.fkMaxJerk =[fkJerk*math.pi/180]*6
+
     
     def getConfig(self):
         '''
@@ -164,6 +165,7 @@ class RoboticsEnvironment():
                         path = np.resize(path,(path.size//c_space_dim,c_space_dim))
                         #if there is a collision in any of the configs in the path, invalidate target config
                         if self.collides(path):
+                            print("Potential collision in projected path")
                             target=None
                         else:
                             #if there is no collision in any of the configs in the path check if witdraw transformation is valid
@@ -312,7 +314,7 @@ class RoboticsEnvironment():
             pose = self.sim.getObjectPose(self.robotTip)
             pose = self.sim.multiplyPoses(pose,approachIKTr)
             #TODO: open the gripper and wait
-            gripper = Robotiq85F(self)
+            gripper = self.gripper
             gripper.openGripper()
             self.sim.wait(2)
             self.moveToPose(pose)
@@ -359,7 +361,7 @@ class RoboticsEnvironment():
             pose = self.sim.getObjectPose(self.robotTip)
             pose = self.sim.multiplyPoses(pose,approachIkTr)
             #TODO: open the gripper and wait
-            gripper = Robotiq85F(self)
+            gripper = self.gripper
             # gripper.disconnect()
             self.moveToPose(pose)
             gripper.openGripper()
