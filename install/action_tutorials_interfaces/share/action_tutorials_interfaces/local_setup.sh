@@ -1,0 +1,1 @@
+/home/user/refine_plan_ws/build/action_tutorials_interfaces/ament_cmake_environment_hooks/local_setup.sh
