@@ -1,8 +1,8 @@
-# Install script for directory: /home/user/refine_plan_ws/build/action_interfaces/action_interfaces__py
+# Install script for directory: /home/user/refine_plan_v2/build/action_interfaces/action_interfaces__py
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/user/refine_plan_ws/install/action_interfaces")
+  set(CMAKE_INSTALL_PREFIX "/home/user/refine_plan_v2/install/action_interfaces")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

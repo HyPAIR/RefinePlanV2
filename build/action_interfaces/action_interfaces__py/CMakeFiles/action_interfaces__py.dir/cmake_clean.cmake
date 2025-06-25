@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "../rosidl_generator_py/action_interfaces/action/__init__.py"
   "../rosidl_generator_py/action_interfaces/action/_go_back_home.py"
   "../rosidl_generator_py/action_interfaces/action/_go_back_home_s.c"
+  "../rosidl_generator_py/action_interfaces/action/_go_to_pose.py"
+  "../rosidl_generator_py/action_interfaces/action/_go_to_pose_s.c"
   "CMakeFiles/action_interfaces__py"
 )
 

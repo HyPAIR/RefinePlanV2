@@ -1,9 +1,8 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionServer
-from simulations.sim_interface import RoboticsEnvironment
-
-from action_interfaces.action import GoBackHome
+from config_planning import RoboticsEnvironment
+from action_interfaces.action import GoBackHome,GoToPose
 
 class SimActionServer(Node):
     '''
@@ -20,8 +19,59 @@ class SimActionServer(Node):
         #setup action servers for actions
         self._go_back_home_server = ActionServer(
             self,
-
+            GoBackHome,
+            'goBackHome',
+            self.go_back_home_callback
         )
-
-    async def go_back_home_callback():
+        self._go_to_pose_server = ActionServer(
+            self,
+            GoToPose,
+            'goToPose',
+            self.go_to_pose_callback
+        )
+        # self._pick_object_callback = ActionServer(
+        #     self,
+        #     PickObject,
+        #     'pickObject',
+        #     self.pick_object_callback
+        # )
+    async def go_back_home_callback(self,goal_handle):
+        self.get_logger().info('Executing homing callback')
+        #move to home pose
+        pathbackHome =self.env.findPath(self.initConfig)
+        self.get_logger().info('going to home config')
+        # self.env.sim.wait(3)
+        # self.env.followPath(pathbackHome)
+        goal_handle.succeed()
+        result = GoBackHome.Result()
+        result.success = True
+        return result
+    async def go_to_pose_callback(self,goal_handle):
+        self.get_logger().info('Executing go to pose callback')
+        combinedRequest = list(goal_handle.request.pose)
+        pickPose = combinedRequest[:7]
+        approachDummy=combinedRequest[7:14]
+        withdrawDummy = combinedRequest[14:21]
+        feedback = GoToPose.Feedback()
+        feedback.currentpose = self.env.getTipPose()
+        self.get_logger().info(f'recived target {pickPose}')
+        outcome = self.env.ActionPick(pickPose=pickPose,approachIKTr=approachDummy,withdrawIktr=withdrawDummy)
+        goal_handle.publish_feedback(feedback)
+        result = GoToPose.Result()
+        goal_handle.succeed()
+        if outcome:
+            result.success=True
+        else:
+            result.success=False
+        return result
+    
+    async def pick_object_callback():
         pass
+    
+def main(args=None):
+    rclpy.init(args=args)
+    sim_action_server = SimActionServer()
+    rclpy.spin(sim_action_server)
+
+if __name__=='__main__':
+    main()

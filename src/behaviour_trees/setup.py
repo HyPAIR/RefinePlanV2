@@ -19,7 +19,7 @@ setup(
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': ['main_planner = behaviour_trees.trees.main_planner:main'
+        'console_scripts': ['main_planner = behaviour_trees.main_planner:main'
         ],
     },
 )
