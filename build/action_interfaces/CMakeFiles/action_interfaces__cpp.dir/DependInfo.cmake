@@ -20,7 +20,17 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__struct.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
   "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__traits.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
   "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__type_support.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/pick_object__builder.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/pick_object__struct.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/pick_object__traits.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/pick_object__type_support.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/place_object__builder.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/place_object__struct.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/place_object__traits.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/detail/place_object__type_support.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
   "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_to_pose.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/pick_object.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/place_object.hpp" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp"
   )
 
 

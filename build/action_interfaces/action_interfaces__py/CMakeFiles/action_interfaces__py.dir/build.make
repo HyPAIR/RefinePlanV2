@@ -71,9 +71,13 @@ action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/acti
 action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_c.c
 action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_back_home.py
 action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_to_pose.py
+action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_pick_object.py
+action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_place_object.py
 action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/__init__.py
 action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_back_home_s.c
 action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_to_pose_s.c
+action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_pick_object_s.c
+action_interfaces__py/CMakeFiles/action_interfaces__py: rosidl_generator_py/action_interfaces/action/_place_object_s.c
 
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/lib/rosidl_generator_py/rosidl_generator_py
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_generator_py/__init__.py
@@ -90,6 +94,8 @@ rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/rosidl_generator_py/resource/_srv.py.em
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/action_interfaces/action/GoBackHome.idl
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/action_interfaces/action/GoToPose.idl
+rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/action_interfaces/action/PickObject.idl
+rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/action_interfaces/action/PlaceObject.idl
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/action_msgs/msg/GoalInfo.idl
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/action_msgs/msg/GoalStatus.idl
 rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/action_msgs/msg/GoalStatusArray.idl
@@ -112,6 +118,12 @@ rosidl_generator_py/action_interfaces/action/_go_back_home.py: rosidl_generator_
 rosidl_generator_py/action_interfaces/action/_go_to_pose.py: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/action_interfaces/action/_go_to_pose.py
 
+rosidl_generator_py/action_interfaces/action/_pick_object.py: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/action_interfaces/action/_pick_object.py
+
+rosidl_generator_py/action_interfaces/action/_place_object.py: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/action_interfaces/action/_place_object.py
+
 rosidl_generator_py/action_interfaces/action/__init__.py: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/action_interfaces/action/__init__.py
 
@@ -120,6 +132,12 @@ rosidl_generator_py/action_interfaces/action/_go_back_home_s.c: rosidl_generator
 
 rosidl_generator_py/action_interfaces/action/_go_to_pose_s.c: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/action_interfaces/action/_go_to_pose_s.c
+
+rosidl_generator_py/action_interfaces/action/_pick_object_s.c: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/action_interfaces/action/_pick_object_s.c
+
+rosidl_generator_py/action_interfaces/action/_place_object_s.c: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/action_interfaces/action/_place_object_s.c
 
 action_interfaces__py: action_interfaces__py/CMakeFiles/action_interfaces__py
 action_interfaces__py: rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_c.c
@@ -130,6 +148,10 @@ action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_back_hom
 action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_back_home_s.c
 action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_to_pose.py
 action_interfaces__py: rosidl_generator_py/action_interfaces/action/_go_to_pose_s.c
+action_interfaces__py: rosidl_generator_py/action_interfaces/action/_pick_object.py
+action_interfaces__py: rosidl_generator_py/action_interfaces/action/_pick_object_s.c
+action_interfaces__py: rosidl_generator_py/action_interfaces/action/_place_object.py
+action_interfaces__py: rosidl_generator_py/action_interfaces/action/_place_object_s.c
 action_interfaces__py: action_interfaces__py/CMakeFiles/action_interfaces__py.dir/build.make
 .PHONY : action_interfaces__py
 

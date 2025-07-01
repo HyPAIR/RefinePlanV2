@@ -251,8 +251,18 @@ CMakeFiles/action_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_ge
   rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.h \
   rosidl_generator_c/action_interfaces/action/detail/go_to_pose__type_support.h \
   rosidl_generator_c/action_interfaces/action/detail/go_to_pose__struct.h \
-  rosidl_generator_c/action_interfaces/action/detail/go_to_pose__functions.h
+  rosidl_generator_c/action_interfaces/action/detail/go_to_pose__functions.h \
+  rosidl_generator_c/action_interfaces/action/detail/pick_object__type_support.h \
+  rosidl_generator_c/action_interfaces/action/detail/pick_object__struct.h \
+  rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.h \
+  rosidl_generator_c/action_interfaces/action/detail/place_object__type_support.h \
+  rosidl_generator_c/action_interfaces/action/detail/place_object__struct.h \
+  rosidl_generator_c/action_interfaces/action/detail/place_object__functions.h
 
+
+rosidl_generator_c/action_interfaces/action/detail/place_object__struct.h:
+
+rosidl_generator_c/action_interfaces/action/detail/place_object__type_support.h:
 
 rosidl_generator_c/action_interfaces/action/detail/go_to_pose__struct.h:
 
@@ -363,6 +373,8 @@ rosidl_generator_c/action_interfaces/action/detail/go_to_pose__type_support.h:
 /usr/include/ctype.h:
 
 /usr/include/python3.10/unicodeobject.h:
+
+rosidl_generator_c/action_interfaces/action/detail/place_object__functions.h:
 
 /usr/include/python3.10/pylifecycle.h:
 
@@ -660,6 +672,8 @@ rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport
 
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 
+rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.h:
+
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
 /usr/include/linux/close_range.h:
@@ -726,11 +740,15 @@ rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport
 
 /usr/include/x86_64-linux-gnu/bits/struct_stat.h:
 
+rosidl_generator_c/action_interfaces/action/detail/pick_object__struct.h:
+
 /usr/include/linux/stat.h:
 
 /usr/include/python3.10/longobject.h:
 
 /usr/include/x86_64-linux-gnu/bits/statx.h:
+
+rosidl_generator_c/action_interfaces/action/detail/pick_object__type_support.h:
 
 /usr/include/x86_64-linux-gnu/asm/types.h:
 

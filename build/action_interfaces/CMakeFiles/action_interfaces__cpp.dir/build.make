@@ -76,6 +76,16 @@ CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action
 CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__struct.hpp
 CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__traits.hpp
 CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__type_support.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/pick_object.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__builder.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__struct.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__traits.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__type_support.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/place_object.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__builder.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__struct.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__traits.hpp
+CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__type_support.hpp
 CMakeFiles/action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
 
 rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: /opt/ros/humble/lib/rosidl_generator_cpp/rosidl_generator_cpp
@@ -95,6 +105,8 @@ rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: /opt/ros/humble/
 rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: /opt/ros/humble/share/rosidl_generator_cpp/resource/srv__traits.hpp.em
 rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: rosidl_adapter/action_interfaces/action/GoBackHome.idl
 rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: rosidl_adapter/action_interfaces/action/GoToPose.idl
+rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: rosidl_adapter/action_interfaces/action/PickObject.idl
+rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: rosidl_adapter/action_interfaces/action/PlaceObject.idl
 rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: /opt/ros/humble/share/action_msgs/msg/GoalInfo.idl
 rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: /opt/ros/humble/share/action_msgs/msg/GoalStatus.idl
 rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp: /opt/ros/humble/share/action_msgs/msg/GoalStatusArray.idl
@@ -132,6 +144,36 @@ rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__traits.hpp: ros
 rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__type_support.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__type_support.hpp
 
+rosidl_generator_cpp/action_interfaces/action/pick_object.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/pick_object.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/pick_object__builder.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/pick_object__builder.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/pick_object__struct.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/pick_object__struct.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/pick_object__traits.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/pick_object__traits.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/pick_object__type_support.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/pick_object__type_support.hpp
+
+rosidl_generator_cpp/action_interfaces/action/place_object.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/place_object.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/place_object__builder.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/place_object__builder.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/place_object__struct.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/place_object__struct.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/place_object__traits.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/place_object__traits.hpp
+
+rosidl_generator_cpp/action_interfaces/action/detail/place_object__type_support.hpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/action_interfaces/action/detail/place_object__type_support.hpp
+
 action_interfaces__cpp: CMakeFiles/action_interfaces__cpp
 action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_back_home__builder.hpp
 action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_back_home__struct.hpp
@@ -141,8 +183,18 @@ action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_
 action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__struct.hpp
 action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__traits.hpp
 action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/go_to_pose__type_support.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__builder.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__struct.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__traits.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/pick_object__type_support.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__builder.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__struct.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__traits.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/detail/place_object__type_support.hpp
 action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/go_back_home.hpp
 action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/go_to_pose.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/pick_object.hpp
+action_interfaces__cpp: rosidl_generator_cpp/action_interfaces/action/place_object.hpp
 action_interfaces__cpp: CMakeFiles/action_interfaces__cpp.dir/build.make
 .PHONY : action_interfaces__cpp
 

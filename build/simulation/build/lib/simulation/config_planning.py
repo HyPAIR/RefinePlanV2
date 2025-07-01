@@ -16,7 +16,7 @@ class RoboticsEnvironment():
         '''
         self.sim.startSimulation()
         print('connected to simulation')
-        # self.sim.setStepping(True)
+        self.sim.setStepping(True)
         print('simulation is explicitly stepped')
     
     def stop_simulation(self):

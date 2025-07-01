@@ -79,6 +79,8 @@ rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home_
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: /opt/ros/humble/share/rosidl_typesupport_introspection_c/resource/srv__type_support.c.em
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: rosidl_adapter/action_interfaces/action/GoBackHome.idl
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: rosidl_adapter/action_interfaces/action/GoToPose.idl
+rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: rosidl_adapter/action_interfaces/action/PickObject.idl
+rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: rosidl_adapter/action_interfaces/action/PlaceObject.idl
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: /opt/ros/humble/share/action_msgs/msg/GoalInfo.idl
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: /opt/ros/humble/share/action_msgs/msg/GoalStatus.idl
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h: /opt/ros/humble/share/action_msgs/msg/GoalStatusArray.idl
@@ -92,11 +94,23 @@ rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home_
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__rosidl_typesupport_introspection_c.h
 
+rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__rosidl_typesupport_introspection_c.h
+
+rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__rosidl_typesupport_introspection_c.h
+
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c
 
 rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c
+
+rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c
+
+rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c
 
 CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c.o: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/flags.make
 CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c.o: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c
@@ -126,16 +140,48 @@ CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_type
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/refine_plan_v2/build/action_interfaces/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c -o CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c.s
 
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/flags.make
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o: rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o -MF CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o.d -o CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o -c /home/user/refine_plan_v2/build/action_interfaces/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c
+
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/user/refine_plan_v2/build/action_interfaces/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c > CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.i
+
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/refine_plan_v2/build/action_interfaces/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c -o CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.s
+
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/flags.make
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o: rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o -MF CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o.d -o CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o -c /home/user/refine_plan_v2/build/action_interfaces/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c
+
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/user/refine_plan_v2/build/action_interfaces/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c > CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.i
+
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/refine_plan_v2/build/action_interfaces/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c -o CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.s
+
 # Object files for target action_interfaces__rosidl_typesupport_introspection_c
 action_interfaces__rosidl_typesupport_introspection_c_OBJECTS = \
 "CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c.o" \
-"CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c.o"
+"CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c.o" \
+"CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o" \
+"CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o"
 
 # External object files for target action_interfaces__rosidl_typesupport_introspection_c
 action_interfaces__rosidl_typesupport_introspection_c_EXTERNAL_OBJECTS =
 
 libaction_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c.o
 libaction_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c.o
+libaction_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c.o
+libaction_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c.o
 libaction_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/build.make
 libaction_interfaces__rosidl_typesupport_introspection_c.so: libaction_interfaces__rosidl_generator_c.so
 libaction_interfaces__rosidl_typesupport_introspection_c.so: /opt/ros/humble/lib/libaction_msgs__rosidl_typesupport_introspection_c.so
@@ -148,7 +194,7 @@ libaction_interfaces__rosidl_typesupport_introspection_c.so: /opt/ros/humble/lib
 libaction_interfaces__rosidl_typesupport_introspection_c.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libaction_interfaces__rosidl_typesupport_introspection_c.so: /opt/ros/humble/lib/librcutils.so
 libaction_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C shared library libaction_interfaces__rosidl_typesupport_introspection_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C shared library libaction_interfaces__rosidl_typesupport_introspection_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -163,6 +209,10 @@ CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: ros
 CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_back_home__type_support.c
 CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__rosidl_typesupport_introspection_c.h
 CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/action_interfaces/action/detail/go_to_pose__type_support.c
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__rosidl_typesupport_introspection_c.h
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/action_interfaces/action/detail/pick_object__type_support.c
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__rosidl_typesupport_introspection_c.h
+CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/action_interfaces/action/detail/place_object__type_support.c
 	cd /home/user/refine_plan_v2/build/action_interfaces && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/user/refine_plan_v2/src/action_interfaces /home/user/refine_plan_v2/src/action_interfaces /home/user/refine_plan_v2/build/action_interfaces /home/user/refine_plan_v2/build/action_interfaces /home/user/refine_plan_v2/build/action_interfaces/CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/action_interfaces__rosidl_typesupport_introspection_c.dir/depend
 

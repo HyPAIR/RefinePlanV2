@@ -19,6 +19,10 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/action/_go_back_home_s.c" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/action/_go_to_pose.py" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/action/_go_to_pose_s.c" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/action/_pick_object.py" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/action/_pick_object_s.c" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/action/_place_object.py" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/action/_place_object_s.c" "/home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_py/action_interfaces/_action_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   )
 
 

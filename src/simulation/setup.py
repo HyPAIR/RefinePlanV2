@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'observer = simulation.observer:main',
+            'action_server = simulation.sim_action_server:main'
         ],
     },
 )

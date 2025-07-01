@@ -210,4 +210,10 @@ CMakeFiles/action_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_ge
  /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.h \
  /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/go_to_pose__type_support.h \
  /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/go_to_pose__struct.h \
- /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/go_to_pose__functions.h
+ /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/go_to_pose__functions.h \
+ /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/pick_object__type_support.h \
+ /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/pick_object__struct.h \
+ /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.h \
+ /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/place_object__type_support.h \
+ /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/place_object__struct.h \
+ /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/place_object__functions.h

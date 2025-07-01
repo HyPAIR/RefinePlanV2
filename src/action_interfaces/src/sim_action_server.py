@@ -1,8 +1,8 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionServer
-from config_planning import RoboticsEnvironment
-from action_interfaces.action import GoBackHome,GoToPose
+from simulation.config_planning import RoboticsEnvironment
+from action_interfaces.action import GoBackHome,GoToPose,PickObject
 
 class SimActionServer(Node):
     '''
@@ -29,19 +29,19 @@ class SimActionServer(Node):
             'goToPose',
             self.go_to_pose_callback
         )
-        # self._pick_object_callback = ActionServer(
-        #     self,
-        #     PickObject,
-        #     'pickObject',
-        #     self.pick_object_callback
-        # )
+        self._pick_object_callback = ActionServer(
+            self,
+            PickObject,
+            'pickObject',
+            self.pick_object_callback
+        )
     async def go_back_home_callback(self,goal_handle):
         self.get_logger().info('Executing homing callback')
         #move to home pose
         pathbackHome =self.env.findPath(self.initConfig)
         self.get_logger().info('going to home config')
-        # self.env.sim.wait(3)
-        # self.env.followPath(pathbackHome)
+        self.env.sim.wait(1)
+        self.env.followPath(pathbackHome)
         goal_handle.succeed()
         result = GoBackHome.Result()
         result.success = True

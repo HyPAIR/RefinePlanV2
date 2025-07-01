@@ -12,3 +12,15 @@ class GoBackHome(py_trees_ros.actions.ActionClient):
             action_name='/goBackHome',
             action_goal=goal
         )
+
+    def result_callback(self, result_msg):
+        result = result_msg.result
+        status = result_msg.status
+
+        print(f"[Result Status] {status} ({GoalStatus.to_string(status)})")
+
+        # Optional: print result content too
+        print(f"[Result Data] {result.sequence}")
+
+        # Important: call the super() to ensure SUCCESS/FAILURE is set
+        super().result_callback(result_msg)

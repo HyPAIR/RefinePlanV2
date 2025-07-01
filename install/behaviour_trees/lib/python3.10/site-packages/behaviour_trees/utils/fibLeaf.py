@@ -5,26 +5,34 @@ from example_interfaces.action import Fibonacci
 from action_msgs.msg import GoalStatus  # Built-in ROS 2 status enum
 
 class SendFibonacciGoal(py_trees_ros.actions.ActionClient):
-    def __init__(self, name="Fibonacci Action"):
-        # Build a goal message
-        goal = Fibonacci.Goal()
-        goal.order = 5
-
+    def __init__(self, name="FibonacciFromBB"):
+        self.goal = Fibonacci.Goal()
+        self.feedback = None
         super().__init__(
             name=name,
             action_type=Fibonacci,
             action_name="/fibonacci",
-            action_goal=goal
+            action_goal=self.goal
         )
+        self.blackboard = self.attach_blackboard_client(name="BB")
+        self.blackboard.register_key(key="fibonacci_order", access=py_trees.common.Access.READ)
+        self.blackboard.register_key(key="fibonacci_result", access=py_trees.common.Access.WRITE)
 
-    def result_callback(self, result_msg):
-        result = result_msg.result
-        status = result_msg.status
+    def initialise(self):
+        # Read dynamic goal from blackboard
+        goal = self.goal
+        goal.order = self.blackboard.fibonacci_order
+        self.send_goal_request(goal)
 
-        print(f"[Result Status] {status} ({GoalStatus.to_string(status)})")
+    def update(self):
+        if self.feedback is not None:
+            print(f"[Feedback] Partial Sequence: {self.feedback.partial_sequence}")
 
-        # Optional: print result content too
-        print(f"[Result Data] {result.sequence}")
+        if self.status is py_trees.common.Status.RUNNING:
+            return py_trees.common.Status.RUNNING
+        elif self.status == py_trees.common.Status.SUCCESS:
+            self.blackboard.fibonacci_result = self.result.sequence
+            return py_trees.common.Status.SUCCESS
+        else:
+            return py_trees.common.Status.FAILURE
 
-        # Important: call the super() to ensure SUCCESS/FAILURE is set
-        super().result_callback(result_msg)
