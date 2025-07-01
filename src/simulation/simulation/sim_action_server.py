@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionServer
 from simulation.config_planning import RoboticsEnvironment
-from action_interfaces.action import GoBackHome,GoToPose,PickObject
+from action_interfaces.action import GoBackHome,GoToPose,PickObject,PlaceObject
 
 class SimActionServer(Node):
     '''
@@ -35,12 +35,12 @@ class SimActionServer(Node):
             'pickObject',
             self.pick_object_callback
         )
-        # self._place_object_server = ActionServer(
-        #     self,
-        #     PlaceObject,
-        #     'placeObject',
-        #     self.place_object_callback
-        # )
+        self._place_object_server = ActionServer(
+            self,
+            PlaceObject,
+            'placeObject',
+            self.place_object_callback
+        )
 
     #Define callback functions
 
@@ -64,11 +64,7 @@ class SimActionServer(Node):
         feedback = GoToPose.Feedback()
         feedback.currentpose = self.env.getTipPose()
         self.get_logger().info(f'recived target {pickPose}')
-        outcome = self.env.ActionPick(
-                                    pickPose=pickPose,
-                                    approachIKTr=approachDummy,
-                                    withdrawIktr=withdrawDummy
-                                      )
+        outcome = self.env.GoToPose(pickPose=pickPose)
         goal_handle.publish_feedback(feedback)
         result = GoToPose.Result()
         goal_handle.succeed()
@@ -88,12 +84,39 @@ class SimActionServer(Node):
         feedback.currentpose = self.env.getTipPose()
         self.get_logger().info(f'recived target {pickPose}')
         outcome =self.env.ActionPick(
-                                    pickPose=pickPose,
-                                    approachIKTr=approachDummy,
-                                    withdrawIktr=withdrawDummy
-                                    )
+            pickPose=pickPose,
+            approachIKTr=approachDummy,
+            withdrawIktr=withdrawDummy
+            )
         goal_handle.publish_feedback(feedback)
         result = PickObject.Result()
+        self.get_logger().info(f'outcome: {outcome}')
+
+        if outcome:
+            result.success=True
+            goal_handle.succeed()
+        else:
+            result.success=False
+            goal_handle.abort()
+
+        return result
+    
+    async def place_object_callback(self,goal_handle):
+        self.get_logger().info('Executing place object callback')
+        combinedRequest = list(goal_handle.request.pose)
+        placePose = combinedRequest[:7]
+        approachDummy=combinedRequest[7:14]
+        withdrawDummy = combinedRequest[14:21]
+        feedback = PlaceObject.Feedback()
+        feedback.currentpose = self.env.getTipPose()
+        self.get_logger().info(f'recived target {placePose}')
+        outcome =self.env.ActionPlace(
+            placePose=placePose,
+            approachIkTr=approachDummy,
+            witdrawIkTr=withdrawDummy
+            )
+        goal_handle.publish_feedback(feedback)
+        result = PlaceObject.Result()
         self.get_logger().info(f'outcome: {outcome}')
 
         if outcome:

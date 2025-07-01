@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionServer
 from simulation.config_planning import RoboticsEnvironment
-from action_interfaces.action import GoBackHome,GoToPose,PickObject
+from action_interfaces.action import GoBackHome,GoToPose,PickObject,PlaceObject
 
 class SimActionServer(Node):
     '''
@@ -35,12 +35,12 @@ class SimActionServer(Node):
             'pickObject',
             self.pick_object_callback
         )
-        # self._place_object_server = ActionServer(
-        #     self,
-        #     PlaceObject,
-        #     'placeObject',
-        #     self.place_object_callback
-        # )
+        self._place_object_server = ActionServer(
+            self,
+            PlaceObject,
+            'placeObject',
+            self.place_object_callback
+        )
 
     #Define callback functions
 
@@ -104,6 +104,9 @@ class SimActionServer(Node):
             goal_handle.abort()
 
         return result
+    
+    async def place_object_callback(self,goal_handle):
+        pass
     
 def main(args=None):
     rclpy.init(args=args)

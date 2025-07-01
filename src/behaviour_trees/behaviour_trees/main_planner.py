@@ -25,6 +25,7 @@ def generate_tree(node:Node):
     root = py_trees.composites.Sequence("startSequence",memory=True)
     clearPlacingArea = py_trees.composites.Sequence("clearPlacingArea",memory=True)
     pickPlaceObject = py_trees.composites.Sequence("pickAndPlace",memory=True)
+    parallelSelector = py_trees.composites.Parallel(name='setTargetParallelSelector',policy=py_trees.common.ParallelPolicy.SuccessOnOne,children=[])
     goBackHome = GoBackHome()
     fibLeaf = SendFibonacciGoal()
     setpicktarget = SetPickTarget()

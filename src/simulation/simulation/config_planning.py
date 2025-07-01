@@ -389,7 +389,43 @@ class RoboticsEnvironment():
         else:
             print('Failed to find a valid configuration for the desired place')
             return 0
-        pass
+
+    def GoToPose(self,targetPose):
+
+        '''
+        Action to pick objects (does not close the gripper )
+        '''
+        #fing possible configurations
+        configs = self.findConfigs(targetPose)
+        #if more than one configuration is present, pick a valid one 
+        approachIKTr = [0,0,0,0,0,0,1]
+        withdrawIktr = [0,0,0,0,0,0,1]
+        n_configs=len(configs)
+        if n_configs>0:
+            #A funciton to select valid configurations
+            print(f'Found {n_configs} potential configurations')
+            pickConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIKTr,withdrawIktr)
+            if pickConfig is None:
+                path = None
+                print('Failed to find a valid configuration for the desired pick')
+                return 0
+            # self.sim.step()
+            print(f'selected configuration: {pickConfig}')
+            #plan path to the selected configuration
+            path = self.findPath(pickConfig)
+            if passiveVizShape:
+                self.sim.removeObjects([passiveVizShape])
+            if path:
+                print('Found a path from current config to target config')
+                #follow the path
+                self.followPath(path)
+                self.sim.wait(1)
+                #delete the visualization
+            
+            return 1
+        else:
+            print('Failed to find a valid configuration for the desired pick')
+            return 0    
     def PlotGrasp(self,graspPose):
         #find possible configs
         configs = self.findConfigs(graspPose)
@@ -400,8 +436,8 @@ class RoboticsEnvironment():
             print(f'Found {n_configs} configurations')
             _, passiveVizshape = self.selectOneValidConfig(configs,[0,0,0,0,0,0,1],[])
             print(f'Ploted grasp Pose {graspPose}')
-            # self.sim.setColorProperty(self.sim.getIntArrayProperty(passiveVizShape,'meshes')[0],'color.diffuse',[1,0,0])
             self.sim.step()
+
 
 def main():
     env = RoboticsEnvironment()
