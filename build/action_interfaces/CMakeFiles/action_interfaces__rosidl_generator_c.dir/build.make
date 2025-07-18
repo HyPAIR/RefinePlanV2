@@ -86,6 +86,8 @@ rosidl_generator_c/action_interfaces/action/go_back_home.h: rosidl_adapter/actio
 rosidl_generator_c/action_interfaces/action/go_back_home.h: rosidl_adapter/action_interfaces/action/GoToPose.idl
 rosidl_generator_c/action_interfaces/action/go_back_home.h: rosidl_adapter/action_interfaces/action/PickObject.idl
 rosidl_generator_c/action_interfaces/action/go_back_home.h: rosidl_adapter/action_interfaces/action/PlaceObject.idl
+rosidl_generator_c/action_interfaces/action/go_back_home.h: rosidl_adapter/action_interfaces/action/GoalCheck.idl
+rosidl_generator_c/action_interfaces/action/go_back_home.h: rosidl_adapter/action_interfaces/action/GetSceneGraph.idl
 rosidl_generator_c/action_interfaces/action/go_back_home.h: /opt/ros/humble/share/action_msgs/msg/GoalInfo.idl
 rosidl_generator_c/action_interfaces/action/go_back_home.h: /opt/ros/humble/share/action_msgs/msg/GoalStatus.idl
 rosidl_generator_c/action_interfaces/action/go_back_home.h: /opt/ros/humble/share/action_msgs/msg/GoalStatusArray.idl
@@ -141,6 +143,30 @@ rosidl_generator_c/action_interfaces/action/detail/place_object__struct.h: rosid
 rosidl_generator_c/action_interfaces/action/detail/place_object__type_support.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/place_object__type_support.h
 
+rosidl_generator_c/action_interfaces/action/goal_check.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/goal_check.h
+
+rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.h
+
+rosidl_generator_c/action_interfaces/action/detail/goal_check__struct.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/goal_check__struct.h
+
+rosidl_generator_c/action_interfaces/action/detail/goal_check__type_support.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/goal_check__type_support.h
+
+rosidl_generator_c/action_interfaces/action/get_scene_graph.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/get_scene_graph.h
+
+rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.h
+
+rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__struct.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__struct.h
+
+rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__type_support.h: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__type_support.h
+
 rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.c: rosidl_generator_c/action_interfaces/action/go_back_home.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.c
 
@@ -152,6 +178,12 @@ rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.c: ros
 
 rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c: rosidl_generator_c/action_interfaces/action/go_back_home.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c
+
+rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c
+
+rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c: rosidl_generator_c/action_interfaces/action/go_back_home.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c
 
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.c.o: CMakeFiles/action_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.c.o: rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.c
@@ -209,12 +241,42 @@ CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_i
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c -o CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c.s
 
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o: CMakeFiles/action_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o: rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o: CMakeFiles/action_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o -MF CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o.d -o CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o -c /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c
+
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c > CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.i
+
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c -o CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.s
+
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o: CMakeFiles/action_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o: rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o: CMakeFiles/action_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o -MF CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o.d -o CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o -c /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c
+
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c > CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.i
+
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/refine_plan_v2/build/action_interfaces/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c -o CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.s
+
 # Object files for target action_interfaces__rosidl_generator_c
 action_interfaces__rosidl_generator_c_OBJECTS = \
 "CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.c.o" \
 "CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/go_to_pose__functions.c.o" \
 "CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.c.o" \
-"CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c.o"
+"CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c.o" \
+"CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o" \
+"CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o"
 
 # External object files for target action_interfaces__rosidl_generator_c
 action_interfaces__rosidl_generator_c_EXTERNAL_OBJECTS =
@@ -223,6 +285,8 @@ libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosid
 libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/go_to_pose__functions.c.o
 libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.c.o
 libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/place_object__functions.c.o
+libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c.o
+libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosidl_generator_c.dir/rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c.o
 libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosidl_generator_c.dir/build.make
 libaction_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/libaction_msgs__rosidl_generator_c.so
 libaction_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/libbuiltin_interfaces__rosidl_generator_c.so
@@ -230,7 +294,7 @@ libaction_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/libunique_ident
 libaction_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libaction_interfaces__rosidl_generator_c.so: /opt/ros/humble/lib/librcutils.so
 libaction_interfaces__rosidl_generator_c.so: CMakeFiles/action_interfaces__rosidl_generator_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C shared library libaction_interfaces__rosidl_generator_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/user/refine_plan_v2/build/action_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C shared library libaction_interfaces__rosidl_generator_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/action_interfaces__rosidl_generator_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -241,6 +305,10 @@ CMakeFiles/action_interfaces__rosidl_generator_c.dir/clean:
 	$(CMAKE_COMMAND) -P CMakeFiles/action_interfaces__rosidl_generator_c.dir/cmake_clean.cmake
 .PHONY : CMakeFiles/action_interfaces__rosidl_generator_c.dir/clean
 
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.c
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__functions.h
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__struct.h
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/get_scene_graph__type_support.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.c
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/go_back_home__functions.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/go_back_home__struct.h
@@ -249,6 +317,10 @@ CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/go_to_pose__functions.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/go_to_pose__struct.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/go_to_pose__type_support.h
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.c
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/goal_check__functions.h
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/goal_check__struct.h
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/goal_check__type_support.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.c
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/pick_object__functions.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/pick_object__struct.h
@@ -257,8 +329,10 @@ CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/place_object__functions.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/place_object__struct.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/detail/place_object__type_support.h
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/get_scene_graph.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/go_back_home.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/go_to_pose.h
+CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/goal_check.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/pick_object.h
 CMakeFiles/action_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/action_interfaces/action/place_object.h
 	cd /home/user/refine_plan_v2/build/action_interfaces && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/user/refine_plan_v2/src/action_interfaces /home/user/refine_plan_v2/src/action_interfaces /home/user/refine_plan_v2/build/action_interfaces /home/user/refine_plan_v2/build/action_interfaces /home/user/refine_plan_v2/build/action_interfaces/CMakeFiles/action_interfaces__rosidl_generator_c.dir/DependInfo.cmake --color=$(COLOR)

@@ -1,8 +1,13 @@
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 import math
+import random
 import numpy as np
 import copy
-from simulation.gripper import Robotiq85F
+try:
+    from simulation.gripper import Robotiq85F
+except:
+    from gripper import Robotiq85F
+
 class RoboticsEnvironment():
     def __init__(self):
         self.client = RemoteAPIClient('localhost',23000)
@@ -425,7 +430,19 @@ class RoboticsEnvironment():
             return 1
         else:
             print('Failed to find a valid configuration for the desired pick')
-            return 0    
+            return 0   
+    def HomeArm(self,initConfig):
+        #initial configuaration is already valid 
+        path = self.findPath(initConfig)
+        if path:
+            print("Found a paht to inital configuration")
+            self.followPath(path)
+            self.sim.wait(1)
+            return 1
+        print("No valid path to initial config")
+        return 0
+
+
     def PlotGrasp(self,graspPose):
         #find possible configs
         configs = self.findConfigs(graspPose)
@@ -438,12 +455,52 @@ class RoboticsEnvironment():
             print(f'Ploted grasp Pose {graspPose}')
             self.sim.step()
 
-
+    def GetTargetStats(self,TargetList:list,ObjectList:list,ObstacleList:list)->dict:
+        #initialise all targets empty
+        n_targets= len(TargetList)
+        status_values= [0]*n_targets
+        goal_status = dict(zip(TargetList,status_values))
+        i=0
+        while i < n_targets:
+            #if collision with obstacle, set status to -1
+            for obstacle in ObstacleList:
+                target = TargetList[i]
+                if self.checkCollision(obstacle,target):
+                    goal_status[target]=-1
+                    ObstacleList.remove(obstacle)
+                    i+=1    
+            #if collision with object, set status to 1
+            for object in ObjectList:
+                target= TargetList[i]
+                if self.checkCollision(object,target):
+                    goal_status[target]=1
+                    ObjectList.remove(object)
+                    i+=1
+        return goal_status
 def main():
     env = RoboticsEnvironment()
     env.connect()
     env.initialize_params()
+    #get initial robot configuration
     initConfig = env.getConfig()
+
+    #get all regions
+    region_handles = [f'/region_{i+1}' for i in range(9)]
+    target_handles = [f'/place_plate{i}' for i in range(6)]
+    object_handles =[
+        '/column0',
+        '/column1',
+        '/column2',
+        '/column3',
+        '/Cuboid0',
+        '/Cuboid1'   
+    ]
+    regions = [env.sim.getObject(handle) for handle in region_handles]
+    targets = [env.sim.getObject(handle) for handle in target_handles]
+    objects = [env.sim.getObject(handle) for handle in object_handles]
+    region_positions =[env.sim.getObjectPosition(region) for region in regions]
+    '''
+    Pick and place something
     #get a pick pose
     pickItem = env.sim.getObject('/pickPose')
     pickPose = env.sim.getObjectPose(pickItem)
@@ -454,7 +511,20 @@ def main():
     # placePose[0]+=0.6
     outcome_place = env.ActionPlace(placePose,[ -0.10,0,0, 0, 0, 0, 1])
     #pick the item
+    '''
+    # for place in regions+targets:
+    #     pose = env.sim.getObjectPose(place)
+    #     pose[2]+=0.125
+    #     outcome_picke = env.GoToPose(pose)
 
+    # home_outcome =env.HomeArm(initConfig)
+    def place_objects(objects,region_positions):
+        for object,region_position in zip(objects,region_positions):
+            env.sim.setObjectPosition(object,region_position)
+    for i in range(5):
+        random.shuffle(region_positions)
+        place_objects(objects,region_positions)
+        env.sim.wait(2)
     # q = input('Quit ?')
     env.stop_simulation()
 

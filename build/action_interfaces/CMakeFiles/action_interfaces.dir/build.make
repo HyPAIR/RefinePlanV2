@@ -70,6 +70,8 @@ CMakeFiles/action_interfaces: /home/user/refine_plan_v2/src/action_interfaces/ac
 CMakeFiles/action_interfaces: /home/user/refine_plan_v2/src/action_interfaces/action/GoToPose.action
 CMakeFiles/action_interfaces: /home/user/refine_plan_v2/src/action_interfaces/action/PickObject.action
 CMakeFiles/action_interfaces: /home/user/refine_plan_v2/src/action_interfaces/action/PlaceObject.action
+CMakeFiles/action_interfaces: /home/user/refine_plan_v2/src/action_interfaces/action/GoalCheck.action
+CMakeFiles/action_interfaces: /home/user/refine_plan_v2/src/action_interfaces/action/GetSceneGraph.action
 CMakeFiles/action_interfaces: /opt/ros/humble/share/action_msgs/msg/GoalInfo.idl
 CMakeFiles/action_interfaces: /opt/ros/humble/share/action_msgs/msg/GoalStatus.idl
 CMakeFiles/action_interfaces: /opt/ros/humble/share/action_msgs/msg/GoalStatusArray.idl

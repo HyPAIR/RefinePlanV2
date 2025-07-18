@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionServer
 from simulation.config_planning import RoboticsEnvironment
-from action_interfaces.action import GoBackHome,GoToPose,PickObject,PlaceObject
+from action_interfaces.action import GoBackHome,GoToPose,PickObject,PlaceObject,GoalCheck,GetSceneGraph
 
 class SimActionServer(Node):
     '''
@@ -41,7 +41,18 @@ class SimActionServer(Node):
             'placeObject',
             self.place_object_callback
         )
-
+        self._goal_check_server = ActionServer(
+            self,
+            GoalCheck,
+            'goalCheck',
+            self.goal_check_callback
+        )
+        self._scene_graph_server = ActionServer(
+            self,
+            GetSceneGraph,
+            'getSceneGraph',
+            self.scene_graph_callback
+        )
     #Define callback functions
 
     async def go_back_home_callback(self,goal_handle):
@@ -64,11 +75,7 @@ class SimActionServer(Node):
         feedback = GoToPose.Feedback()
         feedback.currentpose = self.env.getTipPose()
         self.get_logger().info(f'recived target {pickPose}')
-        outcome = self.env.ActionPick(
-                                    pickPose=pickPose,
-                                    approachIKTr=approachDummy,
-                                    withdrawIktr=withdrawDummy
-                                      )
+        outcome = self.env.GoToPose(pickPose=pickPose)
         goal_handle.publish_feedback(feedback)
         result = GoToPose.Result()
         goal_handle.succeed()
@@ -88,10 +95,10 @@ class SimActionServer(Node):
         feedback.currentpose = self.env.getTipPose()
         self.get_logger().info(f'recived target {pickPose}')
         outcome =self.env.ActionPick(
-                                    pickPose=pickPose,
-                                    approachIKTr=approachDummy,
-                                    withdrawIktr=withdrawDummy
-                                    )
+            pickPose=pickPose,
+            approachIKTr=approachDummy,
+            withdrawIktr=withdrawDummy
+            )
         goal_handle.publish_feedback(feedback)
         result = PickObject.Result()
         self.get_logger().info(f'outcome: {outcome}')
@@ -106,7 +113,50 @@ class SimActionServer(Node):
         return result
     
     async def place_object_callback(self,goal_handle):
+        self.get_logger().info('Executing place object callback')
+        combinedRequest = list(goal_handle.request.pose)
+        placePose = combinedRequest[:7]
+        approachDummy=combinedRequest[7:14]
+        withdrawDummy = combinedRequest[14:21]
+        feedback = PlaceObject.Feedback()
+        feedback.currentpose = self.env.getTipPose()
+        self.get_logger().info(f'recived target {placePose}')
+        outcome =self.env.ActionPlace(
+            placePose=placePose,
+            approachIkTr=approachDummy,
+            witdrawIkTr=withdrawDummy
+            )
+        goal_handle.publish_feedback(feedback)
+        result = PlaceObject.Result()
+        self.get_logger().info(f'outcome: {outcome}')
+
+        if outcome:
+            result.success=True
+            goal_handle.succeed()
+        else:
+            result.success=False
+            goal_handle.abort()
+
+        return result
+    async def goal_check_callback(self,goal_handle):
+        self.get_logger().info('checking goal staus')
+        #nothing needed form the request?
+        targetList = [
+
+        ]
+        #no need for feedback either
+        # goal_stats = self.env.GetTargetStats(
+        #     TargetList=,
+        #     ObjectList=,
+        #     ObstacleList=
+        # )
+    async def scene_graph_callback(self,goal_handle):
+        #For every object, we want to say what its on
+        objectHandles=[]
+        regionhandles=[]
+        
         pass
+
     
 def main(args=None):
     rclpy.init(args=args)

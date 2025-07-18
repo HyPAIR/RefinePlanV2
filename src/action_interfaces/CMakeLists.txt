@@ -28,5 +28,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/GoToPose.action"
   "action/PickObject.action"
   "action/PlaceObject.action"
+  "action/GoalCheck.action"
+  "action/GetSceneGraph.action"
 )
 ament_package()

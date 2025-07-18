@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionServer
 from simulation.config_planning import RoboticsEnvironment
-from action_interfaces.action import GoBackHome,GoToPose,PickObject,PlaceObject
+from action_interfaces.action import GoBackHome,GoToPose,PickObject,PlaceObject,GoalCheck,GetSceneGraph
 
 class SimActionServer(Node):
     '''
@@ -41,7 +41,18 @@ class SimActionServer(Node):
             'placeObject',
             self.place_object_callback
         )
-
+        self._goal_check_server = ActionServer(
+            self,
+            GoalCheck,
+            'goalCheck',
+            self.goal_check_callback
+        )
+        self._scene_graph_server = ActionServer(
+            self,
+            GetSceneGraph,
+            'getSceneGraph',
+            self.scene_graph_callback
+        )
     #Define callback functions
 
     async def go_back_home_callback(self,goal_handle):
@@ -127,6 +138,25 @@ class SimActionServer(Node):
             goal_handle.abort()
 
         return result
+    async def goal_check_callback(self,goal_handle):
+        self.get_logger().info('checking goal staus')
+        #nothing needed form the request?
+        targetList = [
+
+        ]
+        #no need for feedback either
+        # goal_stats = self.env.GetTargetStats(
+        #     TargetList=,
+        #     ObjectList=,
+        #     ObstacleList=
+        # )
+    async def scene_graph_callback(self,goal_handle):
+        #For every object, we want to say what its on
+        objectHandles=[]
+        regionhandles=[]
+        
+        pass
+
     
 def main(args=None):
     rclpy.init(args=args)
