@@ -37,16 +37,46 @@ def generate_tree(node:Node):
     #add child sequnces to root
     root.add_children([setpicktarget,clearPlacingArea,pickobject,pickPlaceObject])
     return root
+class Scene:
+    def __init__(self,regions,targets,objects):
+        self.env = RoboticsEnvironment()
+        self.regions = [self.env.sim.getObject(handle) for handle in region_handles]
+        self.targets = [self.env.sim.getObject(handle) for handle in target_handles]
+        self.objects = [self.env.sim.getObject(handle) for handle in object_handles]
 
+        self.state_map = dict()
     
+'''
+PROBLEM SETUP
+'''
+ #get all regions
+region_handles = [f'/region_{i+1}' for i in range(9)]
+#get all targets
+target_handles = [f'/place_plate{i}' for i in range(6)]
+#get all objects
+object_handles =[
+        '/column0',
+        '/column1',
+        '/column2',
+        '/column3',
+        '/Cuboid0',
+        '/Cuboid1'   
+    ]
+
+def update_blackboard(env:RoboticsEnvironment):
+    pass
 
 def main(args=None):
     rclpy.init(args=args)
     env = RoboticsEnvironment()
     env.connect()
     env.GetTargetStats
+    regions = [env.sim.getObject(handle) for handle in region_handles]
+    targets = [env.sim.getObject(handle) for handle in target_handles]
+    objects = [env.sim.getObject(handle) for handle in object_handles]
     node = MainPlanner()
     global blackboard
+    blackboard = py_trees.blackboard.Client(name="provided")
 
     behaviour_tree = py_trees_ros.trees.BehaviourTree(generate_tree(node))
     behaviour_tree.setup(timeout=60)
@@ -56,7 +86,7 @@ def main(args=None):
         while rclpy.ok():
             rclpy.spin_once(node,timeout_sec=0.1)
             #TODO:Update the state on blackboard
-
+            update_blackboard(env)
             #Roll the dice to make a choice between the BT and random action
             p = 0.4 #random.random()
             if p < epsilon:
