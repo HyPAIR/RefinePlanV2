@@ -1,6 +1,6 @@
-from robot.robot_interface import RoboticsEnvironment
+
 class SceneState:
-    def __init__(self,env:RoboticsEnvironment):
+    def __init__(self,env):
         self.env = env #coppeliasim interface
 
         #objectnames from coppeliasim
