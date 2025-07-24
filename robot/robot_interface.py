@@ -296,23 +296,6 @@ class RoboticsEnvironment():
         }
         self.sim.moveToPose(p)
 
-    #State functions
-
-    def get_object_pose(self,obj):
-        '''
-        Return quaternian object pose, given object name in coppeliasim scene
-        input: String object name: /obj
-        output: list [x,y,z,qx,qy,qz,qw]
-        '''
-        objectHandle = self.sim.getObject(obj)
-        objectPose = self.sim.getObjectPose(objectHandle)
-        return objectPose
-    
-    def get_grasped_object(self):
-        return self.grasped_object
-
-    
-    # Action functions
 
     def ActionPick(self,pickPose,approachIKTr,withdrawIktr):
 
@@ -346,7 +329,6 @@ class RoboticsEnvironment():
             #Approach the object
             pose = self.sim.getObjectPose(self.robotTip)
             pose = self.sim.multiplyPoses(pose,approachIKTr)
-            #TODO: open the gripper and wait
             gripper = self.gripper
             gripper.openGripper()
             self.sim.wait(2)
@@ -393,8 +375,8 @@ class RoboticsEnvironment():
             #Approach the object
             pose = self.sim.getObjectPose(self.robotTip)
             pose = self.sim.multiplyPoses(pose,approachIkTr)
-            #TODO: open the gripper and wait
             gripper = self.gripper
+            #TODO: setup removing item from the object tree & attaching
             # gripper.disconnect()
             self.moveToPose(pose)
             gripper.openGripper()
@@ -492,6 +474,44 @@ class RoboticsEnvironment():
                     ObjectList.remove(object)
                     i+=1
         return goal_status
+    #State functions
+
+    def get_object_pose(self,obj):
+        '''
+        Return quaternian object pose, given object name in coppeliasim scene
+        input: String object name: /obj
+        output: list [x,y,z,qx,qy,qz,qw]
+        '''
+        objectHandle = self.sim.getObject(obj)
+        objectPose = self.sim.getObjectPose(objectHandle)
+        return objectPose
+    
+    def get_grasped_object(self):
+        return self.grasped_object
+
+    
+    # Action functions
+    def pick(self,obj_name):
+        """
+        Function to pick the object, given object name
+        """
+        objHandle = self.sim.getObject(obj_name)
+        objPose = self.sim.getObjectPose(objHandle)
+        #TODO: replace approach and withdraw transforms with calulations based on grasp 
+        outcome = self.ActionPick(pickPose=objPose,approachIKTr=[ -0.10,0,0, 0, 0, 0, 1],withdrawIktr=[ 0.10,0,0, 0, 0, 0, 1])
+        return outcome
+    
+    def place(self,obj_name,target_pos):
+        """
+        Function to place object, given name, target_pos
+        """
+        objHandle= self.sim.getObject(obj_name)
+        objPose = self.sim.getObjectPose(objHandle)
+        target_pos = target_pos
+        #TODO: replace withdraw transform with calculations based on grasp, also modify target_pos
+        outcome = self.ActionPlace(placePose=target_pos,withdrawIktr=[0.10,0,0, 0, 0, 0, 1])
+        return outcome
+
 def main():
     env = RoboticsEnvironment()
     env.connect()
