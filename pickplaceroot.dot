@@ -1,0 +1,57 @@
+digraph pastafarianism {
+ordering=out;
+graph [fontname="times-roman"];
+node [fontname="times-roman"];
+edge [fontname="times-roman"];
+PickPlaceRoot [label="Ⓜ PickPlaceRoot", shape=octagon, style=filled, fillcolor=cyan, fontsize=9, fontcolor=black];
+"Check Goal" [label="Check Goal", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+PickPlaceRoot -> "Check Goal";
+"Remove /obs0" [label="Ⓜ Remove /obs0", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+PickPlaceRoot -> "Remove /obs0";
+"/obs0 on goal?" [label="/obs0 on goal?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Remove /obs0" -> "/obs0 on goal?";
+"Pick /obs0" [label="Pick /obs0", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Remove /obs0" -> "Pick /obs0";
+"Place /obs0" [label="Place /obs0", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Remove /obs0" -> "Place /obs0";
+"Remove /obs1" [label="Ⓜ Remove /obs1", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+PickPlaceRoot -> "Remove /obs1";
+"/obs1 on goal?" [label="/obs1 on goal?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Remove /obs1" -> "/obs1 on goal?";
+"Pick /obs1" [label="Pick /obs1", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Remove /obs1" -> "Pick /obs1";
+"Place /obs1" [label="Place /obs1", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Remove /obs1" -> "Place /obs1";
+"Place /column0" [label="Ⓜ Place /column0", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+PickPlaceRoot -> "Place /column0";
+"Pick /column0" [label="Pick /column0", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column0" -> "Pick /column0";
+"Place /column0*" [label="Place /column0*", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column0" -> "Place /column0*";
+"Place /column1" [label="Ⓜ Place /column1", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+PickPlaceRoot -> "Place /column1";
+"Pick /column1" [label="Pick /column1", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column1" -> "Pick /column1";
+"Place /column1*" [label="Place /column1*", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column1" -> "Place /column1*";
+"Place /column2" [label="Ⓜ Place /column2", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+PickPlaceRoot -> "Place /column2";
+"Pick /column2" [label="Pick /column2", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column2" -> "Pick /column2";
+"Place /column2*" [label="Place /column2*", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column2" -> "Place /column2*";
+"Place /column3" [label="Ⓜ Place /column3", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+PickPlaceRoot -> "Place /column3";
+"Pick /column3" [label="Pick /column3", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column3" -> "Pick /column3";
+"Place /column3*" [label="Place /column3*", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"Place /column3" -> "Place /column3*";
+bt -> "/current_action" [color=blue, constraint=false, weight=0];
+subgraph Blackboard {
+id=Blackboard;
+label=Blackboard;
+rank=sink;
+bt [label=bt, shape=ellipse, style=filled, color=blue, fillcolor=gray, fontsize=7, fontcolor=blue];
+"/current_action" [label="/current_action: -", shape=box, style=filled, color=blue, fillcolor=white, fontsize=8, fontcolor=blue, width=0, height=0, fixedsize=false];
+}
+}

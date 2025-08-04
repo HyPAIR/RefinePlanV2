@@ -48,7 +48,7 @@ class SceneState:
         """Track what object (if any) is currently occupying each goal slot"""
         self.goal_region_occuppancy ={sid:None for sid in self.goal_slots}
         for obj,pos in self.object_poses.items():
-            sid = self._closest_slots(pos,self.goal_slots)
+            sid = self._closest_slot(pos,self.goal_slots)
             if sid is not None:
                 self.goal_region_occuppancy[sid]=obj
     

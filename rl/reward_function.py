@@ -2,8 +2,8 @@ from rl.action_space import ActionType,Action
 
 def compute_reward(prev_state,action:Action,next_state):
     reward =0.0
-    goal_slots_before = prev_state["goal_region_occupancy"]
-    goal_slots_after = next_state["goal_region_occupancy"]
+    goal_slots_before = prev_state["goal_region_occuppancy"]
+    goal_slots_after = next_state["goal_region_occuppancy"]
 
     goal_objects = ['/column0', '/column1', '/column2', '/column3']
     obstacles = ['/obs0', '/obs1']

@@ -3,7 +3,10 @@ import math
 import random
 import numpy as np
 import copy
-from robot.gripper import Robotiq85F
+try:
+    from robot.gripper import Robotiq85F
+except:
+    from gripper import Robotiq85F
 
 class RoboticsEnvironment():
     def __init__(self):
@@ -297,7 +300,7 @@ class RoboticsEnvironment():
         self.sim.moveToPose(p)
 
 
-    def ActionPick(self,pickPose,approachIKTr,withdrawIktr):
+    def ActionPick(self,obj_name,pickPose,approachIKTr,withdrawIktr):
 
         '''
         Action to pick objects (does not close the gripper )
@@ -334,7 +337,7 @@ class RoboticsEnvironment():
             self.sim.wait(2)
             self.moveToPose(pose)
             #close the gripper and hold the item
-            gripper.closeGripper(self.sim.getObject('/pillar1'))
+            gripper.closeGripper(self.sim.getObject(obj_name))
             self.sim.wait(5)
             #witdraw from position
             pose = self.sim.getObjectPose(self.robotTip)
@@ -476,6 +479,17 @@ class RoboticsEnvironment():
         return goal_status
     #State functions
 
+    def reset_scene(self,objects,objectPositions,arm_config):
+        '''
+        Reset the scene to starting state
+
+        '''
+        object_handles = [self.sim.getObject(obj) for obj in objects]  
+        reset_status =[self.sim.setObjectPosition(handle,position) for handle,position in zip(object_handles,objectPositions)]
+        jointPositions = [self.sim.getJointPosition(joint) for joint in self.joints]
+        self.setConfig(arm_config)
+        return reset_status
+
     def get_object_pose(self,obj):
         '''
         Return quaternian object pose, given object name in coppeliasim scene
@@ -497,8 +511,10 @@ class RoboticsEnvironment():
         """
         objHandle = self.sim.getObject(obj_name)
         objPose = self.sim.getObjectPose(objHandle)
+        #TODO: This needs to be changed since the position of withdrawal should be based on the grasp as well
+        objPose[2]+=0.125
         #TODO: replace approach and withdraw transforms with calulations based on grasp 
-        outcome = self.ActionPick(pickPose=objPose,approachIKTr=[ -0.10,0,0, 0, 0, 0, 1],withdrawIktr=[ 0.10,0,0, 0, 0, 0, 1])
+        outcome = self.ActionPick(obj_name=obj_name,pickPose=objPose,approachIKTr=[ 0,0,-0.10, 0, 0, 0, 1],withdrawIktr=[ 0,0,0.10, 0, 0, 0, 1])
         return outcome
     
     def place(self,obj_name,target_pos):
@@ -507,61 +523,33 @@ class RoboticsEnvironment():
         """
         objHandle= self.sim.getObject(obj_name)
         objPose = self.sim.getObjectPose(objHandle)
-        target_pos = target_pos
+        target_pos = target_pos+[0,0,0,1]
+        target_pos[2]+=0.16
         #TODO: replace withdraw transform with calculations based on grasp, also modify target_pos
-        outcome = self.ActionPlace(placePose=target_pos,withdrawIktr=[0.10,0,0, 0, 0, 0, 1])
+        outcome = self.ActionPlace(placePose=target_pos,approachIkTr=[0,0,-0.10, 0, 0, 0, 1],witdrawIkTr=[0,0,0.10, 0, 0, 0, 1])
         return outcome
 
 def main():
     env = RoboticsEnvironment()
     env.connect()
     env.initialize_params()
-    #get initial robot configuration
     initConfig = env.getConfig()
-
-    #get all regions
-    region_handles = [f'/region_{i+1}' for i in range(9)]
-    target_handles = [f'/place_plate{i}' for i in range(6)]
-    object_handles =[
-        '/column0',
-        '/column1',
-        '/column2',
-        '/column3',
-        '/Cuboid0',
-        '/Cuboid1'   
-    ]
-    regions = [env.sim.getObject(handle) for handle in region_handles]
-    targets = [env.sim.getObject(handle) for handle in target_handles]
-    objects = [env.sim.getObject(handle) for handle in object_handles]
-    region_positions =[env.sim.getObjectPosition(region) for region in regions]
-    '''
-    Pick and place something
     #get a pick pose
     pickItem = env.sim.getObject('/pickPose')
     pickPose = env.sim.getObjectPose(pickItem)
+    pickPose[2]+=0.1
     #the appoach and withdrawal transforms have distance as pose transform
-    outcome_pick = env.ActionPick(pickPose,[ -0.10,0,0, 0, 0, 0, 1],[0.10,0,0, 0, 0, 0, 1])
-    placeTarget = env.sim.getObject('/placePose')
-    placePose =env.sim.getObjectPose(placeTarget)
+    # print(f"pickPose {pickPose}")
+    outcome_pick = env.ActionPick(pickPose,[ 0,0,-0.10, 0, 0, 0, 1],[0,0,0.10, 0, 0, 0, 1])
+    # placeTarget = env.sim.getObject('/placePose')
+    # placePose =env.sim.getObjectPose(placeTarget)
     # placePose[0]+=0.6
-    outcome_place = env.ActionPlace(placePose,[ -0.10,0,0, 0, 0, 0, 1])
+    # outcome_place = env.ActionPlace(placePose,[ -0.10,0,0, 0, 0, 0, 1])
     #pick the item
-    '''
-    # for place in regions+targets:
-    #     pose = env.sim.getObjectPose(place)
-    #     pose[2]+=0.125
-    #     outcome_picke = env.GoToPose(pose)
 
-    # home_outcome =env.HomeArm(initConfig)
-    def place_objects(objects,region_positions):
-        for object,region_position in zip(objects,region_positions):
-            env.sim.setObjectPosition(object,region_position)
-    for i in range(5):
-        random.shuffle(region_positions)
-        place_objects(objects,region_positions)
-        env.sim.wait(2)
     # q = input('Quit ?')
     env.stop_simulation()
+    
 
 if __name__ == '__main__':
     main()

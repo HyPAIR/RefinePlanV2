@@ -6,6 +6,7 @@ class Pick(py_trees.behaviour.Behaviour):
         super().__init__(name)
         self.obj_name = obj_name
         self.blackboard = blackboard
+        self.started = False
 
     def update(self):
         print(f"[BT] Trying to pick {self.obj_name}")
@@ -13,5 +14,15 @@ class Pick(py_trees.behaviour.Behaviour):
             action_type=ActionType.PICK,
             obj=self.obj_name
         )
-        self.blackboard.current_action = action
-        return py_trees.common.Status.SUCCESS
+
+        if not self.started:
+            self.blackboard.current_action =action
+            self.started = True
+            return py_trees.common.Status.RUNNING
+        else:
+            if self.blackboard.current_action is None:
+                return py_trees.common.Status.SUCCESS
+            else:
+                return py_trees.common.Status.RUNNING
+
+    
