@@ -19,6 +19,7 @@ class Place(py_trees.behaviour.Behaviour):
             target_pos=GOAL_SLOTS[self.target_slot]
         )
 
+ 
         if not self.started:
             self.blackboard.current_action = action
             self.started = True
@@ -28,3 +29,4 @@ class Place(py_trees.behaviour.Behaviour):
                 return py_trees.common.Status.SUCCESS
             else:
                 return py_trees.common.Status.RUNNING
+            

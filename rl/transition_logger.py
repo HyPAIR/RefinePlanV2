@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime
+from uuid import uuid4
 
 class TransitionLogger:
     def __init__(self, save_dir="rl/dateset"):
@@ -13,7 +14,7 @@ class TransitionLogger:
     def log_transition(self, state, action, reward, next_state, done):
         transition = {
             "state": state,
-            "action": action,
+            "action": repr(action),
             "reward": reward,
             "next_state": next_state,
             "done": done

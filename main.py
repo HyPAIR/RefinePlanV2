@@ -1,10 +1,12 @@
 import time
 import py_trees
+import random
 from robot.robot_interface import RoboticsEnvironment
 from robot.action_executor import ActionExecutor
 from state.scene_state import SceneState
 from rl.transition_logger import TransitionLogger
 from rl.reward_function import compute_reward
+from rl.action_space import ActionSet
 from trees.pick_place_tree import create_behaviour_tree
 
 
@@ -42,17 +44,23 @@ robot.reset_scene(objects,initial_locations,initial_arm_config)
 scene.update()
 state = scene.get_state()
 
+###### BEHAVOUR TREE ######
+
 #Init behaviour tree
 tree = create_behaviour_tree(scene,goal_objects,obstacle_objects,shop_slots,goal_slots)
 bt = py_trees.trees.BehaviourTree(tree)
 bt.setup(timeout=3.0)
 #Render the behaviout tree
-#py_trees.display.render_dot_tree(tree,with_blackboard_variables=True)
+py_trees.display.render_dot_tree(tree,with_blackboard_variables=True)
 
 #setup the blackboard client for bt
 blackboard = py_trees.blackboard.Client(name="bt")
 blackboard.register_key(key="current_action",access=py_trees.common.Access.READ)
 blackboard.register_key(key="current_action",access=py_trees.common.Access.WRITE)
+
+
+###RANDOM ACION SET FOR RL ####
+action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=shop_slots,goal_slots=goal_slots)
 
 #Episode loop
 for step in range(MAX_STEPS):
@@ -61,9 +69,11 @@ for step in range(MAX_STEPS):
     #Tick the BT
     bt.tick()
     action = blackboard.current_action
+    print(py_trees.display.unicode_tree(tree,show_status=True))
 
     if action is None:
         print("[WARN] No action produced by BT")
+        #TODO:add random actions from action set instead of continue
         continue
 
 
@@ -82,15 +92,20 @@ for step in range(MAX_STEPS):
 
     #Log transition
     logger.log_transition(state, action, reward, next_state, done)
-    print(f"[INFO] Success {success} | Reward {reward} | Done {done}")
+    print(f"[INFO] Success: {success} | Reward: {reward} | Done: {done}")
+    if step == 99:
+        print("[DEBUG]step stop")
 
     if done:
-        print("\n[INFO] Goal Achieved in {step +1 } steps")
+        print(f"\n[INFO] Goal Achieved in {step +1 } steps")
+        #logger automatically saves episodes when done and resets
         break
-    elif not done and state > MAX_STEPS:
-        print("\n[INFO] Max steps reached episode ended")
-    else:
-        state = next_state
+    if step+2 >MAX_STEPS:
+        print(f"\n[INFO] Max steps reached episode ended")
+        logger.save_episode()
+        logger.reset()
+
+    state = next_state
 
 
 robot.stop_simulation()

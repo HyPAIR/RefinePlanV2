@@ -158,7 +158,7 @@ class RoboticsEnvironment():
         for i in range(len(configs)):
             target = configs[i]
             if not self.collides([target]):
-                print("found no collision")    
+                print(f"\n[INFO]found no collision")    
                 self.setConfig(target)
 
                 if approachIKTr:
@@ -311,20 +311,20 @@ class RoboticsEnvironment():
         n_configs=len(configs)
         if n_configs>0:
             #A funciton to select valid configurations
-            print(f'Found {n_configs} potential configurations')
+            print(f'\n[INFO]Found {n_configs} potential configurations')
             pickConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIKTr,withdrawIktr)
             if pickConfig is None:
                 path = None
                 print('Failed to find a valid configuration for the desired pick')
                 return 0
             # self.sim.step()
-            print(f'selected configuration: {pickConfig}')
+            print(f'[INFO] selected configuration: {pickConfig}')
             #plan path to the selected configuration
             path = self.findPath(pickConfig)
             if passiveVizShape:
                 self.sim.removeObjects([passiveVizShape])
             if path:
-                print('Found a path from current config to pick config')
+                print('\n[INFO]Found a path from current config to pick config')
                 #follow the path
                 self.followPath(path)
                 self.sim.wait(1)
@@ -357,7 +357,7 @@ class RoboticsEnvironment():
         n_configs=len(configs)
         if n_configs>0:
             #A funciton to select valid configurations
-            print(f'Found {n_configs} potential configurations')
+            print(f'\n[INFO]Found {n_configs} potential configurations')
             placeConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIkTr,witdrawIkTr)
             if placeConfig is None:
                 path = None
@@ -370,7 +370,7 @@ class RoboticsEnvironment():
             if passiveVizShape:
                 self.sim.removeObjects([passiveVizShape])
             if path:
-                print('Found a path from current config to place config')
+                print(f'\n[INFO]Found a path from current config to place config')
                 #follow the path
                 self.followPath(path)
                 self.sim.wait(1)
@@ -408,7 +408,7 @@ class RoboticsEnvironment():
         n_configs=len(configs)
         if n_configs>0:
             #A funciton to select valid configurations
-            print(f'Found {n_configs} potential configurations')
+            print(f'\n[INFO]Found {n_configs} potential configurations')
             pickConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIKTr,withdrawIktr)
             if pickConfig is None:
                 path = None
@@ -421,7 +421,7 @@ class RoboticsEnvironment():
             if passiveVizShape:
                 self.sim.removeObjects([passiveVizShape])
             if path:
-                print('Found a path from current config to target config')
+                print(f'\n[INFO]Found a path from current config to target config')
                 #follow the path
                 self.followPath(path)
                 self.sim.wait(1)
@@ -429,17 +429,17 @@ class RoboticsEnvironment():
             
             return 1
         else:
-            print('Failed to find a valid configuration for the desired pick')
+            print('[WARN] Failed to find a valid configuration for the desired pick')
             return 0   
     def HomeArm(self,initConfig):
         #initial configuaration is already valid 
         path = self.findPath(initConfig)
         if path:
-            print("Found a paht to inital configuration")
+            print("\n[INFO]Found a paht to inital configuration")
             self.followPath(path)
             self.sim.wait(1)
             return 1
-        print("No valid path to initial config")
+        print("[WARN]No valid path to initial config")
         return 0
 
 
@@ -488,6 +488,7 @@ class RoboticsEnvironment():
         reset_status =[self.sim.setObjectPosition(handle,position) for handle,position in zip(object_handles,objectPositions)]
         jointPositions = [self.sim.getJointPosition(joint) for joint in self.joints]
         self.setConfig(arm_config)
+        self.sim.step()
         return reset_status
 
     def get_object_pose(self,obj):
