@@ -1,4 +1,5 @@
 import json
+import yaml
 import os
 from datetime import datetime
 from uuid import uuid4
@@ -10,6 +11,8 @@ class TransitionLogger:
         self.save_dir = save_dir
         os.makedirs(self.save_dir, exist_ok=True)
         self.last_action = None
+        self.unique_id = str(uuid4())
+        print(f"[LOG] TransitionLogger initialized with ID: {self.unique_id}")
 
     def log_transition(self, state, action, reward, next_state, done):
         transition = {
@@ -25,10 +28,13 @@ class TransitionLogger:
             self.reset()
     
     def save_episode(self):
-        filename = f"episode_{self.episode_count:05d}.json"
+        # filename = f"episode_{self.episode_count:05d}_{self.unique_id}.json"
+        filename = f"episode_{self.episode_count:05d}_{self.unique_id}.yaml"
+        print(f"[LOG] Saving episode {self.episode_count} to {filename}")
         filepath = os.path.join(self.save_dir, filename)
         with open(filepath, 'w') as f:
-            json.dump(self.episode, f, indent=2)
+            # json.dump(self.episode, f, indent=2)
+            yaml.dump(self.episode, f, default_flow_style=False)
         print(f"[LOG] Episode saved: {filepath}")
         self.episode_count += 1
 

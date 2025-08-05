@@ -15,7 +15,7 @@ class Place(py_trees.behaviour.Behaviour):
         action = Action(
             action_type=ActionType.PLACE,
             obj=self.obj_name,
-            target_slot=self.target_slot,
+            target_slot=self.target_slot,  
             target_pos=GOAL_SLOTS[self.target_slot]
         )
 

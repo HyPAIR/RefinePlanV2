@@ -16,13 +16,15 @@ class SceneState:
         # Internal state containers
         self.object_poses = {} #name: (x,y,z,qx,qy,qw)
         self.object_status ={} #name: status_string
-        self.gripper_status ={"holding":None}
+        self.object_slots={} #name: slot_id or None
+        self.gripper_status ={"holding":None} #object name or None
         self.goal_region_occuppancy ={} # goal_slot_id: object_id or None
 
     def update(self):
         self._update_object_poses()
         self._update_gripper_status()
         self._update_object_statuses()
+        self._update_object_slots()
         self._update_goal_occuppancy()
 
     def _update_object_poses(self):
@@ -44,6 +46,18 @@ class SceneState:
             else:
                 self.object_status[obj] ="unknown"
     
+    def _update_object_slots(self):
+        """ Update which slot each object is in """
+        for obj, pos in self.object_poses.items():
+            if self._is_in_slot(pos,self.shop_slots):
+                self.object_slots[obj] = self._closest_slot(pos,self.shop_slots)
+            elif self._is_in_slot(pos,self.goal_slots):
+                self.object_slots[obj] = self._closest_slot(pos,self.goal_slots)
+            elif self.gripper_status["holding"] == obj:
+                self.object_slots[obj] = "held"
+            else:
+                self.object_slots[obj] = None
+       
     def _update_goal_occuppancy(self):
         """Track what object (if any) is currently occupying each goal slot"""
         self.goal_region_occuppancy ={sid:None for sid in self.goal_slots}
@@ -70,6 +84,7 @@ class SceneState:
         return {
             "object_poses":self.object_poses.copy(),
             "object_status":self.object_status.copy(),
+            "object_slots":self.object_slots.copy(),
             "gripper_status":self.gripper_status.copy(),
             "goal_region_occuppancy":self.goal_region_occuppancy.copy()
         }

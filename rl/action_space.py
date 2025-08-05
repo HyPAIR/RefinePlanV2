@@ -71,3 +71,28 @@ class ActionSet:
     
     def get_all_actions(self):
         return self.actions
+    
+    def valid_actions(self,state):
+        """
+        Returns a list of valid actions for given state
+        """
+        valid_indices =[]
+        valid_actions = []
+        for idx,action in enumerate(self.actions):
+            place_slot = action.target_slot
+
+            #Rule 1: place actions are only valid if holding if holding:obj
+            if action.action_type == ActionType.PLACE and state['gripper_status']['holding'] is not action.obj:
+                continue
+
+            #Rule 2: pick actions can only be valid if holding:None
+            if action.action_type == ActionType.PICK and state['gripper_status']['holding'] is not None:
+                continue
+            #Rule 3: place slot has to be empty (if there is obstacle pick action for obstalce will later make it empty)
+            if action.action_type == ActionType.PLACE and action.target_slot in state['object_slots'].values():
+                continue
+            #Rule 3: (optional) Can prevent no-op 
+
+            valid_actions.append(action)
+            valid_indices.append(idx)
+        return valid_actions, valid_indices

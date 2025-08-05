@@ -516,6 +516,8 @@ class RoboticsEnvironment():
         objPose[2]+=0.125
         #TODO: replace approach and withdraw transforms with calulations based on grasp 
         outcome = self.ActionPick(obj_name=obj_name,pickPose=objPose,approachIKTr=[ 0,0,-0.10, 0, 0, 0, 1],withdrawIktr=[ 0,0,0.10, 0, 0, 0, 1])
+        if outcome:
+            self.grasped_object = obj_name
         return outcome
     
     def place(self,obj_name,target_pos):
@@ -528,6 +530,8 @@ class RoboticsEnvironment():
         target_pos[2]+=0.16
         #TODO: replace withdraw transform with calculations based on grasp, also modify target_pos
         outcome = self.ActionPlace(placePose=target_pos,approachIkTr=[0,0,-0.10, 0, 0, 0, 1],witdrawIkTr=[0,0,0.10, 0, 0, 0, 1])
+        if outcome:
+            self.grasped_object = None
         return outcome
 
 def main():

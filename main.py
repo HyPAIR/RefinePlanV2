@@ -4,6 +4,7 @@ import random
 from robot.robot_interface import RoboticsEnvironment
 from robot.action_executor import ActionExecutor
 from state.scene_state import SceneState
+from state.slot_config import GOAL_SLOTS,SHOP_SLOTS
 from rl.transition_logger import TransitionLogger
 from rl.reward_function import compute_reward
 from rl.action_space import ActionSet
@@ -11,7 +12,7 @@ from trees.pick_place_tree import create_behaviour_tree
 
 
 #Configurations
-MAX_STEPS = 100
+MAX_STEPS = 15#100
 #these are objects to be picked up / manipulated
 goal_objects = ["/column0","/column1","/column2","/column3"]
 obstacle_objects=["/obs0","/obs1"]
@@ -60,7 +61,7 @@ blackboard.register_key(key="current_action",access=py_trees.common.Access.WRITE
 
 
 ###RANDOM ACION SET FOR RL ####
-action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=shop_slots,goal_slots=goal_slots)
+action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
 
 #Episode loop
 for step in range(MAX_STEPS):
@@ -73,8 +74,16 @@ for step in range(MAX_STEPS):
 
     if action is None:
         print("[WARN] No action produced by BT")
-        #TODO:add random actions from action set instead of continue
-        continue
+        #Select a random action from the action set
+        valid_actions,_ = action_set.valid_actions(state)
+        if not valid_actions:
+            print("[WARN] No valid actions available, skipping step")
+            continue
+        else:
+            action = random.choice(valid_actions)
+            print(f"[INFO] Randomly selected action: {action}")
+            blackboard.current_action = action
+        
 
 
     #Excecute action
@@ -106,6 +115,9 @@ for step in range(MAX_STEPS):
         logger.reset()
 
     state = next_state
-
+#if loop ends save and reset the logger
+if logger.episode:
+    logger.save_episode()
+    logger.reset()
 
 robot.stop_simulation()
