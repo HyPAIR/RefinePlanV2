@@ -4,22 +4,50 @@ class ActionType(Enum):
     PICK= "pick"
     PLACE = "place"
 
+
+
+class GraspType(Enum):
+    # Top approaches (4 roll variations)
+    TOP_0   = "top_0"
+    TOP_90  = "top_90"
+    TOP_180 = "top_180"
+    TOP_270 = "top_270"
+
+    # Front approaches (2 roll variations)
+    FRONT_0   = "front_0"
+    FRONT_180 = "front_180"
+
+    # Back approaches (2 roll variations)
+    BACK_0   = "back_0"
+    BACK_180 = "back_180"
+
+    # Left approaches (2 roll variations)
+    LEFT_0   = "left_0"
+    LEFT_180 = "left_180"
+
+    # Right approaches (2 roll variations)
+    RIGHT_0   = "right_0"
+    RIGHT_180 = "right_180"
+
+
 class Action:
-    def __init__(self,action_type:ActionType,obj=None, target_slot=None, target_pos=None):
+    def __init__(self,action_type:ActionType,obj=None, target_slot=None, target_pos=None,grasp=None):
         self.action_type = action_type
         self.obj = obj
         self.target_slot = target_slot
         self.target_pos = target_pos
+        self.grasp = grasp
 
     def __repr__(self):
-        return f"Action({self.action_type}, obj={self.obj}, slot={self.target_slot})"
+        return f"Action({self.action_type}, obj={self.obj}, slot={self.target_slot},grasp={self.grasp})"
     
     def to_dict(self):
         return {
             "type": self.action_type.value,
             "obj": self.obj,
             "target_slot":self.target_slot,
-            "target_pos": self.target_pos
+            "target_pos": self.target_pos,
+            "grasp": self.grasp
         }
     
     @staticmethod
@@ -27,8 +55,9 @@ class Action:
         return Action(
             action_type=ActionType(d["type"]),
             obj=d.get("obj"),
-            target_slot=d.get("obj"),
-            target_pos = list(d["target_pos"]) if d.get("target_pose") else None
+            target_slot=d.get("target_slot") if d.get("target_slot") else None,
+            target_pos = list(d["target_pos"]) if d.get("target_pos") else None,
+            grasp=d.get("grasp") if d.get("grasp") else None
         )
 
 class ActionSet:

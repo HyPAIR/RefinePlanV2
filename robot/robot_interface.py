@@ -3,6 +3,7 @@ import math
 import random
 import numpy as np
 import copy
+from scipy.spatial.transform import Rotation as R
 try:
     from robot.gripper import Robotiq85F
 except:
@@ -506,20 +507,107 @@ class RoboticsEnvironment():
 
     
     # Action functions
-    def pick(self,obj_name):
+    # def pick(self,obj_name, grasp=None):
+    #     """
+    #     Function to pick the object, given object name
+    #     """
+    #     objHandle = self.sim.getObject(obj_name)
+    #     objPose = self.sim.getObjectPose(objHandle)
+    #     #estimating pick pose, approach and withdraw transforms baesd on object pose and grasp type
+    #     if grasp is None or grasp == "top":
+    #         #move the target to the top of the object and approach from above
+    #         rot = Rotation.from_euler('xyz', [0, 0, 0], degrees=True)
+    #         objPose[3:7] = rot.as_quat()  # Convert rotation to quaternion
+    #         objPose[2] += 0.125  # Move approach target above the object
+    #         approachIKTr = [0, 0, -0.10, 0, 0, 0, 1]
+    #         withdrawIKTr = [0, 0, 0.10, 0, 0, 0, 1]
+    #     elif grasp == "front":
+    #         # Move the target to the front of the object and approach from the front
+    #         rot = Rotation.from_euler('xyz', [0, 0, 90], degrees=True)
+    #         objPose[3:7] = rot.as_quat()  # Convert rotation to quaternion
+    #         objPose[2] += 0.125  #
+    #     #TODO: This needs to be changed since the position of withdrawal should be based on the grasp as well
+    #     objPose[2]+=0.125
+    #     #TODO: replace approach and withdraw transforms with calulations based on grasp 
+    #     outcome = self.ActionPick(obj_name=obj_name,pickPose=objPose,approachIKTr=[ 0,0,-0.10, 0, 0, 0, 1],withdrawIktr=[ 0,0,0.10, 0, 0, 0, 1])
+    #     if outcome:
+    #         self.grasped_object = obj_name
+    #     return outcome
+
+    def pick(self, obj_name, grasp_value: str):
         """
-        Function to pick the object, given object name
+        Pick the object using a specified grasp type.
         """
+        # Get object pose
         objHandle = self.sim.getObject(obj_name)
-        objPose = self.sim.getObjectPose(objHandle)
-        #TODO: This needs to be changed since the position of withdrawal should be based on the grasp as well
-        objPose[2]+=0.125
-        #TODO: replace approach and withdraw transforms with calulations based on grasp 
-        outcome = self.ActionPick(obj_name=obj_name,pickPose=objPose,approachIKTr=[ 0,0,-0.10, 0, 0, 0, 1],withdrawIktr=[ 0,0,0.10, 0, 0, 0, 1])
+        objPose = self.sim.getObjectPose(objHandle)  # [x, y, z, qx, qy, qz, qw]
+
+        # Split grasp type into direction and roll
+        direction_str, roll_str = grasp_value.split("_")
+        roll = float(roll_str)
+
+        # Base orientations relative to object frame
+        base_orientations = {
+            "top":    [0, 0, 0],      # approach from +Z of object
+            "bottom": [180, 0, 0],    # approach from -Z
+            "front":  [90, 0, 0],     # approach from +Y
+            "back":   [-90, 0, 0],    # approach from -Y
+            "left":   [0, -90, 0],    # approach from -X
+            "right":  [0, 90, 0],     # approach from +X
+        }
+
+        # Object's current rotation
+        R_obj = R.from_quat(objPose[3:7])
+
+        # Grasp rotation relative to object
+        R_grasp_rel = R.from_euler('xyz', base_orientations[direction_str], degrees=True) \
+                    * R.from_euler('z', roll, degrees=True)
+
+        # Final rotation = object rotation * grasp relative rotation
+        R_final = R_obj * R_grasp_rel
+
+        # Update pose quaternion
+        objPose[3:7] = R_final.as_quat()
+
+        # Approach/withdraw based on TCP z-axis
+        approach_offset = 0.10
+        withdraw_offset = 0.10
+
+        approach_dir = R_final.apply([0, 0, -1])
+        withdraw_dir = -approach_dir
+
+        #Calculating approach at a distance for path plan
+        objPose[:3] = R_final.apply([0,0,0.125])+objPose[:3]
+
+        approachIKTr = [
+            approach_dir[0] * approach_offset,
+            approach_dir[1] * approach_offset,
+            approach_dir[2] * approach_offset,
+            0, 0, 0, 1
+        ]
+        withdrawIKTr = [
+            withdraw_dir[0] * withdraw_offset,
+            withdraw_dir[1] * withdraw_offset,
+            withdraw_dir[2] * withdraw_offset,
+            0, 0, 0, 1
+        ]
+
+       
+        approachIKTr = [0, 0, -0.10, 0, 0, 0, 1]
+        withdrawIKTr = [0, 0, 0.10, 0, 0, 0, 1]
+        outcome = self.ActionPick(
+            obj_name=obj_name,
+            pickPose=objPose,
+            approachIKTr=approachIKTr,
+            withdrawIktr=withdrawIKTr
+        )
+
         if outcome:
             self.grasped_object = obj_name
+
         return outcome
-    
+
+
     def place(self,obj_name,target_pos):
         """
         Function to place object, given name, target_pos
