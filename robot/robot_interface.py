@@ -324,6 +324,7 @@ class RoboticsEnvironment():
             path = self.findPath(pickConfig)
             if passiveVizShape:
                 self.sim.removeObjects([passiveVizShape])
+                pass
             if path:
                 print('\n[INFO]Found a path from current config to pick config')
                 #follow the path
@@ -576,8 +577,9 @@ class RoboticsEnvironment():
         approach_dir = R_final.apply([0, 0, -1])
         withdraw_dir = -approach_dir
 
+        planned_path_offset = 0.18
         #Calculating approach at a distance for path plan
-        objPose[:3] = R_final.apply([0,0,0.125])+objPose[:3]
+        objPose[:3] = R_final.apply([0,0,planned_path_offset])+objPose[:3]
 
         approachIKTr = [
             approach_dir[0] * approach_offset,
@@ -593,7 +595,7 @@ class RoboticsEnvironment():
         ]
 
        
-        approachIKTr = [0, 0, -0.10, 0, 0, 0, 1]
+        approachIKTr = [0, 0, -0.17, 0, 0, 0, 1]
         withdrawIKTr = [0, 0, 0.10, 0, 0, 0, 1]
         outcome = self.ActionPick(
             obj_name=obj_name,
@@ -626,14 +628,16 @@ def main():
     env = RoboticsEnvironment()
     env.connect()
     env.initialize_params()
-    initConfig = env.getConfig()
+    # initConfig = env.getConfig()
+    initConfig = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
     #get a pick pose
-    pickItem = env.sim.getObject('/pickPose')
-    pickPose = env.sim.getObjectPose(pickItem)
-    pickPose[2]+=0.1
+    # pickItem = env.sim.getObject('/pickPose')
+    # pickPose = env.sim.getObjectPose(pickItem)
+    # pickPose[2]+=0.1
     #the appoach and withdrawal transforms have distance as pose transform
     # print(f"pickPose {pickPose}")
-    outcome_pick = env.ActionPick(pickPose,[ 0,0,-0.10, 0, 0, 0, 1],[0,0,0.10, 0, 0, 0, 1])
+    # outcome_pick = env.ActionPick(pickPose,[ 0,0,-0.10, 0, 0, 0, 1],[0,0,0.10, 0, 0, 0, 1])
+    env.pick(obj_name='/column3',grasp_value='left_0')
     # placeTarget = env.sim.getObject('/placePose')
     # placePose =env.sim.getObjectPose(placeTarget)
     # placePose[0]+=0.6

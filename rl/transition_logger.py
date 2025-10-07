@@ -14,17 +14,18 @@ class TransitionLogger:
         print(f"[LOG] TransitionLogger initialized with ID: {self.unique_id}")
         self.episode = [{"id": "start", "timestamp": datetime.now().isoformat(), "unique_id": self.unique_id}]
         self._db_setup()
-    def log_transition(self, state, action, reward, next_state, done):
+    def log_transition(self, state, action, reward, next_state, done, execution_time=None):
         transition = {
             "state": state,
             "action": repr(action),
             "reward": reward,
             "next_state": next_state,
-            "done": done
+            "done": done,
+            "execution_time": execution_time
         }
         self.episode.append(transition)
         #Log to MongoDB
-        self.log_to_db(state, action, reward, next_state, done)
+        self.log_to_db(state, action, reward, next_state, done, execution_time)
         if done:
             self.save_episode()
             self.reset()
@@ -54,19 +55,52 @@ class TransitionLogger:
         self.db = self.client['robotics']
         self.collection = self.db['transitions']
         print("[LOG] MongoDB connection established")
-    def log_to_db(self, state, action, reward, next_state, done):
+    def log_to_db(self, state, action, reward, next_state, done, execution_time=None):
         """
         Log a transition to the MongoDB database.
         """
+        # transition = {
+        #     "episode_id": self.episode_count,
+        #     "unique_id": self.unique_id,
+        #     "state": state,
+        #     "action": repr(action),
+        #     "reward": reward,
+        #     "next_state": next_state,
+        #     "done": done,
+        #     "timestamp": datetime.now().isoformat(),
+        #     "execution_time": execution_time
+        # }
         transition = {
             "episode_id": self.episode_count,
             "unique_id": self.unique_id,
-            "state": state,
+            "sf_0_name": state,
             "action": repr(action),
             "reward": reward,
-            "next_state": next_state,
+            "sf_t_name": next_state,
             "done": done,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
+            "duration": execution_time
         }
+     
         self.collection.insert_one(transition)
         print(f"[LOG] Transition logged to MongoDB: {transition}")
+
+    #get a log from the database by unique_id
+    def get_log_by_id(self, unique_id):
+        """
+        Retrieve a log entry from the MongoDB database by unique_id.
+        """
+        log = self.collection.find_one({"unique_id": unique_id})
+        if log:
+            print(f"[LOG] Retrieved log for unique_id {unique_id}")
+            return log
+        else:
+            print(f"[LOG] No log found for unique_id {unique_id}")
+            return None
+    def get_all_logs(self):
+        """
+        Retrieve all logs from the MongoDB database.
+        """
+        logs = list(self.collection.find())
+        print(f"[LOG] Retrieved {len(logs)} logs from MongoDB")
+        return logs

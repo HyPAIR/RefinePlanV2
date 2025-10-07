@@ -17,7 +17,7 @@ class SceneState:
         self.object_poses = {} #name: (x,y,z,qx,qy,qw)
         self.object_status ={} #name: status_string
         self.object_slots={} #name: slot_id or None
-        self.gripper_status ={"holding":None} #object name or None
+        self.gripper_status ={"holding":str(None)} #object name or None
         self.goal_region_occuppancy ={} # goal_slot_id: object_id or None
 
     def update(self):
@@ -56,11 +56,11 @@ class SceneState:
             elif self.gripper_status["holding"] == obj:
                 self.object_slots[obj] = "held"
             else:
-                self.object_slots[obj] = None
-       
+                self.object_slots[obj] = "unknown"
+
     def _update_goal_occuppancy(self):
         """Track what object (if any) is currently occupying each goal slot"""
-        self.goal_region_occuppancy ={sid:None for sid in self.goal_slots}
+        self.goal_region_occuppancy ={sid:"None" for sid in self.goal_slots}
         for obj,pos in self.object_poses.items():
             sid = self._closest_slot(pos,self.goal_slots)
             if sid is not None:
@@ -108,7 +108,7 @@ class SceneState:
         return mapping.get(status,[0,0,0,1])
     
     def _gripper_to_onehot(self):
-        obj = self.gripper_status.get("holding",None)
+        obj = self.gripper_status.get("holding", None)
         vec =[0]*len(self.all_objects)
         if obj and obj in self.all_objects:
             vec[self.all_objects.index(obj)]=1

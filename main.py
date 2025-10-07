@@ -88,7 +88,7 @@ for step in range(MAX_STEPS):
 
     #Excecute action
     print(f"[INFO] Executing {action}")
-    success = executor.execute(action)
+    success,exec_time = executor.execute(action)
     if success:
         blackboard.current_action = None
     
@@ -100,8 +100,8 @@ for step in range(MAX_STEPS):
 
 
     #Log transition
-    logger.log_transition(state, action, reward, next_state, done)
-    print(f"[INFO] Success: {success} | Reward: {reward} | Done: {done}")
+    logger.log_transition(state, action, reward, next_state, done,exec_time)
+    print(f"[INFO] Success: {success} | Reward: {reward} | Done: {done} | Execution Time: {exec_time:.2f} seconds")
     if step == 99:
         print("[DEBUG]step stop")
 
