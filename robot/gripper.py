@@ -109,10 +109,10 @@ class Robotiq85F():
         object_position = self.API.sim.getObjectPosition(object_handle, -1)
         ltip_position = self.API.sim.getObjectPosition(self.robotiqRealLTip, -1)
         rtip_position = self.API.sim.getObjectPosition(self.robotiqRealRTip, -1)
-
+        object_width = 0.05
         # Compute distances between the object and each finger
-        dist_left = np.linalg.norm(np.array(object_position) - np.array(ltip_position))
-        dist_right = np.linalg.norm(np.array(object_position) - np.array(rtip_position))
+        dist_left = np.linalg.norm(np.array(object_position) - np.array(ltip_position)) - object_width/2
+        dist_right = np.linalg.norm(np.array(object_position) - np.array(rtip_position)) - object_width/2
 
         # Set a threshold for the grasp
         grasp_threshold = 0.08  # Adjust this value based on your scene scale

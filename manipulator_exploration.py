@@ -14,6 +14,7 @@ from state.scene_state import SceneState
 from rl.transition_logger import TransitionLogger
 from rl.reward_function import compute_reward
 from rl.action_space import ActionSet
+from state.slot_config import GOAL_SLOTS, SHOP_SLOTS
 from robot.action_executor import ActionExecutor
 from refine_plan.models.state import State
 import random
@@ -133,13 +134,13 @@ def build_exploration_policy(connection_str,initial_state):
 if __name__ == "__main__":
     #setup the initial state
     initial_locations = [
-        [0.5750000000000004, 0.7000000000000004, 0.5499999999999998],
-        [0.3500000000000002, 0.7000000000000004, 0.5499999999999998],
-        [0.30000000000000016, 0.9750000000000008, 0.5499999999999998],
-        [0.5250000000000004, 0.8750000000000003, 0.5499999999999998], 
-        [0.9000000000000006, 0.6249999999999993, 0.5499999999999999], 
-        [0.8000076260094475, 0.9000043343419417, 0.5499999988422022]
-        ]
+                            [0.5750525244646281, 0.7000668518820146, 0.6249999978830472],
+                            [0.5253616900698888, 0.8750959753242942, 0.6249999976307693],
+                            [0.30003665512633365, 0.9750314041860764, 0.6249999938207642], 
+                            [0.7500341522349177, 0.9999783907620676, 0.6249999916882001], 
+                            [0.3500353556499841, 0.8507616060759815, 0.7499999224994444], 
+                            [0.8000297171903081, 0.8999871961360432, 0.5499999960678859]
+                         ]
 
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
 
@@ -179,7 +180,7 @@ if __name__ == "__main__":
     def pick_random_action(option_name,motion_params):
 
             #for now we will select this completely at random not epsilon greedy with BT
-            selected_option = random.choice(option_names)
+            selected_option = random.choice(option_name)
             #if option starts with pick selecta a random pick motion parameter else select a random place motion parameter
             if selected_option.startswith("pick"):
                 selected_motion_param = random.choice(motion_params["pick"])
@@ -196,7 +197,7 @@ if __name__ == "__main__":
             print(f"Step {step}")
             action = pick_random_action(option_name=option_names,motion_params=motion_params)
             #check if the picked action is valid if not pick again till it is
-            while action not in action_set.valid_actions:
+            while action not in action_set.valid_actions(state)[0]:
                 print(f"Invalid action: {action}, picking again")
                 action = pick_random_action(option_name=option_names,motion_params=motion_params)
             success,exec_time = executor.execute(action)

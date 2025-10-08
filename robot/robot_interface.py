@@ -216,8 +216,8 @@ class RoboticsEnvironment():
             if target:
                 retVal =target
                 hand = self.sim.getObject('/UR10/ROBOTIQ85')
-                # objectList = self.sim.getObjectsInTree(self.robotBase,self.sim.sceneobject_shape)
-                objectList = self.sim.getObjectsInTree(hand,self.sim.sceneobject_shape)
+                objectList = self.sim.getObjectsInTree(self.robotBase,self.sim.sceneobject_shape)
+                # objectList = self.sim.getObjectsInTree(hand,self.sim.sceneobject_shape)
                 objectCloneList = copy.deepcopy(objectList)
                 objectList =[]
                 for obj in objectCloneList:
@@ -323,7 +323,7 @@ class RoboticsEnvironment():
             #plan path to the selected configuration
             path = self.findPath(pickConfig)
             if passiveVizShape:
-                self.sim.removeObjects([passiveVizShape])
+                # self.sim.removeObjects([passiveVizShape])
                 pass
             if path:
                 print('\n[INFO]Found a path from current config to pick config')
@@ -331,12 +331,14 @@ class RoboticsEnvironment():
                 self.followPath(path)
                 self.sim.wait(1)
                 #delete the visualization
+            else:
+                print('\n[WARN]No path found')
             #Approach the object
             pose = self.sim.getObjectPose(self.robotTip)
             pose = self.sim.multiplyPoses(pose,approachIKTr)
             gripper = self.gripper
             gripper.openGripper()
-            self.sim.wait(2)
+            self.sim.wait(2.2)
             self.moveToPose(pose)
             #close the gripper and hold the item
             gripper.closeGripper(self.sim.getObject(obj_name))
@@ -370,7 +372,8 @@ class RoboticsEnvironment():
             #plan path to the selected configuration
             path = self.findPath(placeConfig)
             if passiveVizShape:
-                self.sim.removeObjects([passiveVizShape])
+                # self.sim.removeObjects([passiveVizShape])
+                pass
             if path:
                 print(f'\n[INFO]Found a path from current config to place config')
                 #follow the path
@@ -595,7 +598,7 @@ class RoboticsEnvironment():
         ]
 
        
-        approachIKTr = [0, 0, -0.17, 0, 0, 0, 1]
+        approachIKTr = [0, 0, -0.07, 0, 0, 0, 1]
         withdrawIKTr = [0, 0, 0.10, 0, 0, 0, 1]
         outcome = self.ActionPick(
             obj_name=obj_name,
@@ -637,14 +640,18 @@ def main():
     #the appoach and withdrawal transforms have distance as pose transform
     # print(f"pickPose {pickPose}")
     # outcome_pick = env.ActionPick(pickPose,[ 0,0,-0.10, 0, 0, 0, 1],[0,0,0.10, 0, 0, 0, 1])
-    env.pick(obj_name='/column3',grasp_value='left_0')
     # placeTarget = env.sim.getObject('/placePose')
     # placePose =env.sim.getObjectPose(placeTarget)
     # placePose[0]+=0.6
     # outcome_place = env.ActionPlace(placePose,[ -0.10,0,0, 0, 0, 0, 1])
     #pick the item
-
+    # env.setConfig(initConfig)
+    # env.sim.step()
     # q = input('Quit ?')
+    # env.HomeArm(initConfig=[-1.0715746835137265, -0.615418516073027, -1.8148838958089542, 0.8596343604666377, 1.5706074804816303, 1.5462964734437952])
+    env.pick(obj_name='/column0',grasp_value='top_0')
+    # from state.slot_config import GOAL_SLOTS
+    env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.55])
     env.stop_simulation()
     
 
