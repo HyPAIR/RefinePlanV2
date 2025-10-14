@@ -16,7 +16,7 @@ class ActionExecutor:
     def _place(self, obj, pos,grasp):
         grasp_value = grasp.value if isinstance(grasp,GraspType) else "top_0"
         print(f"[EXEC] Placing {obj} at {pos} with grasp {grasp_value}")
-        return self.robot.place(obj, pos)
+        return self.robot.place(obj, pos,grasp_value)
     
     def execute(self,action:Action):
         """

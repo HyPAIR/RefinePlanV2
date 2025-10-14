@@ -54,9 +54,9 @@ class RoboticsEnvironment():
         #create a robot collectoin
         self.robotCollection = self.sim.createCollection()
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_tree,self.robotBase,0)
-        self.pathPlanningMaxtime = 4.0
-        self.pathPlanningSimplificationTime=4.0
-        self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTstar
+        self.pathPlanningMaxtime = 1.0
+        self.pathPlanningSimplificationTime=2.0
+        self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTConnect#PRM#RRTstar
 
         self.gripper = Robotiq85F(self)
 
@@ -73,6 +73,12 @@ class RoboticsEnvironment():
         self.fkMaxVel = [fkVel*math.pi/180]*6
         self.fkMaxAccel = [fkAccel*math.pi/180]*6
         self.fkMaxJerk =[fkJerk*math.pi/180]*6
+
+    def resetCollection(self):
+        self.sim.destroyCollection(self.robotCollection)
+        robotCollection = self.sim.createCollection()
+        self.sim.addItemToCollection(robotCollection,self.sim.handle_tree,self.robotBase,0)
+        self.robotCollection = robotCollection
 
     
     def getConfig(self):
@@ -144,97 +150,123 @@ class RoboticsEnvironment():
         self.simIK.eraseEnvironment(ikEnv)
         return retVal
     
-    def selectOneValidConfig(self,configs,approachIKTr,withdrawIkTr):
-        '''
-        Picks a valid configuration out of available ik configs
+    def selectOneValidConfig(self, configs, approachIKTr, withdrawIkTr):
+        """
+        Picks the first valid configuration out of available IK configs.
+        Stops at the first valid config and removes only tested invalid ones.
 
-        input: list of configs, approach,withsraw IK transforms
-        returns: a valid configuration, a visualisation object
-        '''
+        input:
+            configs: list of candidate configurations (modified in place)
+            approachIKTr: approach IK transform (can be None)
+            withdrawIkTr: withdraw IK transform (can be None)
+
+        returns:
+            retVal: first valid configuration (or None if none found)
+            passiveVizShape: visualization shape object (or None)
+            configs: trimmed list containing the valid config and remaining untested ones
+        """
+        import copy
+        import numpy as np
+
         bufferedConfig = self.getConfig()
-        i=0
-        target = configs[i]
-        retVal=None
+        retVal = None
         passiveVizShape = None
-        for i in range(len(configs)):
-            target = configs[i]
-            if not self.collides([target]):
-                print(f"\n[INFO]found no collision")    
-                self.setConfig(target)
 
-                if approachIKTr:
-                    pose = self.sim.getObjectPose(self.robotTip)
-                    targetPose = self.sim.multiplyPoses(pose,approachIKTr)
-                    self.sim.setObjectPose(self.robotTarget,targetPose)
-                    ikEnv = self.simIK.createEnvironment()
-                    ikGroup = self.simIK.createGroup(ikEnv)
-                    ikEl,simToIk,ikToSim = self.simIK.addElementFromScene(ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,self.simIK.constraint_pose)
-                    ikJoints=[]
-                    for joint in self.joints:
-                        ikJoints.append(simToIk[joint])
-                    
-                    path = self.simIK.generatePath(ikEnv,ikGroup,ikJoints,simToIk[self.robotTip],4)
-                    self.simIK.eraseEnvironment(ikEnv)
-                    if path:
-                        #convert path into a list of configs to check for collisions
-                        path = np.array(path)
-                        c_space_dim = len(self.joints)
-                        path = np.resize(path,(path.size//c_space_dim,c_space_dim))
-                        #if there is a collision in any of the configs in the path, invalidate target config
-                        if self.collides(path):
-                            print("Potential collision in projected path")
-                            target=None
-                        else:
-                            #if there is no collision in any of the configs in the path check if witdraw transformation is valid
-                            if withdrawIkTr:
-                                targetPose = self.sim.multiplyPoses(targetPose,withdrawIkTr)
-                                self.sim.setObjectPose(self.robotTarget,targetPose)
-                                ikEnv = self.simIK.createEnvironment()
-                                ikGroup = self.simIK.createGroup(ikEnv)
-                                ikEl,simToIk,ikToSim = self.simIK.addElementFromScene(ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,self.simIK.constraint_pose)
-                                ikJoints=[]
-                                for joint in self.joints:
-                                    ikJoints.append(simToIk[joint])
-                                path = self.simIK.generatePath(ikEnv,ikGroup,ikJoints,simToIk[self.robotTip],4)
-                                self.simIK.eraseEnvironment(ikEnv)
-                                if path:
-                                    path = np.array(path)
-                                    path = np.resize(path,(path.size//c_space_dim,c_space_dim))
-                                    if self.collides(path):
-                                        target=None
-                                else:
-                                    target = None
-                    else:
-                        #if there isn't a valid path invalidate target config
-                        target = None
-                        break
-            else:
-                print(f"collision in config {i}")
-                #collision in base config invalidates target config
-                target = None
-            
-            if target:
-                retVal =target
-                hand = self.sim.getObject('/UR10/ROBOTIQ85')
-                objectList = self.sim.getObjectsInTree(self.robotBase,self.sim.sceneobject_shape)
-                # objectList = self.sim.getObjectsInTree(hand,self.sim.sceneobject_shape)
-                objectCloneList = copy.deepcopy(objectList)
-                objectList =[]
-                for obj in objectCloneList:
-                    if self.sim.getBoolProperty(obj,'visible'):
-                        objectList.append(obj)
-                objectList = self.sim.copyPasteObjects(objectList)
-                passiveVizShape = self.sim.groupShapes(objectList,True)
-                self.sim.setBoolProperty(passiveVizShape, 'respondable',False)
-                self.sim.setBoolProperty(passiveVizShape, 'dynamic',False)
-                self.sim.setBoolProperty(passiveVizShape,'collidable',False)
-                self.sim.setBoolProperty(passiveVizShape,'measurable',False)
-                self.sim.setBoolProperty(passiveVizShape,'detectable',False)
-                self.sim.setColorProperty(self.sim.getIntArrayProperty(passiveVizShape,'meshes')[0],'color.diffuse',[1,0,0])
-                self.sim.setObjectAlias(passiveVizShape,'passiveVisualizationShape')
-                break
+        i = 0
+        while i < len(configs):
+            target = configs[i]
+
+            # --- Base collision check ---
+            if self.collides([target]):
+                print(f"[INFO] Collision in base config {i}, removing.")
+                configs.pop(i)
+                continue
+
+            print(f"[INFO] Config {i}: no base collision")
+            self.setConfig(target)
+            target_valid = True
+
+            # --- Approach path check ---
+            if approachIKTr:
+                pose = self.sim.getObjectPose(self.robotTip)
+                targetPose = self.sim.multiplyPoses(pose, approachIKTr)
+                self.sim.setObjectPose(self.robotTarget, targetPose)
+
+                ikEnv = self.simIK.createEnvironment()
+                ikGroup = self.simIK.createGroup(ikEnv)
+                _, simToIk, _ = self.simIK.addElementFromScene(
+                    ikEnv, ikGroup, self.robotBase, self.robotTip,
+                    self.robotTarget, self.simIK.constraint_pose
+                )
+                ikJoints = [simToIk[j] for j in self.joints]
+                path = self.simIK.generatePath(ikEnv, ikGroup, ikJoints, simToIk[self.robotTip], 4)
+                self.simIK.eraseEnvironment(ikEnv)
+
+                if not path:
+                    print("[INFO] No valid approach path found, removing config.")
+                    configs.pop(i)
+                    continue
+
+                path = np.array(path).reshape(-1, len(self.joints))
+                if self.collides(path):
+                    print("[INFO] Collision in approach path, removing config.")
+                    configs.pop(i)
+                    continue
+
+            # --- Withdraw path check ---
+            if withdrawIkTr:
+                targetPose = self.sim.multiplyPoses(targetPose, withdrawIkTr)
+                self.sim.setObjectPose(self.robotTarget, targetPose)
+
+                ikEnv = self.simIK.createEnvironment()
+                ikGroup = self.simIK.createGroup(ikEnv)
+                _, simToIk, _ = self.simIK.addElementFromScene(
+                    ikEnv, ikGroup, self.robotBase, self.robotTip,
+                    self.robotTarget, self.simIK.constraint_pose
+                )
+                ikJoints = [simToIk[j] for j in self.joints]
+                path = self.simIK.generatePath(ikEnv, ikGroup, ikJoints, simToIk[self.robotTip], 4)
+                self.simIK.eraseEnvironment(ikEnv)
+
+                if not path:
+                    print("[INFO] No valid withdraw path found, removing config.")
+                    configs.pop(i)
+                    continue
+
+                path = np.array(path).reshape(-1, len(self.joints))
+                if self.collides(path):
+                    print("[INFO] Collision in withdraw path, removing config.")
+                    configs.pop(i)
+                    continue
+
+            # --- If we reach here, config is valid ---
+            print(f"[INFO] Config {i} is valid.")
+            retVal = target
+
+            # Build visualization for the found config
+            objectList = self.sim.getObjectsInTree(self.robotBase, self.sim.sceneobject_shape)
+            objectList = [obj for obj in objectList if self.sim.getBoolProperty(obj, 'visible')]
+            objectList = self.sim.copyPasteObjects(objectList)
+            passiveVizShape = self.sim.groupShapes(objectList, True)
+
+            for prop in ['respondable', 'dynamic', 'collidable', 'measurable', 'detectable']:
+                self.sim.setBoolProperty(passiveVizShape, prop, False)
+            mesh_handles = self.sim.getIntArrayProperty(passiveVizShape, 'meshes')
+            if mesh_handles:
+                self.sim.setColorProperty(mesh_handles[0], 'color.diffuse', [1, 0, 0])
+            self.sim.setObjectAlias(passiveVizShape, 'passiveVisualizationShape')
+
+            # Keep only this valid config and untested configs
+            configs[:] = configs[i:]  
+            break
+
+        else:
+            print("[WARN] No valid configuration found.")
+
         self.setConfig(bufferedConfig)
-        return retVal,passiveVizShape
+        return retVal, passiveVizShape, configs
+
+
     def findPath(self,config):
         #set true for joints who's positions are to be used for default values
         useForProjection=[]
@@ -301,104 +333,168 @@ class RoboticsEnvironment():
         self.sim.moveToPose(p)
 
 
-    def ActionPick(self,obj_name,pickPose,approachIKTr,withdrawIktr):
-
-        '''
-        Action to pick objects (does not close the gripper )
-        '''
-        #fing possible configurations
+    def ActionPick(self, obj_name, pickPose, approachIKTr, withdrawIkTr):
+        """
+        Action to pick objects (does not close the gripper).
+        Repeatedly queries selectOneValidConfig until a reachable config is found.
+        """
         configs = self.findConfigs(pickPose)
-        #if more than one configuration is present, pick a valid one 
-        n_configs=len(configs)
-        if n_configs>0:
-            #A funciton to select valid configurations
-            print(f'\n[INFO]Found {n_configs} potential configurations')
-            pickConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIKTr,withdrawIktr)
-            if pickConfig is None:
-                path = None
-                print('Failed to find a valid configuration for the desired pick')
-                return 0
-            # self.sim.step()
-            print(f'[INFO] selected configuration: {pickConfig}')
-            #plan path to the selected configuration
-            path = self.findPath(pickConfig)
-            if passiveVizShape:
-                # self.sim.removeObjects([passiveVizShape])
-                pass
-            if path:
-                print('\n[INFO]Found a path from current config to pick config')
-                #follow the path
-                self.followPath(path)
-                self.sim.wait(1)
-                #delete the visualization
-            else:
-                print('\n[WARN]No path found')
-            #Approach the object
-            pose = self.sim.getObjectPose(self.robotTip)
-            pose = self.sim.multiplyPoses(pose,approachIKTr)
-            gripper = self.gripper
-            gripper.openGripper()
-            self.sim.wait(2.2)
-            self.moveToPose(pose)
-            #close the gripper and hold the item
-            gripper.closeGripper(self.sim.getObject(obj_name))
-            self.sim.wait(5)
-            #witdraw from position
-            pose = self.sim.getObjectPose(self.robotTip)
-            pose = self.sim.multiplyPoses(pose,withdrawIktr)
-            self.moveToPose(pose)
-            return 1
-        else:
-            print('Failed to find a valid configuration for the desired pick')
+        if not configs:
+            print('[ERROR] No IK configurations found for desired pick pose.')
             return 0
-    def ActionPlace(self,placePose,approachIkTr,witdrawIkTr):
-        '''
-        Action to pick objects (does not close the gripper )
-        '''
-        #fing possible configurations
-        configs = self.findConfigs(placePose)
-        #if more than one configuration is present, pick a valid one 
-        n_configs=len(configs)
-        if n_configs>0:
-            #A funciton to select valid configurations
-            print(f'\n[INFO]Found {n_configs} potential configurations')
-            placeConfig,passiveVizShape = self.selectOneValidConfig(configs,approachIkTr,witdrawIkTr)
-            if placeConfig is None:
-                path = None
-                print('Failed to find a valid configuration for the desired pick')
-                return 0
-            # self.sim.step()
-            print(f'selected configuration: {placeConfig}')
-            #plan path to the selected configuration
-            path = self.findPath(placeConfig)
-            if passiveVizShape:
-                # self.sim.removeObjects([passiveVizShape])
-                pass
-            if path:
-                print(f'\n[INFO]Found a path from current config to place config')
-                #follow the path
-                self.followPath(path)
-                self.sim.wait(1)
-                #delete the visualization
-            #Approach the object
-            pose = self.sim.getObjectPose(self.robotTip)
-            pose = self.sim.multiplyPoses(pose,approachIkTr)
-            gripper = self.gripper
-            #TODO: setup removing item from the object tree & attaching
-            # gripper.disconnect()
-            self.moveToPose(pose)
-            gripper.openGripper()
-            self.sim.wait(2)
 
-            #witdraw from position
-            pose = self.sim.getObjectPose(self.robotTip)
-            pose = self.sim.multiplyPoses(pose,witdrawIkTr)
-            self.moveToPose(pose)
-            
-            return 1
-        else:
-            print('Failed to find a valid configuration for the desired place')
+        print(f'\n[INFO] Found {len(configs)} potential configurations.')
+
+        passiveVizShape = None
+        while configs:
+            # get the first valid config (and trimmed configs list)
+            pickConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIKTr, withdrawIkTr)
+
+            if pickConfig is None:
+                print('[WARN] No valid configuration found (all tested configs invalid).')
+                return 0
+
+            # try to plan a path to this config
+            path = self.findPath(pickConfig)
+            if path:
+                # found a reachable config -> proceed with pick
+                break
+
+            # If path not found: discard this config and its viz, then retry
+            print('[WARN] No path found to picked config, discarding and trying next valid config...')
+            if passiveVizShape:
+                try:
+                    self.sim.removeObjects([passiveVizShape])
+                except Exception:
+                    pass
+                passiveVizShape = None
+
+            # remove the problematic config (first element) so next selectOneValidConfig won't return it
+            if configs:
+                # note: selectOneValidConfig returns configs starting with the returned valid config,
+                # so after failing on pickConfig we should remove it (it would be configs[0])
+                configs.pop(0)
+            else:
+                # no configs left
+                print('[ERROR] No more configs to try.')
+                return 0
+
+        # if we reach here, path exists
+        if passiveVizShape:
+            # optional: keep or remove; remove to avoid clutter
+            try:
+                self.sim.removeObjects([passiveVizShape])
+            except Exception:
+                pass
+
+        print(f'[INFO] Selected reachable configuration: {pickConfig}')
+        print('[INFO] Executing path to pick position...')
+        self.followPath(path)
+        self.sim.wait(1)
+
+        # Approach and grasp sequence
+        pose = self.sim.getObjectPose(self.robotTip)
+        pose = self.sim.multiplyPoses(pose, approachIKTr)
+        gripper = self.gripper
+        gripper.openGripper()
+        self.sim.wait(2.2)
+        self.moveToPose(pose)
+
+        # Close the gripper and attach object
+        #close gripper
+        target_obj = self.sim.getObject(obj_name)
+        gripper.closeGripper(target_obj)
+        self.sim.wait(5)
+        #TODO:attach object to the collection tip to include it in further path planning calcualtions
+        #parent to robottip
+        self.sim.setObjectParent(target_obj,self.robotTip,True)
+        #Add to collection
+        self.sim.addItemToCollection(self.robotCollection,self.sim.handle_single, target_obj,0)
+
+        # Withdraw
+        pose = self.sim.getObjectPose(self.robotTip)
+        pose = self.sim.multiplyPoses(pose, withdrawIkTr)
+        self.moveToPose(pose)
+
+        print('[INFO] Pick action completed successfully.')
+        return 1
+
+
+    def ActionPlace(self, target_obj, placePose, approachIkTr, withdrawIkTr):
+        """
+        Action to place objects. Uses selectOneValidConfig repeatedly until a reachable config is found.
+        """
+        configs = self.findConfigs(placePose)
+        if not configs:
+            print('[ERROR] No IK configurations found for desired place pose.')
             return 0
+
+        print(f'\n[INFO] Found {len(configs)} potential configurations.')
+
+        passiveVizShape = None
+        while configs:
+            placeConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIkTr, withdrawIkTr)
+
+            if placeConfig is None:
+                print('[WARN] No valid configuration found (all tested configs invalid).')
+                return 0
+
+            path = self.findPath(placeConfig)
+            if path:
+                break
+
+            # no path -> discard this config and its viz, then retry
+            print('[WARN] No path found to selected place config, discarding and trying next valid config...')
+            if passiveVizShape:
+                try:
+                    self.sim.removeObjects([passiveVizShape])
+                except Exception:
+                    pass
+                passiveVizShape = None
+
+            if configs:
+                configs.pop(0)
+            else:
+                print('[ERROR] No more configs to try.')
+                return 0
+
+        # proceed with placement
+        if passiveVizShape:
+            try:
+                self.sim.removeObjects([passiveVizShape])
+            except Exception:
+                pass
+
+        print(f'[INFO] Selected reachable configuration: {placeConfig}')
+        print('[INFO] Executing path to place position...')
+        self.followPath(path)
+        self.sim.wait(1)
+
+        # Approach and release sequence
+        pose = self.sim.getObjectPose(self.robotTip)
+        pose = self.sim.multiplyPoses(pose, approachIkTr)
+        gripper = self.gripper
+        self.moveToPose(pose)
+        self.sim.wait(0.5)
+
+        gripper.openGripper()
+        self.sim.wait(2)
+        #TODO: Remove object form the collision collection and parenting
+        target_handle = self.sim.getObject(target_obj)
+        #Unparent
+        self.sim.setObjectParent(target_handle,-1,True)
+        # self.sim.removeItemFromCollection(self.robotCollection,self.sim.handle_single,target_handle)
+        self.resetCollection()
+
+        # Withdraw from place
+        pose = self.sim.getObjectPose(self.robotTip)
+        pose = self.sim.multiplyPoses(pose, withdrawIkTr)
+        self.moveToPose(pose)
+
+        print('[INFO] Place action completed successfully.')
+        return 1
+
+
 
     def GoToPose(self,targetPose):
 
@@ -440,7 +536,7 @@ class RoboticsEnvironment():
         #initial configuaration is already valid 
         path = self.findPath(initConfig)
         if path:
-            print("\n[INFO]Found a paht to inital configuration")
+            print("\n[INFO]Found a path to initial configuration")
             self.followPath(path)
             self.sim.wait(1)
             return 1
@@ -537,15 +633,7 @@ class RoboticsEnvironment():
     #     if outcome:
     #         self.grasped_object = obj_name
     #     return outcome
-
-    def pick(self, obj_name, grasp_value: str):
-        """
-        Pick the object using a specified grasp type.
-        """
-        # Get object pose
-        objHandle = self.sim.getObject(obj_name)
-        objPose = self.sim.getObjectPose(objHandle)  # [x, y, z, qx, qy, qz, qw]
-
+    def rotate_for_grasp(self, grasp_value: str, objPose):
         # Split grasp type into direction and roll
         direction_str, roll_str = grasp_value.split("_")
         roll = float(roll_str)
@@ -562,7 +650,7 @@ class RoboticsEnvironment():
 
         # Object's current rotation
         R_obj = R.from_quat(objPose[3:7])
-
+        
         # Grasp rotation relative to object
         R_grasp_rel = R.from_euler('xyz', base_orientations[direction_str], degrees=True) \
                     * R.from_euler('z', roll, degrees=True)
@@ -572,39 +660,48 @@ class RoboticsEnvironment():
 
         # Update pose quaternion
         objPose[3:7] = R_final.as_quat()
+        return R_final,objPose
 
-        # Approach/withdraw based on TCP z-axis
-        approach_offset = 0.10
-        withdraw_offset = 0.10
+    def pick(self, obj_name, grasp_value: str):
+        """
+        Pick the object using a specified grasp type.
+        """
+        # Get object pose
+        objHandle = self.sim.getObject(obj_name)
+        objPose = self.sim.getObjectPose(objHandle)  # [x, y, z, qx, qy, qz, qw]
 
-        approach_dir = R_final.apply([0, 0, -1])
-        withdraw_dir = -approach_dir
+        # Rotate object pose based on grasp
+        R_final, objPose = self.rotate_for_grasp(grasp_value, objPose)
+        direction_str, _ = grasp_value.split("_")
 
-        planned_path_offset = 0.18
+        # Offset the pick position slightly above the object for path planning
+        if direction_str == "top":
+            planned_path_offset = 0.18
+        elif direction_str in ["left", "right"]:
+            planned_path_offset = 0.06
         #Calculating approach at a distance for path plan
         objPose[:3] = R_final.apply([0,0,planned_path_offset])+objPose[:3]
-
-        approachIKTr = [
-            approach_dir[0] * approach_offset,
-            approach_dir[1] * approach_offset,
-            approach_dir[2] * approach_offset,
-            0, 0, 0, 1
-        ]
-        withdrawIKTr = [
-            withdraw_dir[0] * withdraw_offset,
-            withdraw_dir[1] * withdraw_offset,
-            withdraw_dir[2] * withdraw_offset,
-            0, 0, 0, 1
-        ]
-
-       
+    
+        # Define approach and withdraw transforms in gripper-local frame
+        # Approach along global -Z axis (in gripper-local frame)
         approachIKTr = [0, 0, -0.07, 0, 0, 0, 1]
-        withdrawIKTr = [0, 0, 0.10, 0, 0, 0, 1]
+        # Withdraw along global +Z axis (in gripper-local frame)
+        withdraw_vec_world = np.array([0, 0, 0.1])
+        withdraw_vec_local = R_final.inv().apply(withdraw_vec_world)
+
+        withdrawIkTr = [
+            withdraw_vec_local[0],
+            withdraw_vec_local[1],
+            withdraw_vec_local[2],
+            0, 0, 0, 1
+        ]
+
+        #rotate withdraw transform to align with original object orientation
         outcome = self.ActionPick(
             obj_name=obj_name,
             pickPose=objPose,
             approachIKTr=approachIKTr,
-            withdrawIktr=withdrawIKTr
+            withdrawIkTr=withdrawIkTr
         )
 
         if outcome:
@@ -613,18 +710,63 @@ class RoboticsEnvironment():
         return outcome
 
 
-    def place(self,obj_name,target_pos):
+    # def place(self,obj_name,target_pos,grasp_value:str):
+    #     """
+    #     Function to place object, given name, target_pos
+    #     """
+        
+    #     #we need to oritent the object based on the grasp used to pick it, using target pos as base
+    #     Rfinal,target_pos = self.rotate_for_grasp(grasp_value,target_pos)
+    #     direction_str, _ = grasp_value.split("_")
+        
+    #     #objects have to assume original orientation at placement
+        
+    #     # Offset the place position slightly above the target for path planning
+  
+        
+    #     outcome = self.ActionPlace(
+    #         placePose=target_pos,
+    #         approachIkTr=[0,0,0.0, 0, 0, 0, 1],
+    #         withdrawIkTr=[0,0,0.10, 0, 0, 0, 1]
+    #     )
+    #     if outcome:
+    #         self.grasped_object = None
+    #     return outcome
+    def place(self, obj_name, target_pos, grasp_value: str):
         """
-        Function to place object, given name, target_pos
+        Function to place object at a target position, always restoring the object's
+        original upright orientation before approach.
         """
-        objHandle= self.sim.getObject(obj_name)
-        objPose = self.sim.getObjectPose(objHandle)
-        target_pos = target_pos+[0,0,0,1]
-        target_pos[2]+=0.16
-        #TODO: replace withdraw transform with calculations based on grasp, also modify target_pos
-        outcome = self.ActionPlace(placePose=target_pos,approachIkTr=[0,0,-0.10, 0, 0, 0, 1],witdrawIkTr=[0,0,0.10, 0, 0, 0, 1])
+        #define the final pose assuming correct orientation based on traget position
+        target_pose = target_pos+[0,0,0,1]
+        #add offset to set object above place position
+        target_pose[2]+=0.25
+       
+        #to correct for the grip taken, rotate the target pose to gripper coordinates
+        R_final,target_pose = self.rotate_for_grasp(grasp_value,target_pose)
+        approachIkTr=[0,0,0.0, 0, 0, 0, 1]
+        # Withdraw along global +Z axis (in gripper-local frame)
+        withdraw_vec_world = np.array([0, 0, 0.3])
+        withdraw_vec_local = R_final.inv().apply(withdraw_vec_world)
+
+        withdrawIkTr = [
+            withdraw_vec_local[0],
+            withdraw_vec_local[1],
+            withdraw_vec_local[2],
+            0, 0, 0, 1
+        ]
+        # --- 5. Execute the place action ---
+        outcome = self.ActionPlace(
+            target_obj = obj_name,
+            placePose=target_pose,
+            approachIkTr=approachIkTr,
+            withdrawIkTr=withdrawIkTr
+        )
+
+        # --- 6. Cleanup ---
         if outcome:
             self.grasped_object = None
+
         return outcome
 
 def main():
@@ -648,10 +790,11 @@ def main():
     # env.setConfig(initConfig)
     # env.sim.step()
     # q = input('Quit ?')
-    # env.HomeArm(initConfig=[-1.0715746835137265, -0.615418516073027, -1.8148838958089542, 0.8596343604666377, 1.5706074804816303, 1.5462964734437952])
-    env.pick(obj_name='/column0',grasp_value='top_0')
+    env.setConfig(initConfig)
+    env.sim.step()
+    env.pick(obj_name='/column2',grasp_value='left_0')
     # from state.slot_config import GOAL_SLOTS
-    env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.55])
+    env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='left_0')
     env.stop_simulation()
     
 
