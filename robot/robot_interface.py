@@ -404,7 +404,7 @@ class RoboticsEnvironment():
         #close gripper
         target_obj = self.sim.getObject(obj_name)
         gripper.closeGripper(target_obj)
-        self.sim.wait(5)
+        self.sim.wait(2.2)
         #TODO:attach object to the collection tip to include it in further path planning calcualtions
         #parent to robottip
         self.sim.setObjectParent(target_obj,self.robotTip,True)
@@ -479,7 +479,7 @@ class RoboticsEnvironment():
 
         gripper.openGripper()
         self.sim.wait(2)
-        #TODO: Remove object form the collision collection and parenting
+        # Remove object form the collision collection and parenting
         target_handle = self.sim.getObject(target_obj)
         #Unparent
         self.sim.setObjectParent(target_handle,-1,True)
