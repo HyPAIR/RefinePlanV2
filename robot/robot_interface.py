@@ -54,8 +54,8 @@ class RoboticsEnvironment():
         #create a robot collectoin
         self.robotCollection = self.sim.createCollection()
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_tree,self.robotBase,0)
-        self.pathPlanningMaxtime = 1.0
-        self.pathPlanningSimplificationTime=2.0
+        self.pathPlanningMaxtime = 4.0
+        self.pathPlanningSimplificationTime=4.0
         self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTConnect#PRM#RRTstar
 
         self.gripper = Robotiq85F(self)
@@ -312,6 +312,7 @@ class RoboticsEnvironment():
             dt = self.sim.getSimulationTime() -st
         p = self.sim.getPathInterpolatedConfig(pathPts,times,times[-1])
         self.setTargetConfig(p)
+        return self.sim.getSimulationTime() - st
 
     def moveToPose(self,pose):
         '''
@@ -341,7 +342,7 @@ class RoboticsEnvironment():
         configs = self.findConfigs(pickPose)
         if not configs:
             print('[ERROR] No IK configurations found for desired pick pose.')
-            return 0
+            return 0,np.inf
 
         print(f'\n[INFO] Found {len(configs)} potential configurations.')
 
@@ -352,7 +353,7 @@ class RoboticsEnvironment():
 
             if pickConfig is None:
                 print('[WARN] No valid configuration found (all tested configs invalid).')
-                return 0
+                return 0,np.inf
 
             # try to plan a path to this config
             path = self.findPath(pickConfig)
@@ -377,7 +378,7 @@ class RoboticsEnvironment():
             else:
                 # no configs left
                 print('[ERROR] No more configs to try.')
-                return 0
+                return 0,np.inf
 
         # if we reach here, path exists
         if passiveVizShape:
@@ -389,7 +390,7 @@ class RoboticsEnvironment():
 
         print(f'[INFO] Selected reachable configuration: {pickConfig}')
         print('[INFO] Executing path to pick position...')
-        self.followPath(path)
+        duration =self.followPath(path)
         self.sim.wait(1)
 
         # Approach and grasp sequence
@@ -404,7 +405,7 @@ class RoboticsEnvironment():
         #close gripper
         target_obj = self.sim.getObject(obj_name)
         gripper.closeGripper(target_obj)
-        self.sim.wait(2.2)
+        self.sim.wait(2)
         #TODO:attach object to the collection tip to include it in further path planning calcualtions
         #parent to robottip
         self.sim.setObjectParent(target_obj,self.robotTip,True)
@@ -417,7 +418,7 @@ class RoboticsEnvironment():
         self.moveToPose(pose)
 
         print('[INFO] Pick action completed successfully.')
-        return 1
+        return 1,duration
 
 
     def ActionPlace(self, target_obj, placePose, approachIkTr, withdrawIkTr):
@@ -427,7 +428,7 @@ class RoboticsEnvironment():
         configs = self.findConfigs(placePose)
         if not configs:
             print('[ERROR] No IK configurations found for desired place pose.')
-            return 0
+            return 0,np.inf
 
         print(f'\n[INFO] Found {len(configs)} potential configurations.')
 
@@ -437,7 +438,7 @@ class RoboticsEnvironment():
 
             if placeConfig is None:
                 print('[WARN] No valid configuration found (all tested configs invalid).')
-                return 0
+                return 0,np.inf
 
             path = self.findPath(placeConfig)
             if path:
@@ -456,18 +457,20 @@ class RoboticsEnvironment():
                 configs.pop(0)
             else:
                 print('[ERROR] No more configs to try.')
-                return 0
+                return 0,np.inf
 
         # proceed with placement
         if passiveVizShape:
             try:
                 self.sim.removeObjects([passiveVizShape])
+                # pass
             except Exception:
                 pass
 
         print(f'[INFO] Selected reachable configuration: {placeConfig}')
         print('[INFO] Executing path to place position...')
-        self.followPath(path)
+        self.sim.wait(1)
+        duration =self.followPath(path)
         self.sim.wait(1)
 
         # Approach and release sequence
@@ -492,7 +495,7 @@ class RoboticsEnvironment():
         self.moveToPose(pose)
 
         print('[INFO] Place action completed successfully.')
-        return 1
+        return 1 , duration
 
 
 
@@ -524,7 +527,8 @@ class RoboticsEnvironment():
             if path:
                 print(f'\n[INFO]Found a path from current config to target config')
                 #follow the path
-                self.followPath(path)
+                self.sim.wait(1)
+                duration =self.followPath(path)
                 self.sim.wait(1)
                 #delete the visualization
             
@@ -677,8 +681,8 @@ class RoboticsEnvironment():
         # Offset the pick position slightly above the object for path planning
         if direction_str == "top":
             planned_path_offset = 0.18
-        elif direction_str in ["left", "right"]:
-            planned_path_offset = 0.06
+        elif direction_str in ["left", "right","front","back"]:
+            planned_path_offset = 0.08
         #Calculating approach at a distance for path plan
         objPose[:3] = R_final.apply([0,0,planned_path_offset])+objPose[:3]
     
@@ -697,7 +701,7 @@ class RoboticsEnvironment():
         ]
 
         #rotate withdraw transform to align with original object orientation
-        outcome = self.ActionPick(
+        outcome,duration = self.ActionPick(
             obj_name=obj_name,
             pickPose=objPose,
             approachIKTr=approachIKTr,
@@ -707,31 +711,10 @@ class RoboticsEnvironment():
         if outcome:
             self.grasped_object = obj_name
 
-        return outcome
+        return outcome,duration
 
 
-    # def place(self,obj_name,target_pos,grasp_value:str):
-    #     """
-    #     Function to place object, given name, target_pos
-    #     """
-        
-    #     #we need to oritent the object based on the grasp used to pick it, using target pos as base
-    #     Rfinal,target_pos = self.rotate_for_grasp(grasp_value,target_pos)
-    #     direction_str, _ = grasp_value.split("_")
-        
-    #     #objects have to assume original orientation at placement
-        
-    #     # Offset the place position slightly above the target for path planning
-  
-        
-    #     outcome = self.ActionPlace(
-    #         placePose=target_pos,
-    #         approachIkTr=[0,0,0.0, 0, 0, 0, 1],
-    #         withdrawIkTr=[0,0,0.10, 0, 0, 0, 1]
-    #     )
-    #     if outcome:
-    #         self.grasped_object = None
-    #     return outcome
+
     def place(self, obj_name, target_pos, grasp_value: str):
         """
         Function to place object at a target position, always restoring the object's
@@ -744,7 +727,11 @@ class RoboticsEnvironment():
        
         #to correct for the grip taken, rotate the target pose to gripper coordinates
         R_final,target_pose = self.rotate_for_grasp(grasp_value,target_pose)
-        approachIkTr=[0,0,0.0, 0, 0, 0, 1]
+        direction_str, _ = grasp_value.split("_")
+        if direction_str == "top":
+            approachIkTr=[0,0,-0.05, 0, 0, 0, 1]
+        elif direction_str in ["left", "right"]:
+            approachIkTr=[0,0,-0.0, -0.00, 0, 0, 1]
         # Withdraw along global +Z axis (in gripper-local frame)
         withdraw_vec_world = np.array([0, 0, 0.3])
         withdraw_vec_local = R_final.inv().apply(withdraw_vec_world)
@@ -756,7 +743,7 @@ class RoboticsEnvironment():
             0, 0, 0, 1
         ]
         # --- 5. Execute the place action ---
-        outcome = self.ActionPlace(
+        outcome,duration = self.ActionPlace(
             target_obj = obj_name,
             placePose=target_pose,
             approachIkTr=approachIkTr,
@@ -767,7 +754,7 @@ class RoboticsEnvironment():
         if outcome:
             self.grasped_object = None
 
-        return outcome
+        return outcome,duration
 
 def main():
     env = RoboticsEnvironment()

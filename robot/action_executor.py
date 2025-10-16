@@ -1,6 +1,7 @@
 from rl.action_space import ActionType, Action,GraspType
 from robot.robot_interface import RoboticsEnvironment
 import time
+import numpy as np
 class ActionExecutor:
     def __init__(self,robot_interface:RoboticsEnvironment):
         self.robot = robot_interface
@@ -24,16 +25,17 @@ class ActionExecutor:
         """
         start_time = time.time()
         if action.action_type == ActionType.PICK:
-            success = self._pick(action.obj, action.grasp)
+            success,duration = self._pick(action.obj, action.grasp)
         elif action.action_type == ActionType.PLACE:
-            success = self._place(action.obj, action.target_pos,action.grasp)
+            success,duration = self._place(action.obj, action.target_pos,action.grasp)
         else:
             print(f"[WARN] Unknown action type: {action.action_type}")
             success = False
+            duration = np.inf
 
         self.last_result = success
         end_time = time.time()
-        execution_time = end_time - start_time
+        execution_time = duration
         print(f"[EXEC] Action {action.action_type} executed in {end_time - start_time:.2f} seconds")
         if not success:
             print(f"[ERROR] Action {action.action_type} failed for object {action.obj}")

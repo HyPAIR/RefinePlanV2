@@ -100,7 +100,13 @@ class ActionSet:
     
     def get_all_actions(self):
         return self.actions
-    
+    def strip_motion_param(self,action:Action)->str:
+        """
+        Strips motion parameter from option action
+        """
+        action.grasp = None
+        return action
+
     def valid_actions(self,state):
         """
         Returns a list of valid actions for given state

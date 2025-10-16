@@ -18,6 +18,7 @@ from state.slot_config import GOAL_SLOTS, SHOP_SLOTS
 from robot.action_executor import ActionExecutor
 from refine_plan.models.state import State
 import random
+import copy
 
 goal_objects = ["/column0","/column1","/column2","/column3"]
 obstacle_objects=["/obs0","/obs1"]
@@ -133,14 +134,7 @@ def build_exploration_policy(connection_str,initial_state):
 
 if __name__ == "__main__":
     #setup the initial state
-    initial_locations = [
-                            [0.5750525244646281, 0.7000668518820146, 0.6249999978830472],
-                            [0.5253616900698888, 0.8750959753242942, 0.6249999976307693],
-                            [0.30003665512633365, 0.9750314041860764, 0.6249999938207642], 
-                            [0.7500341522349177, 0.9999783907620676, 0.6249999916882001], 
-                            [0.3500353556499841, 0.8507616060759815, 0.7499999224994444], 
-                            [0.8000297171903081, 0.8999871961360432, 0.5499999960678859]
-                         ]
+    initial_locations = [[0.34998767538500297, 0.8500032648466329, 0.6249999912820565], [0.5249742412435867, 0.8751135208928311, 0.6249999984821841], [0.300003473985302, 0.9750057601488298, 0.6249999972840121], [0.7499837394466928, 1.0000109170881635, 0.6249999962330817], [0.575011431638082, 0.6999800182034377, 0.7499998801076886], [0.8000096396357342, 0.9000090224461014, 0.5499999999975927]]
 
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
 
@@ -174,7 +168,7 @@ if __name__ == "__main__":
         "pick":["top_0","top_90","top_180","top_270","front_0","front_180","back_0","back_180","left_0","left_180","right_0","right_180"],
         "place":["top_0","top_90","top_180","top_270","front_0","front_180","back_0","back_180","left_0","left_180","right_0","right_180"]
     }
-    ###RANDOM ACION SET FOR RL ####
+    ###RANDOM ACION SET FOR EXPLORATION ####
     action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
 
     def pick_random_action(option_name,motion_params):
@@ -197,13 +191,21 @@ if __name__ == "__main__":
             print(f"Step {step}")
             action = pick_random_action(option_name=option_names,motion_params=motion_params)
             #check if the picked action is valid if not pick again till it is
-            while action not in action_set.valid_actions(state)[0]:
+            #we need to ignore the motion parameter for this check
+            action_representation = copy.deepcopy(action)
+            action_representation.grasp = None
+            action_representation = repr(action_representation)
+            valid_actions_representation =[repr(action_set.valid_actions(state)[0][i]) for i in range(len(action_set.valid_actions(state)[0]))]
+            while action_representation  not in valid_actions_representation:
                 print(f"Invalid action: {action}, picking again")
                 action = pick_random_action(option_name=option_names,motion_params=motion_params)
+                action_representation = copy.deepcopy(action)
+                action_representation.grasp = None
+                action_representation = repr(action_representation)
             success,exec_time = executor.execute(action)
             if not success:
                 print("Action failed, stopping")
-                break
+                # break
             #update the scene state
             state = scene.get_state()
             scene.update()
