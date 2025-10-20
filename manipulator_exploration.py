@@ -13,7 +13,7 @@ from robot.robot_interface import RoboticsEnvironment
 from state.scene_state import SceneState
 from rl.transition_logger import TransitionLogger
 from rl.reward_function import compute_reward
-from rl.action_space import ActionSet
+from rl.action_space import ActionSet, GraspType
 from state.slot_config import GOAL_SLOTS, SHOP_SLOTS
 from robot.action_executor import ActionExecutor
 from refine_plan.models.state import State
@@ -131,10 +131,37 @@ def build_exploration_policy(connection_str,initial_state):
         motion_params=motion_params,
         )
     return exploration_policy
+def pick_random_action(option_name,motion_params):
+
+            #for now we will select this completely at random not epsilon greedy with BT
+            selected_option = random.choice(option_name)
+            #if option starts with pick selecta a random pick motion parameter else select a random place motion parameter
+            if selected_option.startswith("pick"):
+                selected_motion_param = random.choice(motion_params["pick"])
+            else:
+                selected_motion_param = random.choice(motion_params["place"])
+            print(f"Selected option: {selected_option} with motion param: {selected_motion_param}")
+            action = executor.create_action_from_option(selected_option,selected_motion_param)
+            return action
+def select_random_action(valid_actions,motion_params):
+        action = random.choice(valid_actions)
+        #select a random motion param for the action
+        if action.action_type == "PICK":
+            selected_motion_param = random.choice(motion_params["pick"])
+        else:
+            selected_motion_param = random.choice(motion_params["place"])
+        # print(f"Selected action: {action} with motion param: {selected_motion_param}")
+        action.grasp = GraspType(selected_motion_param)
+        return action
 
 if __name__ == "__main__":
     #setup the initial state
-    initial_locations = [[0.34998767538500297, 0.8500032648466329, 0.6249999912820565], [0.5249742412435867, 0.8751135208928311, 0.6249999984821841], [0.300003473985302, 0.9750057601488298, 0.6249999972840121], [0.7499837394466928, 1.0000109170881635, 0.6249999962330817], [0.575011431638082, 0.6999800182034377, 0.7499998801076886], [0.8000096396357342, 0.9000090224461014, 0.5499999999975927]]
+    initial_locations =[[0.34998767538500297, 0.8500032648466329, 0.6249999912820565, 1.4567442500551277e-07, 7.398154799781017e-09, 4.370202318115802e-05, 0.999999999045056],
+                        [0.5249742412435867, 0.8751135208928311, 0.6249999984821841, 3.7923564988208997e-08, 6.836504668418398e-08, -0.0009820818013717147, 0.9999995177575485],
+                        [0.300003473985302, 0.9750057601488298, 0.6249999972840121, 3.071012527623133e-08, 2.2171811830454323e-08, 1.83856228637147e-05, 0.9999999998309839],
+                        [0.8250000000000004, 1.0250000000000006, 0.6249999962330817, 7.499215073503913e-08, 1.876124864445975e-08, -0.0010048939559080816, 0.9999994950939384],
+                        [0.575011431638082, 0.6999800182034377, 0.7499998801076886, -6.055639648183646e-06, 7.510927698140023e-07, -0.0003510037742730261, 0.9999999383795559],
+                        [0.8000096614105919, 0.900009032540021, 0.574999998605769, -6.34110895683591e-09, 2.898768876911345e-09, -2.739143064146132e-05, 0.9999999996248548]]
 
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
 
@@ -152,8 +179,6 @@ if __name__ == "__main__":
     scene.update()
     state = scene.get_state()
 
-    #Run 3 pilot runs to have seed data for exploration and save them to the database
-    
     #compile options
     option_names =[
         "pick_/column0","pick_/column1","pick_/column2","pick_/column3",
@@ -171,55 +196,40 @@ if __name__ == "__main__":
     ###RANDOM ACION SET FOR EXPLORATION ####
     action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
 
-    def pick_random_action(option_name,motion_params):
+    warmup = False
 
-            #for now we will select this completely at random not epsilon greedy with BT
-            selected_option = random.choice(option_name)
-            #if option starts with pick selecta a random pick motion parameter else select a random place motion parameter
-            if selected_option.startswith("pick"):
-                selected_motion_param = random.choice(motion_params["pick"])
-            else:
-                selected_motion_param = random.choice(motion_params["place"])
-            print(f"Selected option: {selected_option} with motion param: {selected_motion_param}")
-            action = executor.create_action_from_option(selected_option,selected_motion_param)
-            return action
-    n_runs = 3
-    for run in range(n_runs):
-        print(f"Pilot run {run}")
-        #execute 5 random actions
-        for step in range(5):
-            print(f"Step {step}")
-            action = pick_random_action(option_name=option_names,motion_params=motion_params)
-            #check if the picked action is valid if not pick again till it is
-            #we need to ignore the motion parameter for this check
-            action_representation = copy.deepcopy(action)
-            action_representation.grasp = None
-            action_representation = repr(action_representation)
-            valid_actions_representation =[repr(action_set.valid_actions(state)[0][i]) for i in range(len(action_set.valid_actions(state)[0]))]
-            while action_representation  not in valid_actions_representation:
-                print(f"Invalid action: {action}, picking again")
-                action = pick_random_action(option_name=option_names,motion_params=motion_params)
-                action_representation = copy.deepcopy(action)
-                action_representation.grasp = None
-                action_representation = repr(action_representation)
-            success,exec_time = executor.execute(action)
-            if not success:
-                print("Action failed, stopping")
-                # break
-            #update the scene state
-            state = scene.get_state()
+    #Run 3 pilot runs to have seed data for exploration and save them to the database
+    if warmup:
+        n_runs = 3
+        for run in range(n_runs):
+            print(f"Pilot run {run}")
+            #execute 5 random actions
+            for step in range(5):
+                print(f"Step {step}")
+                #We should pick a random action from valid actions
+                valid_actions,_ = action_set.valid_actions(state)
+                action = select_random_action(valid_actions,motion_params)
+                print(f"Action: {action}")
+                success,exec_time = executor.execute(action)
+                if not success:
+                    print("Action failed !")
+                    # break
+                #update the scene state
+                scene.update()
+                next_state = scene.get_state()
+                reward = compute_reward(state,action,next_state)
+                done = scene.is_goal_achieved()
+                #log the transition
+                logger.log_transition(state,action,reward,next_state,done,exec_time)
+                #update state
+                state = next_state
+            print("Pilot run finished, resetting scene")
+            robot.reset_scene(objects,initial_locations,initial_arm_config)
             scene.update()
-            next_state = scene.get_state()
-            reward = compute_reward(state,action,next_state)
-            done = scene.is_goal_achieved()
-            #log the transition
-            logger.log_transition(state,action,reward,next_state,done,exec_time)
-        print("Pilot run finished, resetting scene")
-        robot.reset_scene(objects,initial_locations,initial_arm_config)
-        scene.update()
-        state = scene.get_state()
-
-
+            state = scene.get_state()
+    else:
+        print("Skipping warmup runs and using existing data")
+        
     policy = build_exploration_policy("mongodb://localhost:27017/",state)
 
     print("Exploration policy built")

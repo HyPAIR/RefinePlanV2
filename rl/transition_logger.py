@@ -53,7 +53,7 @@ class TransitionLogger:
         """
         self.client = MongoClient('mongodb://localhost:27017/')
         self.db = self.client['robotics']
-        self.collection = self.db['transitions']
+        self.collection = self.db['exploration']
         print("[LOG] MongoDB connection established")
     def log_to_db(self, state, action, reward, next_state, done, execution_time=None):
         """
@@ -83,7 +83,7 @@ class TransitionLogger:
         }
      
         self.collection.insert_one(transition)
-        print(f"[LOG] Transition logged to MongoDB: {transition}")
+        print(f"[LOG] Transition logged to MongoDB: {self.unique_id} - Episode {self.episode_count}")
 
     #get a log from the database by unique_id
     def get_log_by_id(self, unique_id):

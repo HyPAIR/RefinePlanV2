@@ -15,6 +15,7 @@ class RoboticsEnvironment():
         self.sim = self.client.getObject('sim')
         self.simIK = self.client.require('simIK')
         self.simOMPL =self.client.require('simOMPL')
+        self.max_ik_attempts = 20
         
     def connect(self):
         '''
@@ -38,6 +39,10 @@ class RoboticsEnvironment():
         '''
         Initialise robot parameters and solver configs
         '''
+        self.gripper = Robotiq85F(self)
+        #start with gripper open
+        self.gripper.openGripper()
+        self.sim.wait(2.2)
 
         #get joint handles
         joint_names = ['/UR10/joint'+str(i) for i in range(1,7)]
@@ -51,14 +56,17 @@ class RoboticsEnvironment():
         self.robotTarget = self.sim.getObject('/UR10/target')
         #get base handle
         self.robotBase=self.sim.getObject('/UR10')
-        #create a robot collectoin
+        #get robot left finger
+        self.robotLeftFinger = self.sim.getObject('/UR10/ROBOTIQ85/LfingerTipVisible')
+        #get robot right finger
+        self.robotRightFinger = self.sim.getObject('/UR10/ROBOTIQ85/RfingerTipVisible')
+        #create a robot collection
         self.robotCollection = self.sim.createCollection()
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_tree,self.robotBase,0)
         self.pathPlanningMaxtime = 4.0
         self.pathPlanningSimplificationTime=4.0
         self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTConnect#PRM#RRTstar
 
-        self.gripper = Robotiq85F(self)
 
         #IK Motions
         self.ikMaxVel=[0.4,0.4,0.4,1.8]
@@ -80,7 +88,13 @@ class RoboticsEnvironment():
         self.sim.addItemToCollection(robotCollection,self.sim.handle_tree,self.robotBase,0)
         self.robotCollection = robotCollection
 
-    
+    def enableGripperCollision(self,enable:bool):
+        if enable:
+            self.sim.setBoolProperty(self.robotLeftFinger,'collidable',True)
+            self.sim.setBoolProperty(self.robotRightFinger,'collidable',True)
+        else:
+            self.sim.setBoolProperty(self.robotLeftFinger,'collidable',False)
+            self.sim.setBoolProperty(self.robotRightFinger,'collidable',False)
     def getConfig(self):
         '''
         gets current robot configuration 
@@ -165,8 +179,7 @@ class RoboticsEnvironment():
             passiveVizShape: visualization shape object (or None)
             configs: trimmed list containing the valid config and remaining untested ones
         """
-        import copy
-        import numpy as np
+       
 
         bufferedConfig = self.getConfig()
         retVal = None
@@ -178,13 +191,16 @@ class RoboticsEnvironment():
 
             # --- Base collision check ---
             if self.collides([target]):
-                print(f"[INFO] Collision in base config {i}, removing.")
+                # print(f"[INFO] Collision in base config {i}, removing.")
                 configs.pop(i)
                 continue
 
-            print(f"[INFO] Config {i}: no base collision")
+            # print(f"[INFO] Config {i}: no base collision")
             self.setConfig(target)
             target_valid = True
+
+            #disable gripper collision for approach and withdraw checks
+            self.enableGripperCollision(False)
 
             # --- Approach path check ---
             if approachIKTr:
@@ -203,13 +219,13 @@ class RoboticsEnvironment():
                 self.simIK.eraseEnvironment(ikEnv)
 
                 if not path:
-                    print("[INFO] No valid approach path found, removing config.")
+                    # print("[INFO] No valid approach path found, removing config.")
                     configs.pop(i)
                     continue
 
                 path = np.array(path).reshape(-1, len(self.joints))
                 if self.collides(path):
-                    print("[INFO] Collision in approach path, removing config.")
+                    # print("[INFO] Collision in approach path, removing config.")
                     configs.pop(i)
                     continue
 
@@ -229,18 +245,19 @@ class RoboticsEnvironment():
                 self.simIK.eraseEnvironment(ikEnv)
 
                 if not path:
-                    print("[INFO] No valid withdraw path found, removing config.")
+                    # print("[INFO] No valid withdraw path found, removing config.")
                     configs.pop(i)
                     continue
 
                 path = np.array(path).reshape(-1, len(self.joints))
                 if self.collides(path):
-                    print("[INFO] Collision in withdraw path, removing config.")
+                    # print("[INFO] Collision in withdraw path, removing config.")
                     configs.pop(i)
                     continue
-
+            #--- Re-enable gripper collision ---    
+            self.enableGripperCollision(True)
             # --- If we reach here, config is valid ---
-            print(f"[INFO] Config {i} is valid.")
+            # print(f"[INFO] Config {i} is valid.")
             retVal = target
 
             # Build visualization for the found config
@@ -347,7 +364,8 @@ class RoboticsEnvironment():
         print(f'\n[INFO] Found {len(configs)} potential configurations.')
 
         passiveVizShape = None
-        while configs:
+        iteration = 0   
+        while configs and iteration < self.max_ik_attempts:
             # get the first valid config (and trimmed configs list)
             pickConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIKTr, withdrawIkTr)
 
@@ -379,6 +397,7 @@ class RoboticsEnvironment():
                 # no configs left
                 print('[ERROR] No more configs to try.')
                 return 0,np.inf
+            iteration += 1
 
         # if we reach here, path exists
         if passiveVizShape:
@@ -396,20 +415,27 @@ class RoboticsEnvironment():
         # Approach and grasp sequence
         pose = self.sim.getObjectPose(self.robotTip)
         pose = self.sim.multiplyPoses(pose, approachIKTr)
+        #gripper normally open
         gripper = self.gripper
-        gripper.openGripper()
-        self.sim.wait(2.2)
+        # gripper.openGripper()
+        # self.sim.wait(2.2)
+        #disable gripper collision for approach
+        self.enableGripperCollision(False)
         self.moveToPose(pose)
 
         # Close the gripper and attach object
         #close gripper
         target_obj = self.sim.getObject(obj_name)
-        gripper.closeGripper(target_obj)
+        isGrasped =gripper.closeGripper(target_obj)
         self.sim.wait(2)
-        #TODO:attach object to the collection tip to include it in further path planning calcualtions
-        #parent to robottip
+        #fail the operation if grasp failed
+        if not isGrasped:
+            print('[ERROR] Grasping failed, object not within gripper.')
+            return 0,np.inf
+        # attach object to the collection tip to include it in further path planning calculations
+        # parent to robottip
         self.sim.setObjectParent(target_obj,self.robotTip,True)
-        #Add to collection
+        # Add to collection
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_single, target_obj,0)
 
         # Withdraw
@@ -433,7 +459,9 @@ class RoboticsEnvironment():
         print(f'\n[INFO] Found {len(configs)} potential configurations.')
 
         passiveVizShape = None
-        while configs:
+        #set a max iteration to avoid long loops
+        iteration = 0
+        while configs and iteration < self.max_ik_attempts:
             placeConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIkTr, withdrawIkTr)
 
             if placeConfig is None:
@@ -458,6 +486,7 @@ class RoboticsEnvironment():
             else:
                 print('[ERROR] No more configs to try.')
                 return 0,np.inf
+            iteration += 1
 
         # proceed with placement
         if passiveVizShape:
@@ -482,6 +511,8 @@ class RoboticsEnvironment():
 
         gripper.openGripper()
         self.sim.wait(2)
+        # Re-enable gripper collision
+        self.enableGripperCollision(True)
         # Remove object form the collision collection and parenting
         target_handle = self.sim.getObject(target_obj)
         #Unparent
@@ -584,13 +615,13 @@ class RoboticsEnvironment():
         return goal_status
     #State functions
 
-    def reset_scene(self,objects,objectPositions,arm_config):
+    def reset_scene(self,objects,objectPoses,arm_config):
         '''
         Reset the scene to starting state
 
         '''
         object_handles = [self.sim.getObject(obj) for obj in objects]  
-        reset_status =[self.sim.setObjectPosition(handle,position) for handle,position in zip(object_handles,objectPositions)]
+        reset_status =[self.sim.setObjectPose(handle,pose) for handle,pose in zip(object_handles,objectPoses)]
         jointPositions = [self.sim.getJointPosition(joint) for joint in self.joints]
         self.setConfig(arm_config)
         self.sim.step()
@@ -730,7 +761,7 @@ class RoboticsEnvironment():
         direction_str, _ = grasp_value.split("_")
         if direction_str == "top":
             approachIkTr=[0,0,-0.05, 0, 0, 0, 1]
-        elif direction_str in ["left", "right"]:
+        elif direction_str in ["left", "right","front","back"]:
             approachIkTr=[0,0,-0.0, -0.00, 0, 0, 1]
         # Withdraw along global +Z axis (in gripper-local frame)
         withdraw_vec_world = np.array([0, 0, 0.3])
@@ -779,9 +810,9 @@ def main():
     # q = input('Quit ?')
     env.setConfig(initConfig)
     env.sim.step()
-    env.pick(obj_name='/column2',grasp_value='left_0')
+    env.pick(obj_name='/column0',grasp_value='left_0')
     # from state.slot_config import GOAL_SLOTS
-    env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='left_0')
+    # env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='left_0')
     env.stop_simulation()
     
 

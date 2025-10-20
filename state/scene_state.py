@@ -49,12 +49,12 @@ class SceneState:
     def _update_object_slots(self):
         """ Update which slot each object is in """
         for obj, pos in self.object_poses.items():
-            if self._is_in_slot(pos,self.shop_slots):
+            if self.gripper_status["holding"] == obj:
+                self.object_slots[obj] = "held"
+            elif self._is_in_slot(pos,self.shop_slots):
                 self.object_slots[obj] = self._closest_slot(pos,self.shop_slots)
             elif self._is_in_slot(pos,self.goal_slots):
                 self.object_slots[obj] = self._closest_slot(pos,self.goal_slots)
-            elif self.gripper_status["holding"] == obj:
-                self.object_slots[obj] = "held"
             else:
                 self.object_slots[obj] = "unknown"
 
@@ -76,8 +76,9 @@ class SceneState:
         return None
     
     def _dist(self,p1,p2):
-        position1 = p1[:3]
-        position2 = p2[:3]
+        #ignore z for now
+        position1 = p1[:2]
+        position2 = p2[:2]
         return sum((a-b)**2 for a,b in zip(position1,position2))**0.5
     
     def get_state(self):
