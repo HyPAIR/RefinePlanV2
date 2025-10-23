@@ -15,7 +15,7 @@ class RoboticsEnvironment():
         self.sim = self.client.getObject('sim')
         self.simIK = self.client.require('simIK')
         self.simOMPL =self.client.require('simOMPL')
-        self.max_ik_attempts = 20
+        self.max_ik_attempts = 5
         
     def connect(self):
         '''
@@ -375,7 +375,7 @@ class RoboticsEnvironment():
 
             # try to plan a path to this config
             path = self.findPath(pickConfig)
-            if path:
+            if path and path is not None:
                 # found a reachable config -> proceed with pick
                 break
 
@@ -398,7 +398,12 @@ class RoboticsEnvironment():
                 print('[ERROR] No more configs to try.')
                 return 0,np.inf
             iteration += 1
-
+        if iteration >= self.max_ik_attempts:
+            print('[ERROR] Max IK attempts reached, pick action failed.')
+            return 0,np.inf
+        if path is None:
+            print('[ERROR] No reachable configuration found for pick action.')
+            return 0,np.inf
         # if we reach here, path exists
         if passiveVizShape:
             # optional: keep or remove; remove to avoid clutter
@@ -442,7 +447,16 @@ class RoboticsEnvironment():
         pose = self.sim.getObjectPose(self.robotTip)
         pose = self.sim.multiplyPoses(pose, withdrawIkTr)
         self.moveToPose(pose)
-
+        tip_position = self.sim.getObjectPosition(self.robotTip)
+        target_obj_position = self.sim.getObjectPosition(target_obj)
+        tip_distance = np.linalg.norm(np.array(tip_position) - np.array(target_obj_position))
+        tip_distance_threshold = 0.2  # 20 cm threshold
+        if obj_name == '/obs0':
+            tip_distance_threshold = 0.05  # 5 cm threshold for larger object
+        if tip_distance > tip_distance_threshold:
+            print('[ERROR] Grasped object lost during pick action.')
+            return 0,np.inf
+        
         print('[INFO] Pick action completed successfully.')
         return 1,duration
 
@@ -620,10 +634,13 @@ class RoboticsEnvironment():
         Reset the scene to starting state
 
         '''
-        object_handles = [self.sim.getObject(obj) for obj in objects]  
-        reset_status =[self.sim.setObjectPose(handle,pose) for handle,pose in zip(object_handles,objectPoses)]
+        #reset the robot first before objects to avoid collisions
         jointPositions = [self.sim.getJointPosition(joint) for joint in self.joints]
         self.setConfig(arm_config)
+        self.sim.step()
+        self.HomeArm(arm_config)
+        object_handles = [self.sim.getObject(obj) for obj in objects]  
+        reset_status =[self.sim.setObjectPose(handle,pose) for handle,pose in zip(object_handles,objectPoses)]
         self.sim.step()
         return reset_status
 
@@ -760,7 +777,7 @@ class RoboticsEnvironment():
         R_final,target_pose = self.rotate_for_grasp(grasp_value,target_pose)
         direction_str, _ = grasp_value.split("_")
         if direction_str == "top":
-            approachIkTr=[0,0,-0.05, 0, 0, 0, 1]
+            approachIkTr=[0,0,-0.07, 0, 0, 0, 1]
         elif direction_str in ["left", "right","front","back"]:
             approachIkTr=[0,0,-0.0, -0.00, 0, 0, 1]
         # Withdraw along global +Z axis (in gripper-local frame)
@@ -810,9 +827,9 @@ def main():
     # q = input('Quit ?')
     env.setConfig(initConfig)
     env.sim.step()
-    env.pick(obj_name='/column0',grasp_value='left_0')
+    env.pick(obj_name='/column3',grasp_value='left_0')
     # from state.slot_config import GOAL_SLOTS
-    # env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='left_0')
+    # env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='top_0')
     env.stop_simulation()
     
 

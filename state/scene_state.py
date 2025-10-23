@@ -18,14 +18,16 @@ class SceneState:
         self.object_status ={} #name: status_string
         self.object_slots={} #name: slot_id or None
         self.gripper_status ={"holding":str(None)} #object name or None
-        self.goal_region_occuppancy ={} # goal_slot_id: object_id or None
+        self.goal_region_occupancy ={} # goal_slot_id: object_id or None
+        self.shop_region_occupancy ={} # shop_slot_id: object_id or None
 
     def update(self):
         self._update_object_poses()
         self._update_gripper_status()
         self._update_object_statuses()
         self._update_object_slots()
-        self._update_goal_occuppancy()
+        self._update_goal_occupancy()
+        self._update_shop_occupancy()
 
     def _update_object_poses(self):
         for obj in self.all_objects:
@@ -58,14 +60,22 @@ class SceneState:
             else:
                 self.object_slots[obj] = "unknown"
 
-    def _update_goal_occuppancy(self):
+    def _update_goal_occupancy(self):
         """Track what object (if any) is currently occupying each goal slot"""
-        self.goal_region_occuppancy ={sid:"None" for sid in self.goal_slots}
+        self.goal_region_occupancy ={sid:"None" for sid in self.goal_slots}
         for obj,pos in self.object_poses.items():
             sid = self._closest_slot(pos,self.goal_slots)
             if sid is not None:
-                self.goal_region_occuppancy[sid]=obj
-    
+                self.goal_region_occupancy[sid]=obj
+
+    def _update_shop_occupancy(self):
+        """Track what object (if any) is currently occupying each shop slot"""
+        self.shop_region_occupancy ={sid:"None" for sid in self.shop_slots}
+        for obj,pos in self.object_poses.items():
+            sid = self._closest_slot(pos,self.shop_slots)
+            if sid is not None:
+                self.shop_region_occupancy[sid]=obj
+
     def _is_in_slot(self,pos,slots,threshold=0.05):
         return self._closest_slot(pos,slots,threshold) is not None
     
@@ -87,7 +97,8 @@ class SceneState:
             "object_status":self.object_status.copy(),
             "object_slots":self.object_slots.copy(),
             "gripper_status":self.gripper_status.copy(),
-            "goal_region_occuppancy":self.goal_region_occuppancy.copy()
+            "goal_region_occupancy":self.goal_region_occupancy.copy(),
+            "shop_region_occupancy":self.shop_region_occupancy.copy()
         }
     
     def get_state_vector(self):
@@ -118,7 +129,7 @@ class SceneState:
     def is_goal_achieved(self):
         """Returns True if all goal objects are placed correctly"""
         for sid,pos in self.goal_slots.items():
-            obj = self.goal_region_occuppancy.get(sid)
+            obj = self.goal_region_occupancy.get(sid)
             if obj not in self.goal_objects:
                 return False
         return True

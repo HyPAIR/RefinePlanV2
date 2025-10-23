@@ -52,8 +52,8 @@ class TransitionLogger:
         Setup a MongoDB database connection for logging.
         """
         self.client = MongoClient('mongodb://localhost:27017/')
-        self.db = self.client['robotics']
-        self.collection = self.db['exploration']
+        self.db = self.client['refine-plan-v2']
+        self.collection = self.db['manipulator-random-data']
         print("[LOG] MongoDB connection established")
     def log_to_db(self, state, action, reward, next_state, done, execution_time=None):
         """
@@ -70,16 +70,41 @@ class TransitionLogger:
         #     "timestamp": datetime.now().isoformat(),
         #     "execution_time": execution_time
         # }
+        #TODO:Unpack the state with statefactors and record
+        state_0 ={
+            #goal region SFs
+            **state['goal_region_occupancy'],
+            #gripper SFs
+            **state['gripper_status'],
+            #object SFs
+            **state['object_slots'],
+            #shop region SFs 
+            **state['shop_region_occupancy']
+            }
+        state_t = {
+            #goal region SFs
+            **next_state['goal_region_occupancy'],
+            #gripper SFs
+            **next_state['gripper_status'],
+            #object SFs
+            **next_state['object_slots'],
+            #shop region SFs
+            **next_state['shop_region_occupancy']
+            }
+        #suffix state_0 keys with _0 and state_t keys with _t to differentiate
+        state_0 = {f"{k}_0": v for k, v in state_0.items()}
+        state_t = {f"{k}_t": v for k, v in state_t.items()}
         transition = {
             "episode_id": self.episode_count,
             "unique_id": self.unique_id,
-            "sf_0_name": state,
-            "action": repr(action),
+            "duration": execution_time,
+            **state_0,
+            "option": action.action_type.value+action.obj,
+            "motion":action.grasp.value if action.grasp else "none",
             "reward": reward,
-            "sf_t_name": next_state,
+            **state_t,
             "done": done,
             "timestamp": datetime.now().isoformat(),
-            "duration": execution_time
         }
      
         self.collection.insert_one(transition)

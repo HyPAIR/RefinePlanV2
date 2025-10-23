@@ -41,7 +41,7 @@ def _get_enabled_cond(sf_list, option):
     #we need to define the enabled conditions for the options as boolean condition expressions based on state factors
     sf_dict = {sf.get_name(): sf for sf in sf_list}
     enable = OrCondition()
-    #Rule 1: place actions are only valid if holding if holding:obj place slot has to be empty
+    #Rule 1: place actions are only valid if holding:obj and place slot has to be empty
     if option[:5] == "place":
         enable = AndCondition(NeqCondition(sf_dict["holding"], "None"), EqCondition(sf_dict[option[6:]], "None"))
 
@@ -109,18 +109,19 @@ def build_exploration_policy(connection_str,initial_state):
         enabled_conds[option] = _get_enabled_cond(sf_list,option)
     #define_initial state as a state object
     goal_region_sfs_dict = {sf:"None" for sf in goal_region_sfs}
+    shop_region_sfs_dict = {sf:"None" for sf in shop_region_sfs}    
     gripper_sfs_dict = {sf:"None" for sf in gripper_sfs}
     object_sfs_dict = {sf:"unknown" for sf in object_sfs}
     for obj,slot in initial_state["object_slots"].items():
         sf = next((s for s in object_sfs if s.get_name() == obj),None)
         if sf:
             object_sfs_dict[sf]=slot
-    initial_state_dict = {**goal_region_sfs_dict, **gripper_sfs_dict, **object_sfs_dict}    
+    initial_state_dict = {**goal_region_sfs_dict, **gripper_sfs_dict, **object_sfs_dict, **shop_region_sfs_dict}    
     initial_state = State(initial_state_dict)
     exploration_policy = synthesise_exploration_policy(
         connection_str=connection_str,
-        db_name="robotics",
-        collection_name="exploration",
+        db_name="refine-plan-v2",
+        collection_name="manipulator-random-data",
         sf_list=sf_list,
         option_names=option_names,
         ensemble_size=10,
@@ -196,15 +197,15 @@ if __name__ == "__main__":
     ###RANDOM ACION SET FOR EXPLORATION ####
     action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
 
-    warmup = False
+    warmup = True
 
     #Run 3 pilot runs to have seed data for exploration and save them to the database
     if warmup:
         n_runs = 3
         for run in range(n_runs):
             print(f"Pilot run {run}")
-            #execute 5 random actions
-            for step in range(5):
+            #execute 10 random actions
+            for step in range(10):
                 print(f"Step {step}")
                 #We should pick a random action from valid actions
                 valid_actions,_ = action_set.valid_actions(state)
@@ -225,6 +226,8 @@ if __name__ == "__main__":
                 state = next_state
             print("Pilot run finished, resetting scene")
             robot.reset_scene(objects,initial_locations,initial_arm_config)
+            robot.sim.step()
+            robot.sim.wait(0.5)
             scene.update()
             state = scene.get_state()
     else:
