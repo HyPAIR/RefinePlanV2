@@ -305,31 +305,58 @@ class RoboticsEnvironment():
             retVal = None
         self.simOMPL.destroyTask(task)
         return retVal
-    def followPath(self,path):
-        minMaxVel=[]
+    # def followPath(self,path):
+    #     minMaxVel=[]
+    #     for vel in self.fkMaxVel:
+    #         minMaxVel.append(-vel)
+    #         minMaxVel.append(vel)
+    #     minMaxAcc =[]
+    #     for acc in self.fkMaxAccel:
+    #         minMaxAcc.append(-acc)
+    #         minMaxAcc.append(acc)
+    #     pl,_ = self.sim.getPathLengths(path,6)
+    #     try :
+    #         followPathScript = followPathScript
+    #     except:
+    #         followPathScript =-1
+    #     pathPts,times,followPathScript = self.sim.generateTimeOptimalTrajectory(path,pl,minMaxVel,minMaxAcc,1000,'not-a-knot',5,None)
+    #     st = self.sim.getSimulationTime()
+    #     dt =0
+    #     while dt < times[-1]:
+    #         p = self.sim.getPathInterpolatedConfig(pathPts,times,dt)
+    #         self.setTargetConfig(p)
+    #         self.sim.step()
+    #         dt = self.sim.getSimulationTime() -st
+    #     p = self.sim.getPathInterpolatedConfig(pathPts,times,times[-1])
+    #     self.setTargetConfig(p)
+    #     return self.sim.getSimulationTime() - st
+    def followPath(self, path):
+        # Compute trajectory timing etc. (same as before)
+        minMaxVel = []
         for vel in self.fkMaxVel:
-            minMaxVel.append(-vel)
-            minMaxVel.append(vel)
-        minMaxAcc =[]
+            minMaxVel += [-vel, vel]
+        minMaxAcc = []
         for acc in self.fkMaxAccel:
-            minMaxAcc.append(-acc)
-            minMaxAcc.append(acc)
-        pl,_ = self.sim.getPathLengths(path,6)
-        try :
-            followPathScript = followPathScript
-        except:
-            followPathScript =-1
-        pathPts,times,followPathScript = self.sim.generateTimeOptimalTrajectory(path,pl,minMaxVel,minMaxAcc,1000,'not-a-knot',5,None)
-        st = self.sim.getSimulationTime()
-        dt =0
-        while dt < times[-1]:
-            p = self.sim.getPathInterpolatedConfig(pathPts,times,dt)
-            self.setTargetConfig(p)
-            self.sim.step()
-            dt = self.sim.getSimulationTime() -st
-        p = self.sim.getPathInterpolatedConfig(pathPts,times,times[-1])
-        self.setTargetConfig(p)
-        return self.sim.getSimulationTime() - st
+            minMaxAcc += [-acc, acc]
+
+        pl, _ = self.sim.getPathLengths(path, 6)
+        pathPts, times, _ = self.sim.generateTimeOptimalTrajectory(
+            path, pl, minMaxVel, minMaxAcc, 1000, 'not-a-knot', 5, None
+        )
+
+        # Pack and send to Lua
+        self.sim.setStringSignal('FollowPathSignal', self.sim.packTable(pathPts))
+        self.sim.setStringSignal('FollowPathTimes', self.sim.packTable(times))
+
+        # Wait for Lua to finish execution
+        while not self.sim.getStringSignal('FollowPathDone'):
+            self.sim.step()  # advance simulation manually if stepping
+        self.sim.clearStringSignal('FollowPathDone')
+
+        # Return total trajectory duration
+        return times[-1]
+
+
 
     def moveToPose(self,pose):
         '''
@@ -415,7 +442,7 @@ class RoboticsEnvironment():
         print(f'[INFO] Selected reachable configuration: {pickConfig}')
         print('[INFO] Executing path to pick position...')
         duration =self.followPath(path)
-        self.sim.wait(1)
+        self.sim.wait(0.1)
 
         # Approach and grasp sequence
         pose = self.sim.getObjectPose(self.robotTip)
@@ -827,7 +854,7 @@ def main():
     # q = input('Quit ?')
     env.setConfig(initConfig)
     env.sim.step()
-    env.pick(obj_name='/column3',grasp_value='left_0')
+    env.pick(obj_name='/column2',grasp_value='left_0')
     # from state.slot_config import GOAL_SLOTS
     # env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='top_0')
     env.stop_simulation()
