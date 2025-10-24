@@ -44,7 +44,7 @@ act6 = Action(
 act7 = Action(
     action_type=ActionType.PICK,
     obj='/column3',
-    grasp='top_0'
+    grasp='left_0'
 )
 act8 = Action(
     action_type=ActionType.PLACE,

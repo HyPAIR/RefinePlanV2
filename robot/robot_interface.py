@@ -23,7 +23,7 @@ class RoboticsEnvironment():
         '''
         self.sim.startSimulation()
         print('connected to simulation')
-        self.sim.setStepping(True)
+        # self.sim.setStepping(True)
         print('simulation is explicitly stepped')
     
     def stop_simulation(self):
@@ -112,27 +112,43 @@ class RoboticsEnvironment():
         '''
         return self.sim.getObjectPose(self.robotTip)
     
+    # def collides(self,target_configs):
+    #     '''
+    #     checks if any configuration self collides
+    #     input: List of configurations
+    #     output:bool collision 
+    #     '''
+    #     retVal = False
+    #     bufferedConfig = self.getConfig()
+    #     for target in target_configs:
+    #         self.setConfig(target)
+    #         res = self.sim.checkCollision(self.robotCollection,self.sim.handle_all)[0]
+    #         if res >0:
+    #             retVal = True
+    #             break
+    #         else:
+    #             res= self.sim.checkCollision(self.robotCollection,self.robotCollection)[0]
+    #             if res >0:
+    #                 retVal = True
+    #                 break
+    #     self.setConfig(bufferedConfig)
+    #     return retVal
     def collides(self,target_configs):
         '''
         checks if any configuration self collides
         input: List of configurations
         output:bool collision 
         '''
-        retVal = False
-        bufferedConfig = self.getConfig()
-        for target in target_configs:
-            self.setConfig(target)
-            res = self.sim.checkCollision(self.robotCollection,self.sim.handle_all)[0]
-            if res >0:
-                retVal = True
-                break
-            else:
-                res= self.sim.checkCollision(self.robotCollection,self.robotCollection)[0]
-                if res >0:
-                    retVal = True
-                    break
-        self.setConfig(bufferedConfig)
-        return retVal
+        scriptHandle = self.sim.getScript(self.sim.scripttype_customization,'collisionCheck@Scene')
+        collision = self.sim.callScriptFunction(
+            'collides',
+            scriptHandle,
+            self.robotCollection,
+            target_configs,
+            self.joints
+        )
+        return collision
+
     def setConfig(self,config):
         '''
         sets joint position to given configuration
@@ -164,7 +180,7 @@ class RoboticsEnvironment():
         self.simIK.eraseEnvironment(ikEnv)
         return retVal
     
-    def selectOneValidConfig(self, configs, approachIKTr, withdrawIkTr):
+    # def selectOneValidConfig(self, configs, approachIKTr, withdrawIkTr):
         """
         Picks the first valid configuration out of available IK configs.
         Stops at the first valid config and removes only tested invalid ones.
@@ -282,7 +298,39 @@ class RoboticsEnvironment():
 
         self.setConfig(bufferedConfig)
         return retVal, passiveVizShape, configs
+    def selectOneValidConfig(self, configs, approachIKTr, withdrawIkTr):
+        """
+        Picks the first valid configuration out of available IK configs.
+        Stops at the first valid config and removes only tested invalid ones.
 
+        input:
+            configs: list of candidate configurations (modified in place)
+            approachIKTr: approach IK transform (can be None)
+            withdrawIkTr: withdraw IK transform (can be None)
+        returns:    
+            retVal: first valid configuration (or None if none found)
+            passiveVizShape: visualization shape object (or None)
+            configs: trimmed list containing the valid config and remaining untested ones
+        """
+        scriptHandle = self.sim.getScript(self.sim.scripttype_customization,'collisionCheck@Scene')
+        # Call the Lua function
+        retVal, passiveVizShape, remaining_configs = self.sim.callScriptFunction(
+            'selectOneValidConfig',        # Lua function name
+            scriptHandle,                 # script handle
+            configs,                       # configs table
+            approachIKTr or [],           # approach IK transform
+            withdrawIkTr or [],            # withdraw IK transform
+            self.robotCollection,          # robot collection handle
+            self.joints,                   # joint handles
+            self.robotBase,                # robot base handle
+            self.robotTip,                 # robot tip handle
+            self.robotTarget               # robot target handle
+        )
+
+        # Convert Lua output to Python if needed
+        if retVal is None:
+            return None, None, remaining_configs
+        return list(retVal), passiveVizShape, remaining_configs
 
     def findPath(self,config):
         #set true for joints who's positions are to be used for default values
@@ -548,7 +596,6 @@ class RoboticsEnvironment():
         pose = self.sim.multiplyPoses(pose, approachIkTr)
         gripper = self.gripper
         self.moveToPose(pose)
-        self.sim.wait(0.5)
 
         gripper.openGripper()
         self.sim.wait(2)
@@ -803,10 +850,21 @@ class RoboticsEnvironment():
         #to correct for the grip taken, rotate the target pose to gripper coordinates
         R_final,target_pose = self.rotate_for_grasp(grasp_value,target_pose)
         direction_str, _ = grasp_value.split("_")
+        
+        # Approach along global -Z axis (in gripper-local frame)
+        #top grasp has smaller approach distance
         if direction_str == "top":
-            approachIkTr=[0,0,-0.07, 0, 0, 0, 1]
+            approach_vec_world=np.array([0,0,-0.1])
+        #others have larger approach distance
         elif direction_str in ["left", "right","front","back"]:
-            approachIkTr=[0,0,-0.0, -0.00, 0, 0, 1]
+            approach_vec_world=np.array([0,0,-0.0])
+        approach_vec_local = R_final.inv().apply(approach_vec_world)
+        approachIkTr = [
+            approach_vec_local[0],
+            approach_vec_local[1],
+            approach_vec_local[2],
+            0, 0, 0, 1
+        ]
         # Withdraw along global +Z axis (in gripper-local frame)
         withdraw_vec_world = np.array([0, 0, 0.3])
         withdraw_vec_local = R_final.inv().apply(withdraw_vec_world)

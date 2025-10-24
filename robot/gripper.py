@@ -153,7 +153,10 @@ class Robotiq85F():
         if self.API.simIK.handleGroup(self.ikEnvRobotiq,self.ikGroup_undampedRobotiq2,{"syncWorlds":"true"})!= self.API.simIK.result_success:
             self.API.simIK.handleGroup(self.ikEnvRobotiq,self.ikGroup_dampedRobotiq2,{"syncWorlds":"true"})
         # self.disconnect()
-    
+     
+
+
+
     def test_gripper_movement(self):
         print("Starting test for gripper movement...")
 
