@@ -16,8 +16,6 @@ function sysCall_thread()
     params.robotTip = sim.getObject('/UR10/tip')
     params.robotTarget = sim.getObject('/UR10/target')
     params.robotBase = sim.getObject('/UR10')
-    params.robotCollection = sim.createCollection()
-    sim.addItemToCollection(params.robotCollection, sim.handle_tree, params.robotBase, 0)
 
     -- FK limits (example)
     local fkVel, fkAccel, fkJerk = 180, 40, 80
@@ -27,6 +25,7 @@ function sysCall_thread()
     -- Signal to receive path from Python
     local pathSignalName = 'FollowPathSignal'
     local timeSignalName = 'FollowPathTimes'
+    local moveToPoseSignalName ='moveToPose'
 
     sim.setStepping(true)
 
@@ -53,9 +52,21 @@ function sysCall_thread()
 
             -- Finish at last config
             local finalConfig = sim.getPathInterpolatedConfig(pathPts, times, times[#times])
-            for i = 1, #params.joints do
-                sim.setJointTargetPosition(params.joints[i], finalConfig[i])
-            end
+            --for i = 1, #params.joints do
+                --sim.setJointTargetPosition(params.joints[i], finalConfig[i])
+            --end
+            local configTable={
+            joints =params.joints,
+            targetPos = finalConfig,
+            --vel =params.fkVel,
+            --maxVel = params.fkMaxvel,
+            --accel = params.fkAccel,
+            --maxAccel = params.fkMaxAccel
+            }
+            sim.step()
+            sim.moveToConfig(configTable)
+            sim.step()
+            sim.setStepping(false)
 
             -- Clear signals to mark done
             sim.clearStringSignal(pathSignalName)
@@ -66,3 +77,4 @@ function sysCall_thread()
         sim.switchThread() -- yield to let sim continue
     end
 end
+

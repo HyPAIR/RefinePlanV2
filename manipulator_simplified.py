@@ -121,7 +121,7 @@ def build_exploration_policy(connection_str,initial_state):
     exploration_policy = synthesise_exploration_policy(
         connection_str=connection_str,
         db_name="refine-plan-v2",
-        collection_name="manipulator-random-data",
+        collection_name="manipulator-simplified-data",
         sf_list=sf_list,
         option_names=option_names,
         ensemble_size=10,
@@ -173,7 +173,7 @@ if __name__ == "__main__":
     robot.initialize_params()
     scene = SceneState(robot)
     executor = ActionExecutor(robot)
-    logger = TransitionLogger()
+    logger = TransitionLogger(connection_string="mongodb://localhost:27017/",database_name="refine-plan-v2", collection_name="manipulator-simplified-data")
 
     #Reset the simulation
     robot.reset_scene(objects,initial_locations,initial_arm_config)
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     #compile options
     option_names =[
         "pick_/column0","pick_/column1","pick_/column2","pick_/column3",
-        #"pick_/obs0","pick_/obs1",
+        "pick_/obs0","pick_/obs1",
         "place_/goal_1","place_/goal_2","place_/goal_4","place_/goal_5",
         "place_/region_0","place_/region_1","place_/region_2","place_/region_3",
         "place_/region_4","place_/region_5","place_/region_6","place_/region_7","place_/region_8"

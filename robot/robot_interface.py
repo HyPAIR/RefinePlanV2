@@ -1,3 +1,4 @@
+import time
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 import math
 import random
@@ -23,7 +24,7 @@ class RoboticsEnvironment():
         '''
         self.sim.startSimulation()
         print('connected to simulation')
-        # self.sim.setStepping(True)
+        self.sim.setStepping(True)
         print('simulation is explicitly stepped')
     
     def stop_simulation(self):
@@ -153,9 +154,14 @@ class RoboticsEnvironment():
         '''
         sets joint position to given configuration
         '''
-        n_joints = len(self.joints)
-        for i in range(n_joints):
-            self.sim.setJointPosition(self.joints[i],config[i])
+        scriptHandle = self.sim.getScript(self.sim.scripttype_customization,'collisionCheck@Scene')
+        self.sim.callScriptFunction(
+            'setConfig',
+            scriptHandle,
+            config,
+            self.joints
+        )
+
     def setTargetConfig(self,c):
         for i in range(len(self.joints)):
             self.sim.setJointTargetPosition(self.joints[i],c[i])
@@ -327,7 +333,7 @@ class RoboticsEnvironment():
             self.robotTarget               # robot target handle
         )
 
-        # Convert Lua output to Python if needed
+        #TODO: Convert Lua output to Python if something special is needed
         if retVal is None:
             return None, None, remaining_configs
         return list(retVal), passiveVizShape, remaining_configs
@@ -423,8 +429,8 @@ class RoboticsEnvironment():
             'maxAccel' : self.ikMaxAccel,
             'maxJerk' : self.ikMaxJerk 
         }
+        # self.sim.setStringSignal('moveToPoseSignal',self.sim.packTable(p))
         self.sim.moveToPose(p)
-
 
     def ActionPick(self, obj_name, pickPose, approachIKTr, withdrawIkTr):
         """
@@ -511,6 +517,9 @@ class RoboticsEnvironment():
         #fail the operation if grasp failed
         if not isGrasped:
             print('[ERROR] Grasping failed, object not within gripper.')
+            self.gripper.openGripper()
+            self.sim.wait(2.2)
+            self.enableGripperCollision(True)
             return 0,np.inf
         # attach object to the collection tip to include it in further path planning calculations
         # parent to robottip
@@ -525,11 +534,16 @@ class RoboticsEnvironment():
         tip_position = self.sim.getObjectPosition(self.robotTip)
         target_obj_position = self.sim.getObjectPosition(target_obj)
         tip_distance = np.linalg.norm(np.array(tip_position) - np.array(target_obj_position))
-        tip_distance_threshold = 0.2  # 20 cm threshold
+        tip_distance_threshold = 0.15  # 15 cm threshold
+        #print tip distance
+        print(f'Tip distance after pick: {tip_distance}')
         if obj_name == '/obs0':
             tip_distance_threshold = 0.05  # 5 cm threshold for larger object
         if tip_distance > tip_distance_threshold:
             print('[ERROR] Grasped object lost during pick action.')
+            self.gripper.openGripper()
+            self.sim.wait(2.2)
+            self.enableGripperCollision(True)
             return 0,np.inf
         
         print('[INFO] Pick action completed successfully.')
@@ -709,13 +723,12 @@ class RoboticsEnvironment():
 
         '''
         #reset the robot first before objects to avoid collisions
-        jointPositions = [self.sim.getJointPosition(joint) for joint in self.joints]
-        self.setConfig(arm_config)
-        self.sim.step()
         self.HomeArm(arm_config)
+        #reset object poses
         object_handles = [self.sim.getObject(obj) for obj in objects]  
         reset_status =[self.sim.setObjectPose(handle,pose) for handle,pose in zip(object_handles,objectPoses)]
         self.sim.step()
+      
         return reset_status
 
     def get_object_pose(self,obj):
@@ -912,7 +925,7 @@ def main():
     # q = input('Quit ?')
     env.setConfig(initConfig)
     env.sim.step()
-    env.pick(obj_name='/column2',grasp_value='left_0')
+    env.pick(obj_name='/obs1',grasp_value='top_0')
     # from state.slot_config import GOAL_SLOTS
     # env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='top_0')
     env.stop_simulation()

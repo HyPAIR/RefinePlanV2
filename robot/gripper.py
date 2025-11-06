@@ -113,8 +113,8 @@ class Robotiq85F():
         virtual_tip_position = self.API.sim.getObjectPosition(virtual_tip_handle, -1)
         object_width = 0.05
         # Compute distances between the object and each finger
-        dist_left = np.linalg.norm(np.array(object_position) - np.array(ltip_position)) - object_width/2
-        dist_right = np.linalg.norm(np.array(object_position) - np.array(rtip_position)) - object_width/2
+        dist_left = np.linalg.norm(np.array(object_position) - np.array(ltip_position)) 
+        dist_right = np.linalg.norm(np.array(object_position) - np.array(rtip_position))
 
         #compute distance between object and virtual tip
         dist_virtual_tip = np.linalg.norm(np.array(object_position) - np.array(virtual_tip_position)) 
@@ -123,15 +123,24 @@ class Robotiq85F():
         grasp_threshold = 0.2  # Adjust this value based on your scene scale
 
         # Check if both fingers are within the threshold distance from the object
-        if dist_virtual_tip < grasp_threshold:
+        if dist_virtual_tip > grasp_threshold:
             # Fake the grasp by attaching the object to the gripper
             #self.API.sim.setObjectParent(object_handle, self.connector, True)
-            print("Grasp confirmed, object attached to the gripper")
-            isClosed = True
-
-        else:
+            
             print(f"Grasp failed: Distances - Left: {dist_left}, Right: {dist_right}")
             isClosed = False
+        elif np.linalg.norm(np.array(ltip_position) - np.array(rtip_position)) <0.01:
+            print("Grasp failed object could't be gripped")
+            #print ltip position
+            print(f'ltip position {ltip_position}')
+            #print rtip position
+            print(f'rtip position {rtip_position}')
+            print(abs(dist_left-dist_right))
+            isClosed = False
+
+        else:
+            print("Grasp confirmed, object attached to the gripper")
+            isClosed = True
         
         return isClosed
 

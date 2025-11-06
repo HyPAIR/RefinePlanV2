@@ -5,7 +5,7 @@ from datetime import datetime
 from uuid import uuid4
 from pymongo import MongoClient
 class TransitionLogger:
-    def __init__(self, save_dir="rl/dataset"):
+    def __init__(self, save_dir="rl/dataset", connection_string="mongodb://localhost:27017/",database_name="refine-plan-v2", collection_name="manipulator-random-data"):
         self.episode_count = 0
         self.save_dir = save_dir
         os.makedirs(self.save_dir, exist_ok=True)
@@ -13,6 +13,10 @@ class TransitionLogger:
         self.unique_id = str(uuid4())
         print(f"[LOG] TransitionLogger initialized with ID: {self.unique_id}")
         self.episode = [{"id": "start", "timestamp": datetime.now().isoformat(), "unique_id": self.unique_id}]
+        #Setup MongoDB connection
+        self.connection_string = connection_string
+        self.database_name = database_name
+        self.collection_name = collection_name
         self._db_setup()
     def log_transition(self, state, action, reward, next_state, done, execution_time=None):
         transition = {
@@ -51,9 +55,9 @@ class TransitionLogger:
         """
         Setup a MongoDB database connection for logging.
         """
-        self.client = MongoClient('mongodb://localhost:27017/')
-        self.db = self.client['refine-plan-v2']
-        self.collection = self.db['manipulator-random-data']
+        self.client = MongoClient(self.connection_string)
+        self.db = self.client[self.database_name]
+        self.collection = self.db[self.collection_name]
         print("[LOG] MongoDB connection established")
     def log_to_db(self, state, action, reward, next_state, done, execution_time=None):
         """
