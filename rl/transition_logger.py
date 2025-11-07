@@ -103,7 +103,7 @@ class TransitionLogger:
             "unique_id": self.unique_id,
             "duration": execution_time,
             **state_0,
-            "option": action.action_type.value+action.obj,
+            "option": action.action_type.value+action.obj if action.action_type.value=="pick" else action.action_type.value+action.target_slot,
             "motion":action.grasp.value if action.grasp else "none",
             "reward": reward,
             **state_t,

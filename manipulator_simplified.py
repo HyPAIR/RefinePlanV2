@@ -9,6 +9,7 @@ Owner: Mohammed Saleeq Kolleth
 from refine_plan.models.condition import EqCondition, AndCondition, OrCondition,NeqCondition
 from refine_plan.algorithms.explore import synthesise_exploration_policy
 from refine_plan.models.state_factor import StateFactor
+from planned_actions import PLAN_1
 from robot.robot_interface import RoboticsEnvironment
 from state.scene_state import SceneState
 from rl.transition_logger import TransitionLogger
@@ -21,7 +22,7 @@ import random
 import copy
 
 goal_objects = ["/column0","/column1","/column2","/column3"]
-obstacle_objects=["/obs0","/obs1"]
+obstacle_objects=["/obs1"]#"/obs0",
 shop_slots =[f"/region_{i}" for i in range(9)]
 goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
 objects = goal_objects + obstacle_objects
@@ -92,16 +93,16 @@ def build_exploration_policy(connection_str,initial_state):
     #compile options
     option_names =[
         "pick_/column0","pick_/column1","pick_/column2","pick_/column3",
-        "pick_/obs0","pick_/obs1",
+        "pick_/obs1",#"pick_/obs0",
         "place_/goal_1","place_/goal_2","place_/goal_4","place_/goal_5",
-        "place_/region_0","place_/region_1","place_/region_2","place_/region_3",
+        "place_/region_0","place_/region_2","place_/region_3",#"place_/region_1",
         "place_/region_4","place_/region_5","place_/region_6","place_/region_7","place_/region_8"
     ]
 
     #compile motion parameters
     motion_params={
-        "pick":["top_0","top_90","top_180","top_270","front_0","front_180","back_0","back_180","left_0","left_180","right_0","right_180"],
-        "place":["top_0","top_90","top_180","top_270","front_0","front_180","back_0","back_180","left_0","left_180","right_0","right_180"]
+        "pick":["top_0","top_90","top_180","top_270","left_0","left_180","right_0","right_180"],
+        "place":["top_0","top_90","top_180","top_270","left_0","left_180","right_0","right_180"]
     }
 
     enabled_conds = {}
@@ -121,7 +122,7 @@ def build_exploration_policy(connection_str,initial_state):
     exploration_policy = synthesise_exploration_policy(
         connection_str=connection_str,
         db_name="refine-plan-v2",
-        collection_name="manipulator-simplified-data",
+        collection_name="manipulator-exploration-data",
         sf_list=sf_list,
         option_names=option_names,
         ensemble_size=10,
@@ -132,6 +133,7 @@ def build_exploration_policy(connection_str,initial_state):
         motion_params=motion_params,
         )
     return exploration_policy
+
 def pick_random_action(option_name,motion_params):
 
             #for now we will select this completely at random not epsilon greedy with BT
@@ -139,29 +141,32 @@ def pick_random_action(option_name,motion_params):
             #if option starts with pick selecta a random pick motion parameter else select a random place motion parameter
             if selected_option.startswith("pick"):
                 selected_motion_param = random.choice(motion_params["pick"])
+                picked_grasp = selected_motion_param
             else:
-                selected_motion_param = random.choice(motion_params["place"])
+                selected_motion_param =picked_grasp # random.choice(motion_params["place"])
             print(f"Selected option: {selected_option} with motion param: {selected_motion_param}")
             action = executor.create_action_from_option(selected_option,selected_motion_param)
             return action
-def select_random_action(valid_actions,motion_params):
+def select_random_action(valid_actions,motion_params,picked_grasp=None):
         action = random.choice(valid_actions)
         #select a random motion param for the action
-        if action.action_type == "PICK":
+        if action.action_type.value == "pick":
             selected_motion_param = random.choice(motion_params["pick"])
+            picked_grasp = selected_motion_param
         else:
-            selected_motion_param = random.choice(motion_params["place"])
-        # print(f"Selected action: {action} with motion param: {selected_motion_param}")
+            selected_motion_param = picked_grasp #random.choice(motion_params["place"])
+        print(f"Selected action: {action} with motion param: {selected_motion_param}")
+        print("here")
         action.grasp = GraspType(selected_motion_param)
-        return action
+        return action ,picked_grasp
 
 if __name__ == "__main__":
     #setup the initial state
-    initial_locations =[[0.34998767538500297, 0.8500032648466329, 0.6249999912820565, 1.4567442500551277e-07, 7.398154799781017e-09, 4.370202318115802e-05, 0.999999999045056],
-                        [0.5249742412435867, 0.8751135208928311, 0.6249999984821841, 3.7923564988208997e-08, 6.836504668418398e-08, -0.0009820818013717147, 0.9999995177575485],
-                        [0.300003473985302, 0.9750057601488298, 0.6249999972840121, 3.071012527623133e-08, 2.2171811830454323e-08, 1.83856228637147e-05, 0.9999999998309839],
+    initial_locations =[[0.34998767538500297, 0.8500032648466329, 0.6249999912820565, 1.4567442500551277e-07, 7.398154799781017e-09, 4.370202318115802e-05, 0.999999999045056],#column0
+                        [0.5249742412435867, 0.8751135208928311, 0.6249999984821841, 3.7923564988208997e-08, 6.836504668418398e-08, -0.0009820818013717147, 0.9999995177575485],#column1
+                        [0.300003473985302, 0.9750057601488298, 0.6249999972840121, 3.071012527623133e-08, 2.2171811830454323e-08, 1.83856228637147e-05, 0.9999999998309839],#column2
+                        #[0.575011431638082, 0.6999800182034377, 0.7499998801076886, -6.055639648183646e-06, 7.510927698140023e-07, -0.0003510037742730261, 0.9999999383795559],#obs0
                         [0.8000096614105919, 0.900009032540021, 0.574999998605769, -6.34110895683591e-09, 2.898768876911345e-09, -2.739143064146132e-05, 0.9999999996248548], #obs1
-                        [0.575011431638082, 0.6999800182034377, 0.7499998801076886, -6.055639648183646e-06, 7.510927698140023e-07, -0.0003510037742730261, 0.9999999383795559],
                         [0.8250000000000004, 1.0250000000000006, 0.6249999962330817, 7.499215073503913e-08, 1.876124864445975e-08, -0.0010048939559080816, 0.9999994950939384],#column3
                         ]
 
@@ -173,7 +178,7 @@ if __name__ == "__main__":
     robot.initialize_params()
     scene = SceneState(robot)
     executor = ActionExecutor(robot)
-    logger = TransitionLogger(connection_string="mongodb://localhost:27017/",database_name="refine-plan-v2", collection_name="manipulator-simplified-data")
+    logger = TransitionLogger(connection_string="mongodb://localhost:27017/",database_name="refine-plan-v2", collection_name="manipulator-exploration-data")
 
     #Reset the simulation
     robot.reset_scene(objects,initial_locations,initial_arm_config)
@@ -184,25 +189,26 @@ if __name__ == "__main__":
     #compile options
     option_names =[
         "pick_/column0","pick_/column1","pick_/column2","pick_/column3",
-        "pick_/obs0","pick_/obs1",
+        "pick_/obs1",#"pick_/obs0",
         "place_/goal_1","place_/goal_2","place_/goal_4","place_/goal_5",
-        "place_/region_0","place_/region_1","place_/region_2","place_/region_3",
+        "place_/region_0","place_/region_2","place_/region_3",#"place_/region_1",
         "place_/region_4","place_/region_5","place_/region_6","place_/region_7","place_/region_8"
     ]
 
     #compile motion parameters
     motion_params={
-        "pick":["top_0","top_90","top_180","top_270","front_0","front_180","back_0","back_180","left_0","left_180","right_0","right_180"],
-        "place":["top_0","top_90","top_180","top_270","front_0","front_180","back_0","back_180","left_0","left_180","right_0","right_180"]
+        "pick":["top_0","top_90","top_270","left_0","left_180","right_0","right_180"],
+        "place":["top_0","top_90","top_270","left_0","left_180","right_0","right_180"]
     }
     ###RANDOM ACION SET FOR EXPLORATION ####
     action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
 
-    warmup = True
-
+    warmup = False
+    picked_grasp = None
     #Run 3 pilot runs to have seed data for exploration and save them to the database
     if warmup:
         n_runs = 3
+        action = None
         for run in range(n_runs):
             print(f"Pilot run {run}")
             #execute 10 random actions
@@ -210,11 +216,16 @@ if __name__ == "__main__":
                 print(f"Step {step}")
                 #We should pick a random action from valid actions
                 valid_actions,_ = action_set.valid_actions(state)
-                action = select_random_action(valid_actions,motion_params)
-                print(f"Action: {action}")
-                success,exec_time = executor.execute(action)
-                if not success:
-                    print("Action failed !")
+                if not valid_actions:
+                    print("[Error] No valid actions found, object lost in scene")
+                    robot.leave_object(action=action)
+                else:
+                    action, picked_grasp = select_random_action(valid_actions,motion_params,picked_grasp=picked_grasp)
+                    print(f"Action: {action}")
+                    success,exec_time = executor.execute(action)
+                    if not success:
+                        print(f"Action failed ! time elapsed: {exec_time}")
+                        robot.leave_object(action=action)
                     # break
                 #update the scene state
                 scene.update()
@@ -231,8 +242,31 @@ if __name__ == "__main__":
             robot.sim.wait(0.5)
             scene.update()
             state = scene.get_state()
+            #in case the gripper is holding an object release it
+            try:
+                robot.leave_object(action=action)
+            except:
+                pass
     else:
         print("Skipping warmup runs and using existing data")
+
+    #execute and log the planned policy
+    # for action in PLAN_1:
+    #     print(f"Executing planned action: {action}")
+    #     success,exec_time = executor.execute(action)
+    #     if not success:
+    #         print(f"Action failed ! time elapsed: {exec_time}")
+    #         robot.leave_object(action=action)
+    #     # break
+    #     #update the scene state
+    #     scene.update()
+    #     next_state = scene.get_state()
+    #     reward = compute_reward(state,action,next_state)
+    #     done = scene.is_goal_achieved()
+    #     #log the transition
+    #     logger.log_transition(state,action,reward,next_state,done,exec_time)
+    #     #update state
+    #     state = next_state
         
     policy = build_exploration_policy("mongodb://localhost:27017/",state)
 
@@ -244,11 +278,11 @@ if __name__ == "__main__":
         print(f"Action: {action}")
         if action is None:
             print("No action found, stopping")
-            break
+            robot.leave_object(action=action)
         success = executor.execute(action)
         if not success:
-            print("Action failed, stopping")
-            break
+            print(f"Action failed, stopping. Time elapsed: {exec_time}")
+            robot.leave_object(action=action)
         #update the scene state
         scene.update()
         state = scene.get_state()

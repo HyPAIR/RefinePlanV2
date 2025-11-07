@@ -16,9 +16,9 @@ class RoboticsEnvironment():
         self.sim = self.client.getObject('sim')
         self.simIK = self.client.require('simIK')
         self.simOMPL =self.client.require('simOMPL')
-        self.max_ik_attempts = 5
+        self.max_ik_attempts = 3
         
-    def connect(self):
+    def connect(self):    
         '''
         Connects to coppeliasim and sets sim parameters
         '''
@@ -64,10 +64,21 @@ class RoboticsEnvironment():
         #create a robot collection
         self.robotCollection = self.sim.createCollection()
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_tree,self.robotBase,0)
-        self.pathPlanningMaxtime = 4.0
-        self.pathPlanningSimplificationTime=4.0
+        self.pathPlanningMaxtime = 5.0
+        self.pathPlanningSimplificationTime=5.0
         self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTConnect#PRM#RRTstar
 
+        #create an object collection for collision checking
+        self.objectCollection = self.sim.createCollection()
+        goal_objects = ["/column0","/column1","/column2","/column3"]
+        obstacle_objects=["/obs0","/obs1"]
+        shop_slots =[f"/region_{i}" for i in range(9)]
+        goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
+        objects = goal_objects + obstacle_objects
+        self.objects = objects
+        for obj in objects:
+            obj_handle = self.sim.getObject(obj)
+            self.sim.addItemToCollection(self.objectCollection,self.sim.handle_single,obj_handle,0)
 
         #IK Motions
         self.ikMaxVel=[0.4,0.4,0.4,1.8]
@@ -347,7 +358,7 @@ class RoboticsEnvironment():
         task = self.simOMPL.createTask('task')
         self.simOMPL.setAlgorithm(task,self.pathPlanningAlgo)
         self.simOMPL.setStateSpaceForJoints(task,self.joints,useForProjection)
-        self.simOMPL.setCollisionPairs(task,[self.robotCollection,self.sim.handle_all,self.robotCollection,self.robotCollection])
+        self.simOMPL.setCollisionPairs(task,[self.robotCollection,self.sim.handle_all,self.robotCollection,self.robotCollection,self.objectCollection,self.objectCollection])
         self.simOMPL.setStartState(task,self.getConfig())
         self.simOMPL.setGoalState(task,config)
         self.simOMPL.setup(task)
@@ -523,7 +534,12 @@ class RoboticsEnvironment():
             return 0,np.inf
         # attach object to the collection tip to include it in further path planning calculations
         # parent to robottip
-        self.sim.setObjectParent(target_obj,self.robotTip,True)
+        if obj_name == '/obs0_dummy':
+            obstacle_parent = self.sim.getObject('/obs0')
+            self.sim.setObjectParent(obstacle_parent,self.robotTip,True)
+        else:
+            target_obj = self.sim.getObject(obj_name)
+            self.sim.setObjectParent(target_obj,self.robotTip,True)
         # Add to collection
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_single, target_obj,0)
 
@@ -533,14 +549,20 @@ class RoboticsEnvironment():
         self.moveToPose(pose)
         tip_position = self.sim.getObjectPosition(self.robotTip)
         target_obj_position = self.sim.getObjectPosition(target_obj)
+        #if object is obstcle0 and grasp is top grasp use the dummy to get target obj position
+
         tip_distance = np.linalg.norm(np.array(tip_position) - np.array(target_obj_position))
         tip_distance_threshold = 0.15  # 15 cm threshold
         #print tip distance
         print(f'Tip distance after pick: {tip_distance}')
-        if obj_name == '/obs0':
-            tip_distance_threshold = 0.05  # 5 cm threshold for larger object
         if tip_distance > tip_distance_threshold:
             print('[ERROR] Grasped object lost during pick action.')
+            #Unparent
+            if obj_name == '/obs0_dummy':
+                obstacle_parent = self.sim.getObject('/obs0')
+                self.sim.setObjectParent(obstacle_parent,-1,False)
+            else:
+                self.sim.setObjectParent(target_obj,-1,False)
             self.gripper.openGripper()
             self.sim.wait(2.2)
             self.enableGripperCollision(True)
@@ -554,6 +576,8 @@ class RoboticsEnvironment():
         """
         Action to place objects. Uses selectOneValidConfig repeatedly until a reachable config is found.
         """
+        #disable gripper collision for place
+        self.enableGripperCollision(False)
         configs = self.findConfigs(placePose)
         if not configs:
             print('[ERROR] No IK configurations found for desired place pose.')
@@ -618,7 +642,7 @@ class RoboticsEnvironment():
         # Remove object form the collision collection and parenting
         target_handle = self.sim.getObject(target_obj)
         #Unparent
-        self.sim.setObjectParent(target_handle,-1,True)
+        self.sim.setObjectParent(target_handle,-1,False)
         # self.sim.removeItemFromCollection(self.robotCollection,self.sim.handle_single,target_handle)
         self.resetCollection()
 
@@ -807,11 +831,16 @@ class RoboticsEnvironment():
         """
         # Get object pose
         objHandle = self.sim.getObject(obj_name)
+        direction_str, _ = grasp_value.split("_")
         objPose = self.sim.getObjectPose(objHandle)  # [x, y, z, qx, qy, qz, qw]
+        #if object is objstacle 0, use the dummy handle for top grasping
+        if obj_name == '/obs0' :#and direction_str == 'top':
+            pickDummy = self.sim.getObject('/obs0_dummy')
+            objPose = self.sim.getObjectPose(pickDummy)
+            obj_name = '/obs0_dummy'
 
         # Rotate object pose based on grasp
         R_final, objPose = self.rotate_for_grasp(grasp_value, objPose)
-        direction_str, _ = grasp_value.split("_")
 
         # Offset the pick position slightly above the object for path planning
         if direction_str == "top":
@@ -842,7 +871,8 @@ class RoboticsEnvironment():
             approachIKTr=approachIKTr,
             withdrawIkTr=withdrawIkTr
         )
-
+        if obj_name == '/obs0_dummy':
+            obj_name = '/obs0'
         if outcome:
             self.grasped_object = obj_name
 
@@ -870,7 +900,7 @@ class RoboticsEnvironment():
             approach_vec_world=np.array([0,0,-0.1])
         #others have larger approach distance
         elif direction_str in ["left", "right","front","back"]:
-            approach_vec_world=np.array([0,0,-0.0])
+            approach_vec_world=np.array([0,0,-0.14])
         approach_vec_local = R_final.inv().apply(approach_vec_world)
         approachIkTr = [
             approach_vec_local[0],
@@ -901,6 +931,23 @@ class RoboticsEnvironment():
             self.grasped_object = None
 
         return outcome,duration
+    def leave_object(self, action):
+        '''
+        Function to leave the object being held without placing it at a target
+        '''
+        gripper = self.gripper
+        target_obj = self.sim.getObject(self.grasped_object)
+
+        #Unparent
+        self.sim.setObjectParent(target_obj,-1,False)
+        gripper.openGripper()
+        self.sim.wait(2)
+        # Re-enable gripper collision
+        self.enableGripperCollision(True)
+        # Remove object form the collision collection and parenting
+        self.resetCollection()
+        self.grasped_object = None
+        return 1
 
 def main():
     env = RoboticsEnvironment()
@@ -924,10 +971,21 @@ def main():
     # env.sim.step()
     # q = input('Quit ?')
     env.setConfig(initConfig)
+
+    GOAL_SLOTS ={
+    '/goal_0': [-0.7250000000000001, 1.0250000000000006, 0.625], 
+    '/goal_1': [-0.525, 1.0250000000000006, 0.625],
+    '/goal_2': [-0.2749999999999999, 1.0250000000000006, 0.625],
+    '/goal_3': [-0.7250000000000002, 0.8250000000000005, 0.625], 
+    '/goal_4': [-0.525, 0.8250000000000003, 0.625], 
+    '/goal_5': [-0.27499999999999986, 0.8250000000000005, 0.625]
+            }
     env.sim.step()
-    env.pick(obj_name='/obs1',grasp_value='top_0')
-    # from state.slot_config import GOAL_SLOTS
-    # env.place(obj_name='/column0',target_pos=[-0.27499999999999986, 0.8250000000000005, 0.4],grasp_value='top_0')
+
+    env.pick(obj_name='/column2',grasp_value='left_0')
+    goal_2_pose = [-0.525, 1.0250000000000006, 0.625]
+    # env.sim.wait(1)
+    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_5'],grasp_value='left_0')
     env.stop_simulation()
     
 

@@ -1,0 +1,345 @@
+python3 manipulator_simplified.py 
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+[LOG] TransitionLogger initialized with ID: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32
+[LOG] MongoDB connection established
+
+[INFO]Found a path to initial configuration
+Pilot run 0
+Step 0
+Action: Action(ActionType.PICK, obj=/obs1, slot=None,grasp=GraspType.TOP_90)
+[EXEC] Picking /obs1 with top_90
+
+[INFO] Found 1920 potential configurations.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, pick action failed.
+[EXEC] Action ActionType.PICK executed in 30.27 seconds
+[ERROR] Action ActionType.PICK failed for object /obs1
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 1
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_90)
+[EXEC] Picking /column2 with top_90
+
+[INFO] Found 6592 potential configurations.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, pick action failed.
+[EXEC] Action ActionType.PICK executed in 34.58 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 2
+Action: Action(ActionType.PICK, obj=/obs0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /obs0 with left_0
+
+[INFO] Found 5248 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.80 seconds
+[ERROR] Action ActionType.PICK failed for object /obs0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 3
+Action: Action(ActionType.PICK, obj=/obs1, slot=None,grasp=GraspType.LEFT_180)
+[EXEC] Picking /obs1 with left_180
+
+[INFO] Found 2688 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.84 seconds
+[ERROR] Action ActionType.PICK failed for object /obs1
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 4
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_270)
+[EXEC] Picking /column2 with top_270
+
+[INFO] Found 6912 potential configurations.
+[INFO] Selected reachable configuration: [-1.5326749679471465, -0.6369199686044453, -1.549463693090407, 0.6152739913558625, 1.569592090304753, 2.6561024946050735]
+[INFO] Executing path to pick position...
+Grasp confirmed, object attached to the gripper
+Tip distance after pick: 0.10670791431950995
+[INFO] Pick action completed successfully.
+[EXEC] Action ActionType.PICK executed in 13.99 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 5
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_4,grasp=GraspType.LEFT_0)
+[EXEC] Placing /column2 at [-0.525, 0.8250000000000003, 0.625] with grasp left_0
+[ERROR] No IK configurations found for desired place pose.
+[EXEC] Action ActionType.PLACE executed in 1.02 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 6
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_3,grasp=GraspType.LEFT_0)
+[EXEC] Placing /column2 at [-0.7250000000000002, 0.8250000000000005, 0.625] with grasp left_0
+[ERROR] No IK configurations found for desired place pose.
+[EXEC] Action ActionType.PLACE executed in 1.02 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 7
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_3,grasp=GraspType.TOP_180)
+[EXEC] Placing /column2 at [-0.7250000000000002, 0.8250000000000005, 0.625] with grasp top_180
+
+[INFO] Found 1728 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 2.79 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 8
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_4,grasp=GraspType.TOP_270)
+[EXEC] Placing /column2 at [-0.525, 0.8250000000000003, 0.625] with grasp top_270
+
+[INFO] Found 3008 potential configurations.
+[INFO] Selected reachable configuration: [-0.7004457252164791, -0.7290624185004706, -1.2451574416529656, 0.4039507852243105, 1.5702228901519195, 3.488342979814858]
+[INFO] Executing path to place position...
+[INFO] Place action completed successfully.
+[EXEC] Action ActionType.PLACE executed in 13.03 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 9
+Action: Action(ActionType.PICK, obj=/column3, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column3 with left_0
+
+[INFO] Found 3520 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.14 seconds
+[ERROR] Action ActionType.PICK failed for object /column3
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Pilot run finished, resetting scene
+
+[INFO]Found a path to initial configuration
+Pilot run 1
+Step 0
+Action: Action(ActionType.PICK, obj=/obs1, slot=None,grasp=GraspType.RIGHT_180)
+[EXEC] Picking /obs1 with right_180
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /obs1
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 1
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_180)
+[EXEC] Picking /column0 with top_180
+
+[INFO] Found 7936 potential configurations.
+[INFO] Selected reachable configuration: [-1.5672664939924377, -0.8162620780035521, -1.2220295187912287, 3.6088770620153223, -1.5706950888607452, 1.050211255086471]
+[INFO] Executing path to pick position...
+Grasp confirmed, object attached to the gripper
+Tip distance after pick: 0.10605610879424872
+[INFO] Pick action completed successfully.
+[EXEC] Action ActionType.PICK executed in 14.22 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 2
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_3,grasp=GraspType.RIGHT_0)
+[EXEC] Placing /column0 at [-0.7250000000000002, 0.8250000000000005, 0.625] with grasp right_0
+
+[INFO] Found 2944 potential configurations.
+[INFO] Selected reachable configuration: [-0.7472726278134845, -0.9998134846775413, -1.030178043726406, 5.171746085325665, -2.3185668529995422, -0.5243389161433242]
+[INFO] Executing path to place position...
+[INFO] Place action completed successfully.
+[EXEC] Action ActionType.PLACE executed in 14.08 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 3
+Action: Action(ActionType.PICK, obj=/obs1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /obs1 with left_0
+
+[INFO] Found 2176 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.62 seconds
+[ERROR] Action ActionType.PICK failed for object /obs1
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 4
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 3008 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.91 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 5
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.01 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 6
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.01 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 7
+Action: Action(ActionType.PICK, obj=/column3, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column3 with left_0
+
+[INFO] Found 4608 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.39 seconds
+[ERROR] Action ActionType.PICK failed for object /column3
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 8
+Action: Action(ActionType.PICK, obj=/column3, slot=None,grasp=GraspType.TOP_90)
+[EXEC] Picking /column3 with top_90
+
+[INFO] Found 3392 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.76 seconds
+[ERROR] Action ActionType.PICK failed for object /column3
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 9
+Action: Action(ActionType.PICK, obj=/obs0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /obs0 with top_0
+
+[INFO] Found 8832 potential configurations.
+[INFO] Selected reachable configuration: [-1.908945723634881, -0.311522885245376, -1.8018290986372585, 0.5431157501762511, -4.71223615023966, 0.7099115226776211]
+[INFO] Executing path to pick position...
+Grasp confirmed, object attached to the gripper
+Tip distance after pick: 0.1074597719142468
+[ERROR] Grasped object lost during pick action.
+[EXEC] Action ActionType.PICK executed in 32.00 seconds
+[ERROR] Action ActionType.PICK failed for object /obs0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Pilot run finished, resetting scene
+
+[INFO]Found a path to initial configuration
+Pilot run 2
+Step 0
+Action: Action(ActionType.PICK, obj=/obs0, slot=None,grasp=GraspType.LEFT_180)
+[EXEC] Picking /obs0 with left_180
+
+[INFO] Found 5632 potential configurations.
+[INFO] Selected reachable configuration: [-1.4284238441822137, -0.7287667782756112, -1.9262198913531061, -0.4827952665486208, 0.14239388934109343, -0.5274996296160925]
+[INFO] Executing path to pick position...
+Grasp failed: Distances - Left: 0.8825868750176339, Right: 0.9651034946787468
+[ERROR] Grasping failed, object not within gripper.
+[EXEC] Action ActionType.PICK executed in 14.91 seconds
+[ERROR] Action ActionType.PICK failed for object /obs0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 1
+Action: Action(ActionType.PICK, obj=/column3, slot=None,grasp=GraspType.TOP_270)
+[EXEC] Picking /column3 with top_270
+
+[INFO] Found 3136 potential configurations.
+[INFO] Selected reachable configuration: [-2.0399027364027877, -0.8061900546582734, -1.239662853997296, 0.4753239494672892, 1.5695674647083155, 2.149285423440416]
+[INFO] Executing path to pick position...
+Grasp confirmed, object attached to the gripper
+Tip distance after pick: 0.10267300333989157
+[INFO] Pick action completed successfully.
+[EXEC] Action ActionType.PICK executed in 21.23 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column3
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 2
+Action: Action(ActionType.PLACE, obj=/column3, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing /column3 at [-0.525, 1.0250000000000006, 0.625] with grasp right_0
+
+[INFO] Found 1920 potential configurations.
+[INFO] Selected reachable configuration: [-1.0126823107737444, -1.3655796249989756, -0.7154912444847821, 2.0810463507394106, 2.5833522522653216, 2.6173709239388434]
+[INFO] Executing path to place position...
+[INFO] Place action completed successfully.
+[EXEC] Action ActionType.PLACE executed in 20.38 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column3
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 3
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_90)
+[EXEC] Picking /column0 with top_90
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 4
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 2048 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.72 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 5
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_270)
+[EXEC] Picking /column0 with top_270
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 6
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_270)
+[EXEC] Picking /column1 with top_270
+
+[INFO] Found 5888 potential configurations.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, pick action failed.
+[EXEC] Action ActionType.PICK executed in 32.92 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 7
+Action: Action(ActionType.PICK, obj=/obs0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /obs0 with left_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /obs0
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 8
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.01 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Step 9
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_90)
+[EXEC] Picking /column2 with top_90
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed !
+[LOG] Transition logged to MongoDB: e1e54833-bbc5-40f6-bc6a-00d3ea9dec32 - Episode 0
+Pilot run finished, resetting scene
+
+[INFO]Found a path to initial configuration
+USING STORM: False
+Reading data from MongoDB...
+Runs till assertion
+Traceback (most recent call last):
+  File "/home/kolletms/refine_plan_v2/manipulator_simplified.py", line 239, in <module>
+    policy = build_exploration_policy("mongodb://localhost:27017/",state)
+  File "/home/kolletms/refine_plan_v2/manipulator_simplified.py", line 121, in build_exploration_policy
+    exploration_policy = synthesise_exploration_policy(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/refine_plan/algorithms/explore.py", line 191, in synthesise_exploration_policy
+    assert len(dataset) == len(option_names)
+AssertionError
