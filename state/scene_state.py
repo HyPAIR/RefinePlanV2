@@ -4,8 +4,8 @@ class SceneState:
         self.env = env #coppeliasim interface
 
         #objectnames from coppeliasim
-        self.goal_objects =['/column0','/column1','/column2','/column3']
-        self.obstacle_objects =['/obs0','/obs1']
+        self.goal_objects =['/column0','/column1','/column2']
+        self.obstacle_objects =['/obs0','/obs1','/obs2']
         self.all_objects = self.goal_objects + self.obstacle_objects
 
         #predefined region slots

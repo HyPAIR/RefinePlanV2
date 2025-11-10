@@ -70,8 +70,8 @@ class RoboticsEnvironment():
 
         #create an object collection for collision checking
         self.objectCollection = self.sim.createCollection()
-        goal_objects = ["/column0","/column1","/column2","/column3"]
-        obstacle_objects=["/obs0","/obs1"]
+        goal_objects = ["/column0","/column1","/column2"]
+        obstacle_objects=["/obs0","/obs1","/obs2"]
         shop_slots =[f"/region_{i}" for i in range(9)]
         goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
         objects = goal_objects + obstacle_objects
@@ -971,21 +971,13 @@ def main():
     # env.sim.step()
     # q = input('Quit ?')
     env.setConfig(initConfig)
-
-    GOAL_SLOTS ={
-    '/goal_0': [-0.7250000000000001, 1.0250000000000006, 0.625], 
-    '/goal_1': [-0.525, 1.0250000000000006, 0.625],
-    '/goal_2': [-0.2749999999999999, 1.0250000000000006, 0.625],
-    '/goal_3': [-0.7250000000000002, 0.8250000000000005, 0.625], 
-    '/goal_4': [-0.525, 0.8250000000000003, 0.625], 
-    '/goal_5': [-0.27499999999999986, 0.8250000000000005, 0.625]
-            }
     env.sim.step()
 
-    env.pick(obj_name='/column2',grasp_value='left_0')
+    # env.pick(obj_name='/column1',grasp_value='left_0')
+    env.pick(obj_name='/column2',grasp_value='top_0')
     goal_2_pose = [-0.525, 1.0250000000000006, 0.625]
     # env.sim.wait(1)
-    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_5'],grasp_value='left_0')
+    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_5'],grasp_value='left_0')
     env.stop_simulation()
     
 
