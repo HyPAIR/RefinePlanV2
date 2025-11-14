@@ -27,6 +27,9 @@ class ActionExecutor:
         if action.action_type == ActionType.PICK:
             success,duration = self._pick(action.obj, action.grasp)
         elif action.action_type == ActionType.PLACE:
+            if action.obj == None or action.target_pos is None:
+                print(f"[ERROR] PLACE action requires obj and target_pos to be specified.")
+                return 0, 0.0
             success,duration = self._place(action.obj, action.target_pos,action.grasp)
         else:
             print(f"[WARN] Unknown action type: {action.action_type}")

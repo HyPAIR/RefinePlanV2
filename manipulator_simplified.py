@@ -9,7 +9,7 @@ Owner: Mohammed Saleeq Kolleth
 from refine_plan.models.condition import EqCondition, AndCondition, OrCondition,NeqCondition
 from refine_plan.algorithms.explore import synthesise_exploration_policy
 from refine_plan.models.state_factor import StateFactor
-from planned_actions import PLAN_1
+from planned_actions import PLAN_1, PLAN_2,PLAN_ALL_COMBOS, PLAN_CUSTOM
 from robot.robot_interface import RoboticsEnvironment
 from state.scene_state import SceneState
 from rl.transition_logger import TransitionLogger
@@ -21,13 +21,12 @@ from refine_plan.models.state import State
 import random
 import copy
 
-goal_objects = ["/column0","/column1","/column2","/column3"]
-obstacle_objects=["/obs1"]#"/obs0",
-shop_slots =[f"/region_{i}" for i in range(9)]
-goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
-objects = goal_objects + obstacle_objects
-
-
+goal_objects = ["/column0","/column1","/column2"]
+shop_slots =["/region_0","/region_1","/region_2"]
+goal_slots=["/goal_0","/goal_1","/goal_2"]
+objects = goal_objects 
+collection_name ="manipulator-reduced-dataset-random"
+objects_formatted =[obj.replace('/','') for obj in objects] #Boolean conversion issue
 
 def _get_enabled_cond(sf_list, option):
     """Get the enabled condition for an option.
@@ -42,13 +41,13 @@ def _get_enabled_cond(sf_list, option):
     #we need to define the enabled conditions for the options as boolean condition expressions based on state factors
     sf_dict = {sf.get_name(): sf for sf in sf_list}
     enable = OrCondition()
-    #Rule 1: place actions are only valid if holding:obj and place slot has to be empty
+    #Rule 1: place actions are only valid if one of the object state factor is "held" and none of the object state factors are the target slot
     if option[:5] == "place":
-        enable = AndCondition(NeqCondition(sf_dict["holding"], "None"), EqCondition(sf_dict[option[6:]], "None"))
+        enable = AndCondition(OrCondition(*[EqCondition(sf_dict[obj], "held") for obj in objects_formatted]), AndCondition(*[NeqCondition(sf_dict[obj], option[6:]) for obj in objects_formatted]))
 
-    #Rule 2: pick actions can only be valid if holding:None
+    #Rule 2: pick actions can only be valid if none of the object state factors are "held"
     if option[:4] == "pick":
-        enable = EqCondition(sf_dict["holding"], "None")
+        enable = AndCondition(*[NeqCondition(sf_dict[obj], "held") for obj in objects_formatted])
 
     return enable
 
@@ -72,65 +71,56 @@ def build_exploration_policy(connection_str,initial_state):
         x object_status (Discarded for policy)
 
     """
-    #goal region occupancy
-    #goal could be not filled, filled with objects
-    goal_region_sfs = [StateFactor(goal_region,objects+["None"]) for goal_region in goal_slots]
 
-    #shop region state factors, filled with objects or None
-    shop_region_sfs = [StateFactor(shop_region,objects+["None"]) for shop_region in shop_slots]
 
-    #gripper state factors
-    #gripper can hold all objects
-    gripper_sfs = [StateFactor("holding",objects+["None"])]
+
 
     #object and obstacle state factos # object slots in data
     possible_slots = goal_slots+shop_slots+["held","unknown"]
-    object_sfs = [StateFactor(obj,possible_slots) for obj in objects]
+    possible_slots =[slot.replace('/','') for slot in possible_slots] #Boolean conversion issue
+    object_sfs = [StateFactor(obj,possible_slots) for obj in objects_formatted]
 
     #compile state factor list    
-    sf_list = goal_region_sfs + gripper_sfs + object_sfs + shop_region_sfs
+    sf_list = object_sfs 
 
-    #compile options
+   #compile options
     option_names =[
-        "pick_/column0","pick_/column1","pick_/column2","pick_/column3",
-        "pick_/obs1",#"pick_/obs0",
-        "place_/goal_1","place_/goal_2","place_/goal_4","place_/goal_5",
-        "place_/region_0","place_/region_2","place_/region_3",#"place_/region_1",
-        "place_/region_4","place_/region_5","place_/region_6","place_/region_7","place_/region_8"
+        "pick.column0","pick.column1","pick.column2",
+        "place.goal_0","place.goal_1","place.goal_2",
+        "place.region_0","place.region_1","place.region_2",
     ]
+    option_names_formatted =[opt.replace('_/','.') for opt in option_names] #Boolean conversion issue
 
     #compile motion parameters
-    motion_params={
-        "pick":["top_0","top_90","top_180","top_270","left_0","left_180","right_0","right_180"],
-        "place":["top_0","top_90","top_180","top_270","left_0","left_180","right_0","right_180"]
+    motions =["top_0","left_0","right_0","front_270"]
+    motion_params_model={
+        option:motions for option in option_names_formatted
     }
 
     enabled_conds = {}
-    for option in option_names:
+    for option in option_names_formatted:
         enabled_conds[option] = _get_enabled_cond(sf_list,option)
     #define_initial state as a state object
-    goal_region_sfs_dict = {sf:"None" for sf in goal_region_sfs}
-    shop_region_sfs_dict = {sf:"None" for sf in shop_region_sfs}    
-    gripper_sfs_dict = {sf:"None" for sf in gripper_sfs}
+
     object_sfs_dict = {sf:"unknown" for sf in object_sfs}
     for obj,slot in initial_state["object_slots"].items():
         sf = next((s for s in object_sfs if s.get_name() == obj),None)
         if sf:
             object_sfs_dict[sf]=slot
-    initial_state_dict = {**goal_region_sfs_dict, **gripper_sfs_dict, **object_sfs_dict, **shop_region_sfs_dict}    
+    initial_state_dict = {**object_sfs_dict }    
     initial_state = State(initial_state_dict)
     exploration_policy = synthesise_exploration_policy(
         connection_str=connection_str,
         db_name="refine-plan-v2",
-        collection_name="manipulator-exploration-data",
+        collection_name=collection_name,
         sf_list=sf_list,
-        option_names=option_names,
+        option_names=option_names_formatted,
         ensemble_size=10,
         horizon=100,
         enabled_conds=enabled_conds,
         initial_state=initial_state,
         use_storm=False,
-        motion_params=motion_params,
+        motion_params=motion_params_model,
         )
     return exploration_policy
 
@@ -162,12 +152,9 @@ def select_random_action(valid_actions,motion_params,picked_grasp=None):
 
 if __name__ == "__main__":
     #setup the initial state
-    initial_locations =[[0.34998767538500297, 0.8500032648466329, 0.6249999912820565, 1.4567442500551277e-07, 7.398154799781017e-09, 4.370202318115802e-05, 0.999999999045056],#column0
-                        [0.5249742412435867, 0.8751135208928311, 0.6249999984821841, 3.7923564988208997e-08, 6.836504668418398e-08, -0.0009820818013717147, 0.9999995177575485],#column1
-                        [0.300003473985302, 0.9750057601488298, 0.6249999972840121, 3.071012527623133e-08, 2.2171811830454323e-08, 1.83856228637147e-05, 0.9999999998309839],#column2
-                        #[0.575011431638082, 0.6999800182034377, 0.7499998801076886, -6.055639648183646e-06, 7.510927698140023e-07, -0.0003510037742730261, 0.9999999383795559],#obs0
-                        [0.8000096614105919, 0.900009032540021, 0.574999998605769, -6.34110895683591e-09, 2.898768876911345e-09, -2.739143064146132e-05, 0.9999999996248548], #obs1
-                        [0.8250000000000004, 1.0250000000000006, 0.6249999962330817, 7.499215073503913e-08, 1.876124864445975e-08, -0.0010048939559080816, 0.9999994950939384],#column3
+    initial_locations =[[0.225003473985302, 0.8750057601488297, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
+                        [0.6, 1.075, 0.6249999984821841, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
+                        [0.375003473985302, 0.7250057601488303, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column2
                         ]
 
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
@@ -178,7 +165,7 @@ if __name__ == "__main__":
     robot.initialize_params()
     scene = SceneState(robot)
     executor = ActionExecutor(robot)
-    logger = TransitionLogger(connection_string="mongodb://localhost:27017/",database_name="refine-plan-v2", collection_name="manipulator-exploration-data")
+    logger = TransitionLogger(connection_string="mongodb://localhost:27017/",database_name="refine-plan-v2", collection_name=collection_name)
 
     #Reset the simulation
     robot.reset_scene(objects,initial_locations,initial_arm_config)
@@ -188,20 +175,18 @@ if __name__ == "__main__":
 
     #compile options
     option_names =[
-        "pick_/column0","pick_/column1","pick_/column2","pick_/column3",
-        "pick_/obs1",#"pick_/obs0",
-        "place_/goal_1","place_/goal_2","place_/goal_4","place_/goal_5",
-        "place_/region_0","place_/region_2","place_/region_3",#"place_/region_1",
-        "place_/region_4","place_/region_5","place_/region_6","place_/region_7","place_/region_8"
+        "pick_/column0","pick_/column1","pick_/column2",
+        "place_/goal_0","place_/goal_1","place_/goal_2",
+        "place_/region_0","place_/region_1","place_/region_2",
     ]
 
     #compile motion parameters
     motion_params={
-        "pick":["top_0","top_90","top_270","left_0","left_180","right_0","right_180"],
-        "place":["top_0","top_90","top_270","left_0","left_180","right_0","right_180"]
+        "pick":["top_0","left_0","right_0","front_270"],
+        "place":["top_0","front_270","left_0","right_0"]
     }
-    ###RANDOM ACION SET FOR EXPLORATION ####
-    action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=obstacle_objects,shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
+    ###RANDOM ACTION SET FOR EXPLORATION ####
+    action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=[],shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
 
     warmup = False
     picked_grasp = None
@@ -230,7 +215,7 @@ if __name__ == "__main__":
                 #update the scene state
                 scene.update()
                 next_state = scene.get_state()
-                reward = compute_reward(state,action,next_state)
+                reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
                 done = scene.is_goal_achieved()
                 #log the transition
                 logger.log_transition(state,action,reward,next_state,done,exec_time)
@@ -249,44 +234,71 @@ if __name__ == "__main__":
                 pass
     else:
         print("Skipping warmup runs and using existing data")
-
-    #execute and log the planned policy
-    # for action in PLAN_1:
-    #     print(f"Executing planned action: {action}")
-    #     success,exec_time = executor.execute(action)
-    #     if not success:
-    #         print(f"Action failed ! time elapsed: {exec_time}")
-    #         robot.leave_object(action=action)
-    #     # break
-    #     #update the scene state
-    #     scene.update()
-    #     next_state = scene.get_state()
-    #     reward = compute_reward(state,action,next_state)
-    #     done = scene.is_goal_achieved()
-    #     #log the transition
-    #     logger.log_transition(state,action,reward,next_state,done,exec_time)
-    #     #update state
-    #     state = next_state
-        
-    policy = build_exploration_policy("mongodb://localhost:27017/",state)
-
-    print("Exploration policy built")
-    #execute the exploration policy
-    for step in range(5):
-        print(f"Step {step}")
-        action = policy.get_next_action(state)
-        print(f"Action: {action}")
-        if action is None:
-            print("No action found, stopping")
-            robot.leave_object(action=action)
-        success = executor.execute(action)
+    plan =PLAN_1#PLAN_ALL_COMBOS
+    # execute and log the planned policy
+    for action in plan:
+        print(f"Executing planned action: {action}")
+        if state['gripper_status']['holding']==None and action.action_type.value =='place':
+            #picking someting to place
+            tmp_pick = random.choice([PLAN_1[0],PLAN_1[2],PLAN_1[4]])
+            executor.execute(tmp_pick)
+            scene.update()
+            state =scene.get_state()
+        if state['gripper_status']['holding'] is not None and action.action_type.value =='pick':
+            #place it some where
+            tmp_place = random.choice([PLAN_1[1],PLAN_1[3],PLAN_1[5]])
+            executor.execute(tmp_place)
+            scene.update()
+            state =scene.get_state()
+        success,exec_time = executor.execute(action)
         if not success:
-            print(f"Action failed, stopping. Time elapsed: {exec_time}")
-            robot.leave_object(action=action)
+            print(f"Action failed ! time elapsed: {exec_time}")
+            if not robot.test_motion_planner():
+                print("Resetting scene because of OMPL failure")
+                robot.reset_scene(objects,initial_locations,initial_arm_config)
+                scene.update()
+                state = scene.get_state()
+                continue
+            #robot.leave_object(action=action)#this changes the state without an action: not good
+            #find where it was taken from
+            
         #update the scene state
         scene.update()
-        state = scene.get_state()
+        next_state = scene.get_state()
+        reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
+        done = scene.is_goal_achieved()
         #log the transition
-        logger.log_transition(state, action, success)
-    print("Exploration finished")
+        logger.log_transition(state,action,reward,next_state,done,exec_time)
+        #update state
+        state = next_state
+
+    # try:
+    policy = build_exploration_policy("mongodb://localhost:27017/",state)
+    # except Exception as e:
+    #     if e is AssertionError:
+    #         print("Not enough data to build exploration policy")
+    #     else:
+    #         print(f"[ERROR] Failed to build exploration policy due to: {e}")
+    #     robot.stop_simulation()
+    #     exit(1)
+
+    print("Exploration policy built")
+    # #execute the exploration policy
+    # for step in range(5):
+    #     print(f"Step {step}")
+    #     action = policy.get_next_action(state)
+    #     print(f"Action: {action}")
+    #     if action is None:
+    #         print("No action found, stopping")
+    #         robot.leave_object(action=action)
+    #     success = executor.execute(action)
+    #     if not success:
+    #         print(f"Action failed, stopping. Time elapsed: {exec_time}")
+    #         robot.leave_object(action=action)
+    #     #update the scene state
+    #     scene.update()
+    #     state = scene.get_state()
+    #     #log the transition
+    #     logger.log_transition(state, action, success)
+    # print("Exploration finished")
     robot.stop_simulation()

@@ -1,7 +1,8 @@
 from rl.action_space import ActionType,Action
 
-def compute_reward(prev_state,action:Action,next_state):
-    reward =0.0
+def compute_reward(prev_state,action:Action,next_state,duration:float):
+    return duration
+    reward =0.0 + duration*0.1 #small penalty for longer actions
     goal_slots_before = prev_state["goal_region_occupancy"]
     goal_slots_after = next_state["goal_region_occupancy"]
 

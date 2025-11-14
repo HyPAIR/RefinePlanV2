@@ -5,8 +5,7 @@ class SceneState:
 
         #objectnames from coppeliasim
         self.goal_objects =['/column0','/column1','/column2']
-        self.obstacle_objects =['/obs0','/obs1','/obs2']
-        self.all_objects = self.goal_objects + self.obstacle_objects
+        self.all_objects = self.goal_objects 
 
         #predefined region slots
         from state.slot_config import SHOP_SLOTS, GOAL_SLOTS

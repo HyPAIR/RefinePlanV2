@@ -16,6 +16,7 @@ class GraspType(Enum):
     # Front approaches (2 roll variations)
     FRONT_0   = "front_0"
     FRONT_180 = "front_180"
+    FRONT_270 = "front_270"
 
     # Back approaches (2 roll variations)
     BACK_0   = "back_0"

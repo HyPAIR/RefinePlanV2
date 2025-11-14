@@ -76,34 +76,24 @@ class TransitionLogger:
         # }
         #TODO:Unpack the state with statefactors and record
         state_0 ={
-            #goal region SFs
-            **state['goal_region_occupancy'],
-            #gripper SFs
-            **state['gripper_status'],
             #object SFs
             **state['object_slots'],
-            #shop region SFs 
-            **state['shop_region_occupancy']
             }
         state_t = {
-            #goal region SFs
-            **next_state['goal_region_occupancy'],
-            #gripper SFs
-            **next_state['gripper_status'],
+
             #object SFs
             **next_state['object_slots'],
-            #shop region SFs
-            **next_state['shop_region_occupancy']
+
             }
         #suffix state_0 keys with _0 and state_t keys with _t to differentiate
-        state_0 = {f"{k}_0": v for k, v in state_0.items()}
-        state_t = {f"{k}_t": v for k, v in state_t.items()}
+        state_0 = {f"{k.replace('/','')}0": v.replace('/','') for k, v in state_0.items()}
+        state_t = {f"{k.replace('/','')}t": v.replace('/','') for k, v in state_t.items()}
         transition = {
             "episode_id": self.episode_count,
             "unique_id": self.unique_id,
             "duration": execution_time,
             **state_0,
-            "option": action.action_type.value+action.obj if action.action_type.value=="pick" else action.action_type.value+action.target_slot,
+            "option": action.action_type.value+action.obj.replace('/','.') if action.action_type.value=="pick" else action.action_type.value+action.target_slot.replace('/','.'),
             "motion":action.grasp.value if action.grasp else "none",
             "reward": reward,
             **state_t,
