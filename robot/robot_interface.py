@@ -848,14 +848,14 @@ def main():
     #pick column 2 with top_0
     # env.pick(obj_name='/obs2',grasp_value='top_0')
     #pick column 1 with left_0
-    env.pick(obj_name='/column2',grasp_value='right_0')
+    # env.pick(obj_name='/obs_cube',grasp_value='top_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='right_0')
     # env.pick(obj_name='/column2',grasp_value='right_0')
-    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='right_0')
-    env.pick(obj_name='/column2',grasp_value='right_0')
-    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
+    # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
+    env.pick(obj_name='/column1',grasp_value='left_0')
+    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
-    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
+    env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='left_0')
     env.stop_simulation()
     
 

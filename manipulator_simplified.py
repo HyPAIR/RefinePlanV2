@@ -9,7 +9,7 @@ Owner: Mohammed Saleeq Kolleth
 from refine_plan.models.condition import EqCondition, AndCondition, OrCondition,NeqCondition
 from refine_plan.algorithms.explore import synthesise_exploration_policy
 from refine_plan.models.state_factor import StateFactor
-from planned_actions import PLAN_1, PLAN_2,PLAN_ALL_COMBOS, PLAN_CUSTOM
+from planned_actions import PLAN_1, PLAN_2, PLAN_3,PLAN_ALL_COMBOS, PLAN_CUSTOM
 from robot.robot_interface import RoboticsEnvironment
 from state.scene_state import SceneState
 from rl.transition_logger import TransitionLogger
@@ -20,12 +20,13 @@ from robot.action_executor import ActionExecutor
 from refine_plan.models.state import State
 import random
 import copy
-
+# Define constants
+collection_name ="manipulator-reduced-dataset-exploration"
+connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
 goal_slots=["/goal_0","/goal_1","/goal_2"]
 objects = goal_objects 
-collection_name ="manipulator-reduced-dataset-random"
 objects_formatted =[obj.replace('/','') for obj in objects] #Boolean conversion issue
 
 def _get_enabled_cond(sf_list, option):
@@ -51,7 +52,7 @@ def _get_enabled_cond(sf_list, option):
 
     return enable
 
-def build_exploration_policy(connection_str,initial_state):
+def build_exploration_policy(initial_state,option_names,motion_params,connection_str="mongodb://localhost:27017/",collection_name=collection_name):
     """Run the exploration algorithm to synthesise a policy
 
     Args:
@@ -84,18 +85,11 @@ def build_exploration_policy(connection_str,initial_state):
     sf_list = object_sfs 
 
    #compile options
-    option_names =[
-        "pick.column0","pick.column1","pick.column2",
-        "place.goal_0","place.goal_1","place.goal_2",
-        "place.region_0","place.region_1","place.region_2",
-    ]
+ 
     option_names_formatted =[opt.replace('_/','.') for opt in option_names] #Boolean conversion issue
 
     #compile motion parameters
-    motions =["top_0","left_0","right_0","front_270"]
-    motion_params_model={
-        option:motions for option in option_names_formatted
-    }
+
 
     enabled_conds = {}
     for option in option_names_formatted:
@@ -120,7 +114,7 @@ def build_exploration_policy(connection_str,initial_state):
         enabled_conds=enabled_conds,
         initial_state=initial_state,
         use_storm=False,
-        motion_params=motion_params_model,
+        motion_params=motion_params,
         )
     return exploration_policy
 
@@ -141,7 +135,7 @@ def select_random_action(valid_actions,motion_params,picked_grasp=None):
         action = random.choice(valid_actions)
         #select a random motion param for the action
         if action.action_type.value == "pick":
-            selected_motion_param = random.choice(motion_params["pick"])
+            selected_motion_param = random.choice(motion_params["{}.{}".format(action.action_type.value,action.obj[1:])])
             picked_grasp = selected_motion_param
         else:
             selected_motion_param = picked_grasp #random.choice(motion_params["place"])
@@ -151,6 +145,7 @@ def select_random_action(valid_actions,motion_params,picked_grasp=None):
         return action ,picked_grasp
 
 if __name__ == "__main__":
+
     #setup the initial state
     initial_locations =[[0.225003473985302, 0.8750057601488297, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
                         [0.6, 1.075, 0.6249999984821841, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
@@ -165,7 +160,7 @@ if __name__ == "__main__":
     robot.initialize_params()
     scene = SceneState(robot)
     executor = ActionExecutor(robot)
-    logger = TransitionLogger(connection_string="mongodb://localhost:27017/",database_name="refine-plan-v2", collection_name=collection_name)
+    logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=collection_name)
 
     #Reset the simulation
     robot.reset_scene(objects,initial_locations,initial_arm_config)
@@ -182,8 +177,15 @@ if __name__ == "__main__":
 
     #compile motion parameters
     motion_params={
-        "pick":["top_0","left_0","right_0","front_270"],
-        "place":["top_0","front_270","left_0","right_0"]
+        "pick.column0": ["top_0","left_0","right_0","front_270"],
+        "pick.column1": ["top_0","left_0","right_0","front_270"],
+        "pick.column2": ["top_0","left_0","right_0","front_270"],
+        "place.goal_0": ["top_0","left_0","right_0","front_270"],#right_0 is physically not possible for goal 0 ? it seems to work
+        "place.goal_1": ["top_0","right_0","front_270"],#left_0 is physically not possible for goal 1
+        "place.goal_2": ["top_0","left_0","right_0","front_270"],
+        "place.region_0": ["right_0"],#top_0,front_270,left_0 are physically not possible for region 0
+        "place.region_1": ["left_0"],#top_0, right_0,front_270 are physically not possible for region 1
+        "place.region_2": ["top_0","right_0","front_270"],#left_0 is physically not possible for region 2
     }
     ###RANDOM ACTION SET FOR EXPLORATION ####
     action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=[],shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
@@ -196,21 +198,35 @@ if __name__ == "__main__":
         action = None
         for run in range(n_runs):
             print(f"Pilot run {run}")
-            #execute 10 random actions
-            for step in range(10):
+            #execute 50 random actions
+            for step in range(50):
                 print(f"Step {step}")
                 #We should pick a random action from valid actions
                 valid_actions,_ = action_set.valid_actions(state)
                 if not valid_actions:
                     print("[Error] No valid actions found, object lost in scene")
-                    robot.leave_object(action=action)
+                    # robot.leave_object(action=action)
+                    print("Resetting scene due to no valid actions")
+                    robot.reset_scene(objects,initial_locations,initial_arm_config)
+                    robot.sim.step()
+                    robot.sim.wait(0.5)
+                    scene.update()
+                    state = scene.get_state()
+                    continue
                 else:
                     action, picked_grasp = select_random_action(valid_actions,motion_params,picked_grasp=picked_grasp)
                     print(f"Action: {action}")
                     success,exec_time = executor.execute(action)
                     if not success:
                         print(f"Action failed ! time elapsed: {exec_time}")
-                        robot.leave_object(action=action)
+                        if not robot.test_motion_planner():
+                            print("Resetting scene because of OMPL failure")
+                            robot.reset_scene(objects,initial_locations,initial_arm_config)
+                            robot.sim.step()
+                            robot.sim.wait(2.2)
+                            scene.update()
+                            state = scene.get_state()
+                            continue
                     # break
                 #update the scene state
                 scene.update()
@@ -222,24 +238,23 @@ if __name__ == "__main__":
                 #update state
                 state = next_state
             print("Pilot run finished, resetting scene")
+            print("Leaving object if held")
+            robot.leave_object(action=action)
             robot.reset_scene(objects,initial_locations,initial_arm_config)
             robot.sim.step()
-            robot.sim.wait(0.5)
+            robot.sim.wait(2.2)
             scene.update()
             state = scene.get_state()
-            #in case the gripper is holding an object release it
-            try:
-                robot.leave_object(action=action)
-            except:
-                pass
+
+        print("Warmup runs complete")
     else:
         print("Skipping warmup runs and using existing data")
-    plan =PLAN_1#PLAN_ALL_COMBOS
+    plan =[]#PLAN_3#PLAN_ALL_COMBOS
     # execute and log the planned policy
     for action in plan:
         print(f"Executing planned action: {action}")
         if state['gripper_status']['holding']==None and action.action_type.value =='place':
-            #picking someting to place
+            #picking something to place
             tmp_pick = random.choice([PLAN_1[0],PLAN_1[2],PLAN_1[4]])
             executor.execute(tmp_pick)
             scene.update()
@@ -272,15 +287,15 @@ if __name__ == "__main__":
         #update state
         state = next_state
 
-    # try:
-    policy = build_exploration_policy("mongodb://localhost:27017/",state)
-    # except Exception as e:
-    #     if e is AssertionError:
-    #         print("Not enough data to build exploration policy")
-    #     else:
-    #         print(f"[ERROR] Failed to build exploration policy due to: {e}")
-    #     robot.stop_simulation()
-    #     exit(1)
+    try:
+        policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
+    except Exception as e:
+        if e is AssertionError:
+            print("Not enough data to build exploration policy")
+        else:
+            print(f"[ERROR] Failed to build exploration policy due to: {e}")
+        robot.stop_simulation()
+        exit(1)
 
     print("Exploration policy built")
     # #execute the exploration policy

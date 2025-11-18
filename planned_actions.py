@@ -5,7 +5,7 @@ from state.slot_config import GOAL_SLOTS,SHOP_SLOTS
 PLAN_1 = [
     #place column 2 in goal 2 with top grasp
     Action(action_type=ActionType.PICK, obj="/column2", grasp=GraspType.TOP_0),
-    Action(action_type=ActionType.PLACE, obj="/column2", target_slot='/goal_2',target_pos=GOAL_SLOTS['/goal_0'],grasp=GraspType.TOP_0),
+    Action(action_type=ActionType.PLACE, obj="/column2", target_slot='/goal_0',target_pos=GOAL_SLOTS['/goal_0'],grasp=GraspType.TOP_0),
     #place column 0 in goal 0 with right grasp
     Action(action_type=ActionType.PICK, obj="/column0", grasp=GraspType.RIGHT_0),
     Action(action_type=ActionType.PLACE, obj="/column0", target_slot='/goal_1',target_pos=GOAL_SLOTS['/goal_1'],grasp=GraspType.RIGHT_0),
@@ -31,6 +31,15 @@ PLAN_2 = [
     Action(action_type=ActionType.PICK, obj="/column1", grasp=GraspType.LEFT_0),
     Action(action_type=ActionType.PLACE, obj="/column1", target_slot='/goal_2',target_pos=GOAL_SLOTS['/goal_2'],grasp=GraspType.LEFT_0)
     ]
+PLAN_3=[
+#place column 2 in goal 2 with top grasp
+    Action(action_type=ActionType.PICK, obj="/column2", grasp=GraspType.TOP_0),
+    Action(action_type=ActionType.PLACE, obj="/column2", target_slot='/goal_1',target_pos=GOAL_SLOTS['/goal_1'],grasp=GraspType.TOP_0),
+    Action(action_type=ActionType.PICK, obj="/column0", grasp=GraspType.RIGHT_0),
+    Action(action_type=ActionType.PLACE, obj="/column0", target_slot='/goal_0',target_pos=GOAL_SLOTS['/goal_0'],grasp=GraspType.RIGHT_0),
+
+
+]
 
  #compile options
 option_names =[
