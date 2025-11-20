@@ -626,8 +626,10 @@ class RoboticsEnvironment():
         #reset the robot first before objects to avoid collisions
         # self.HomeArm(arm_config)
         #reset object poses
-        # object_handles = [self.sim.getObject(obj) for obj in objects]  
-        # reset_status =[self.sim.setObjectPose(handle,pose) for handle,pose in zip(object_handles,objectPoses)].
+        #randomize domain
+        # random.shuffle(objectPoses)
+        object_handles = [self.sim.getObject(obj) for obj in objects]  
+        reset_status =[self.sim.setObjectPose(handle,pose) for handle,pose in zip(object_handles,objectPoses)]
         self.gripper.openGripper()
         self.sim.wait(2.2)
         self.sim.step()
