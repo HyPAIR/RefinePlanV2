@@ -14,7 +14,7 @@ from robot.robot_interface import RoboticsEnvironment
 from state.scene_state import SceneState
 from rl.transition_logger import TransitionLogger
 from rl.reward_function import compute_reward
-from rl.action_space import ActionSet, GraspType
+from rl.action_space import ActionSet, GraspType,Action,ActionType
 from state.slot_config import GOAL_SLOTS, SHOP_SLOTS
 from robot.action_executor import ActionExecutor
 from refine_plan.models.state import State
@@ -167,13 +167,50 @@ def select_random_action(valid_actions,motion_params,picked_grasp=None):
         print("here")
         action.grasp = GraspType(selected_motion_param)
         return action ,picked_grasp
+def run_plan_manually(plan:list,executor:ActionExecutor,state:SceneState):
+ for action in []:
+        print(f"Executing planned action: {action}")
+        if state['gripper_status']['holding']==None and action.action_type.value =='place':
+            #picking something to place
+            tmp_pick = random.choice([PLAN_1[0],PLAN_1[2],PLAN_1[4]])
+            executor.execute(tmp_pick)
+            scene.update()
+            state =scene.get_state()
+        if state['gripper_status']['holding'] is not None and action.action_type.value =='pick':
+            #place it some where
+            tmp_place = random.choice([PLAN_1[1],PLAN_1[3],PLAN_1[5]])
+            executor.execute(tmp_place)
+            scene.update()
+            state =scene.get_state()
+        success,exec_time = executor.execute(action)
+        if not success:
+            print(f"Action failed ! time elapsed: {exec_time}")
+            if not robot.test_motion_planner():
+                print("Resetting scene because of OMPL failure")
+                robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
+                scene.update()
+                state = scene.get_state()
+                continue
+            #robot.leave_object(action=action)#this changes the state without an action: not good
+            #find where it was taken from
+            
+        #update the scene state
+        scene.update()
+        next_state = scene.get_state()
+        reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
+        done = scene.is_goal_achieved()
+        #log the transition
+        logger.log_transition(state,action,reward,next_state,done,exec_time)
+        #update state
+        state = next_state
 
 if __name__ == "__main__":
 
     #setup the initial state
     initial_locations =[[0.225003473985302, 0.8750057601488297, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
                         [0.6, 1.075, 0.6249999984821841, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
-                        [0.375003473985302, 0.7250057601488303, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column2
+                        # [0.375003473985302, 0.7250057601488303, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column2
+                        [0.425003473985302, 0.8000057601488304, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838]
                         ]
 
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
@@ -205,11 +242,11 @@ if __name__ == "__main__":
         "pick.column1": ["top_0","left_0","right_0","front_270"],
         "pick.column2": ["top_0","left_0","right_0","front_270"],
         "place.goal_0": ["top_0","left_0","right_0","front_270"],#right_0 is physically not possible for goal 0 ? it seems to work
-        "place.goal_1": ["top_0","right_0","front_270"],#left_0 is physically not possible for goal 1
+        "place.goal_1": ["top_0","left_0","right_0","front_270"],#left_0 is physically not possible for goal 1
         "place.goal_2": ["top_0","left_0","right_0","front_270"],
-        "place.region_0": ["right_0","top_0"],#top_0,front_270,left_0 are physically not possible for region 0
-        "place.region_1": ["left_0"],#top_0, right_0,front_270 are physically not possible for region 1
-        "place.region_2": ["top_0","right_0","front_270"],#left_0 is physically not possible for region 2
+        "place.region_0": ["top_0","left_0","right_0","front_270"],#top_0,front_270,left_0 are physically not possible for region 0
+        "place.region_1": ["top_0","left_0","right_0","front_270"],#top_0, right_0,front_270 are physically not possible for region 1
+        "place.region_2": ["top_0","left_0","right_0","front_270"],#left_0 is physically not possible for region 2
     }
     ###RANDOM ACTION SET FOR EXPLORATION ####
     action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=[],shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
@@ -275,46 +312,69 @@ if __name__ == "__main__":
         print("Skipping warmup runs and using existing data")
     
 
-    for action in []:
-        print(f"Executing planned action: {action}")
-        if state['gripper_status']['holding']==None and action.action_type.value =='place':
-            #picking something to place
-            tmp_pick = random.choice([PLAN_1[0],PLAN_1[2],PLAN_1[4]])
-            executor.execute(tmp_pick)
-            scene.update()
-            state =scene.get_state()
-        if state['gripper_status']['holding'] is not None and action.action_type.value =='pick':
-            #place it some where
-            tmp_place = random.choice([PLAN_1[1],PLAN_1[3],PLAN_1[5]])
-            executor.execute(tmp_place)
-            scene.update()
-            state =scene.get_state()
-        success,exec_time = executor.execute(action)
-        if not success:
-            print(f"Action failed ! time elapsed: {exec_time}")
-            if not robot.test_motion_planner():
-                print("Resetting scene because of OMPL failure")
-                robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
-                scene.update()
-                state = scene.get_state()
-                continue
-            #robot.leave_object(action=action)#this changes the state without an action: not good
-            #find where it was taken from
-            
-        #update the scene state
-        scene.update()
-        next_state = scene.get_state()
-        reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
-        done = scene.is_goal_achieved()
-        #log the transition
-        logger.log_transition(state,action,reward,next_state,done,exec_time)
-        #update state
-        state = next_state
+   
 
     
 
     try:
         policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
+        reset_limit = 50
+        step =0
+        while type(policy) == list:
+            for action in policy:
+                action = executor.policy_action_to_executor_action(action,state=state)
+                print(f"Executing planned action: {action}")
+                if state['gripper_status']['holding']==None and action.action_type.value =='place':
+                    #picking something to place
+                    tmp_pick = Action(
+                        action_type=ActionType.PICK,
+                        obj=random.choice(goal_objects),
+                        grasp=action.grasp
+                    )
+                    executor.execute(tmp_pick)
+                    scene.update()
+                    state =scene.get_state()
+                if state['gripper_status']['holding'] is not None and action.action_type.value =='pick':
+                    #place it some where
+                    target_slot =f'/{random.choice(goal_slots+shop_slots)}'
+                    tmp_place = Action(
+                        action_type=ActionType.PLACE,
+                        obj=action.obj,
+                        target_slot=target_slot,
+                        target_pos={**GOAL_SLOTS,**SHOP_SLOTS}[target_slot]
+                    )
+                    tmp_place.grasp = action.grasp
+                    executor.execute(tmp_place)
+                    scene.update()
+                    state =scene.get_state()
+                success,exec_time = executor.execute(action)
+                if not success:
+                    print(f"Action failed ! time elapsed: {exec_time}")
+                    if not robot.test_motion_planner():
+                        print("Resetting scene because of OMPL failure")
+                        robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
+                        scene.update()
+                        state = scene.get_state()
+                        continue
+                    #robot.leave_object(action=action)#this changes the state without an action: not good
+                    #find where it was taken from
+                    
+                #update the scene state
+                scene.update()
+                next_state = scene.get_state()
+                reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
+                done = scene.is_goal_achieved()
+                #log the transition
+                logger.log_transition(state,action,reward,next_state,done,exec_time)
+                #update state
+                state = next_state
+                step+=1
+                if step>= reset_limit:
+                    robot.leave_object(action=action)
+                    robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
+                    scene.update()
+                    state = scene.get_state()
+            policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
     except Exception as e:
         if e == AssertionError:
             print("Not enough data to build exploration policy")
@@ -324,45 +384,51 @@ if __name__ == "__main__":
         exit(1)
 
     print("Exploration policy built")
-    #execute the exploration policy
-    step =0
-    episode_length =50
-    #get the initial state
-    scene.update()
-    state = scene.get_state()
-    while step<=episode_length:
-        print(f"Step {step}")
-        policy_state = state_to_policy_state(state)
-        action = policy.get_action(state=policy_state,time=step)
-        print(f'policy value {policy.get_value(policy_state,time=step)}')
-        action = executor.policy_action_to_executor_action(action,state)
-        print(f"Action: {action}")
-        if action is None:
-            print("No action found, stopping")
-            robot.leave_object(action=action)
-            robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
-        success,exec_time = executor.execute(action)
-        print(f'Action duration: {exec_time}')
-        if not success:
-            print(f"Action failed, stopping. Time elapsed: {exec_time}")
-            if not robot.test_motion_planner():
-                print("Resetting scene because of OMPL failure")
+    for episode in range(20):
+        print('Resetting the scene for new episode')
+        robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
+        #execute the exploration policy
+        step =0
+        episode_length =20
+        #get the initial state
+        scene.update()
+        state = scene.get_state()
+        while step<=episode_length:
+            print(f"Step {step}")
+            policy_state = state_to_policy_state(state)
+            action = policy.get_action(state=policy_state,time=step)
+            print(f'policy value {policy.get_value(policy_state,time=step)}')
+            action = executor.policy_action_to_executor_action(action,state)
+            print(f"Action: {action}")
+            if action is None:
+                print("No action found, stopping")
                 robot.leave_object(action=action)
                 robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
-                scene.update()
-                state = scene.get_state()
-                continue
+            success,exec_time = executor.execute(action)
+            print(f'Action duration: {exec_time}')
 
-        #update the scene state
-        scene.update()
-        next_state = scene.get_state()
-        reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
-        done = scene.is_goal_achieved()
-        #log the transition
-        logger.log_transition(state,action,reward,next_state,done,exec_time)
-        state = next_state
-        step+=1
+            #update the scene state
+            scene.update()
+            next_state = scene.get_state()
+            reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
+            done = scene.is_goal_achieved()
+            #log the transition
+            logger.log_transition(state,action,reward,next_state,done,exec_time)
+            state = next_state
+            step+=1
+            if not success:
+                print(f"Action failed, stopping. Time elapsed: {exec_time}")
+                if not robot.test_motion_planner():
+                    print("Resetting scene because of OMPL failure")
+                    robot.leave_object(action=action)
+                    robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
+                    scene.update()
+                    state = scene.get_state()
+            
+        print(f"Episode {episode} ended")
+        print("Revising policy")
+        policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
     print("Exploration finished")
     robot.stop_simulation()
 
-   
+    

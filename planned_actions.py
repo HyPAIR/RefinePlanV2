@@ -41,6 +41,14 @@ PLAN_3=[
 
 ]
 
+PICKS=[
+    Action(action_type=ActionType.PICK,obj="/column0"),
+    Action(action_type=ActionType.PICK,obj="/column1"),
+    Action(action_type=ActionType.PICK,obj="/column2")
+]
+PLACES=[
+    Action(action_type=ActionType.PLACE)
+]
  #compile options
 option_names =[
     "pick_/column0",

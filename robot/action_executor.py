@@ -98,8 +98,8 @@ class ActionExecutor:
         else:
             executor_action = Action(
                 action_type= ActionType.PLACE,
-                obj=state['holding'],
-                target_slot=policy_action_target,
+                obj=state['gripper_status']['holding'],
+                target_slot=f'/{policy_action_target}',
                 target_pos=ALL_SLOTS['/'+policy_action_target],
                 grasp=GraspType(policy_action_grasp)
             )

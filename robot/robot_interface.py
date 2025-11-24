@@ -612,7 +612,7 @@ class RoboticsEnvironment():
         return goal_status
     #State functions
 
-    def reset_scene(self,objects,objectPoses,arm_config,domain_randomization=True):
+    def reset_scene(self,objects,objectPoses,arm_config,domain_randomization=False):
         '''
         Reset the scene to starting state
 
@@ -623,7 +623,9 @@ class RoboticsEnvironment():
         self.sim.startSimulation()
         self.sim.setStepping(True)
         reset_status = True
-        #self.sim.getSimulationState() != self.sim.simulation_stopped
+        if self.sim.getSimulationState() == self.sim.simulation_stopped:
+            self.sim.startSimulation()
+            self.sim.setStepping(True)
         #reset the robot first before objects to avoid collisions
         # self.HomeArm(arm_config)
         #reset object poses
@@ -856,7 +858,7 @@ def main():
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='right_0')
     # env.pick(obj_name='/column2',grasp_value='right_0')
     # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
-    env.pick(obj_name='/column2',grasp_value='right_0')
+    env.pick(obj_name='/column2',grasp_value='front_270')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
     # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='left_0')
