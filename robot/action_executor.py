@@ -1,7 +1,10 @@
 from rl.action_space import ActionType, Action,GraspType
 from robot.robot_interface import RoboticsEnvironment
+from state.slot_config import GOAL_SLOTS,SHOP_SLOTS
 import time
 import numpy as np
+
+ALL_SLOTS={**GOAL_SLOTS,**SHOP_SLOTS}
 class ActionExecutor:
     def __init__(self,robot_interface:RoboticsEnvironment):
         self.robot = robot_interface
@@ -77,3 +80,27 @@ class ActionExecutor:
             )
         else:
             raise ValueError(f"Unknown option name: {option_name}")
+    
+    def policy_action_to_executor_action(self,policy_action:str,state)->Action:
+        """
+        Convert a policy action to an executor action. This is a placeholder for any necessary conversion.
+        In this case, we assume they are the same.
+        """
+        policy_action_type,policy_action_target,policy_action_grasp = policy_action.split('.')
+        if policy_action_type =='pick':
+            executor_action = Action(
+                action_type= ActionType.PICK,
+                obj='/'+policy_action_target,
+                target_slot=None,
+                target_pos=None,
+                grasp=GraspType(policy_action_grasp)
+            )
+        else:
+            executor_action = Action(
+                action_type= ActionType.PLACE,
+                obj=state['holding'],
+                target_slot=policy_action_target,
+                target_pos=ALL_SLOTS['/'+policy_action_target],
+                grasp=GraspType(policy_action_grasp)
+            )
+        return executor_action

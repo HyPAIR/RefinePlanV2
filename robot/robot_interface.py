@@ -310,7 +310,7 @@ class RoboticsEnvironment():
         Repeatedly queries selectOneValidConfig until a reachable config is found.
         """
         configs = self.findConfigs(pickPose)
-        duration = 0.0
+        duration = 0.001
         if not configs:
             print('[ERROR] No IK configurations found for desired pick pose.')
             return 0,duration
@@ -377,8 +377,9 @@ class RoboticsEnvironment():
         pose = self.sim.multiplyPoses(pose, approachIKTr)
         #gripper normally open
         gripper = self.gripper
-        # gripper.openGripper()
-        # self.sim.wait(2.2)
+        #TODO: comment this if the open again is not being selected
+        gripper.openGripper()
+        self.sim.wait(2.2)
         #disable gripper collision for approach
         self.enableGripperCollision(False)
         self.moveToPose(pose)
@@ -439,7 +440,7 @@ class RoboticsEnvironment():
         """
         Action to place objects. Uses selectOneValidConfig repeatedly until a reachable config is found.
         """
-        duration = 0.0
+        duration = 0.001
         #disable gripper collision for place
         self.enableGripperCollision(False)
         configs = self.findConfigs(placePose)
@@ -611,7 +612,7 @@ class RoboticsEnvironment():
         return goal_status
     #State functions
 
-    def reset_scene(self,objects,objectPoses,arm_config):
+    def reset_scene(self,objects,objectPoses,arm_config,domain_randomization=True):
         '''
         Reset the scene to starting state
 
@@ -627,7 +628,8 @@ class RoboticsEnvironment():
         # self.HomeArm(arm_config)
         #reset object poses
         #randomize domain
-        # random.shuffle(objectPoses)
+        if domain_randomization:
+            random.shuffle(objectPoses) #For domain randomization
         object_handles = [self.sim.getObject(obj) for obj in objects]  
         reset_status =[self.sim.setObjectPose(handle,pose) for handle,pose in zip(object_handles,objectPoses)]
         self.gripper.openGripper()
@@ -854,10 +856,10 @@ def main():
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='right_0')
     # env.pick(obj_name='/column2',grasp_value='right_0')
     # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
-    env.pick(obj_name='/column1',grasp_value='left_0')
+    env.pick(obj_name='/column2',grasp_value='right_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
-    env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='left_0')
+    # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='left_0')
     env.stop_simulation()
     
 
