@@ -28,6 +28,8 @@ shop_slots =["/region_0","/region_1","/region_2"]
 goal_slots=["/goal_0","/goal_1","/goal_2"]
 goal_objects = goal_objects 
 objects_formatted =[obj.replace('/','') for obj in goal_objects] #Boolean conversion issue
+EPISODE_LENGTH =20
+
 
 def _get_enabled_cond(sf_list, option):
     """Get the enabled condition for an option.
@@ -68,9 +70,9 @@ def state_to_policy_state(state):
     #define state as a state object
     object_sfs_dict = {sf:"unknown" for sf in object_sfs}
     for obj,slot in state["object_slots"].items():
-        sf = next((s for s in object_sfs if s.get_name() == obj),None)
+        sf = next((s for s in object_sfs if s.get_name() == obj.replace('/','')),None)
         if sf:
-            object_sfs_dict[sf]=slot
+            object_sfs_dict[sf]=slot.replace('/','')
     state_dict = {**object_sfs_dict }    
     policy_state = State(state_dict)
     return policy_state
@@ -133,7 +135,7 @@ def build_exploration_policy(initial_state,option_names,motion_params,connection
         sf_list=sf_list,
         option_names=option_names_formatted,
         ensemble_size=4,
-        horizon=100,
+        horizon=EPISODE_LENGTH,
         enabled_conds=enabled_conds,
         initial_state=initial_state,
         use_storm=False,
@@ -315,7 +317,7 @@ if __name__ == "__main__":
    
 
     
-
+    
     try:
         policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
         reset_limit = 50
@@ -336,7 +338,7 @@ if __name__ == "__main__":
                     state =scene.get_state()
                 if state['gripper_status']['holding'] is not None and action.action_type.value =='pick':
                     #place it some where
-                    target_slot =f'/{random.choice(goal_slots+shop_slots)}'
+                    target_slot =f'{random.choice(goal_slots+shop_slots)}'
                     tmp_place = Action(
                         action_type=ActionType.PLACE,
                         obj=action.obj,
@@ -352,7 +354,7 @@ if __name__ == "__main__":
                     print(f"Action failed ! time elapsed: {exec_time}")
                     if not robot.test_motion_planner():
                         print("Resetting scene because of OMPL failure")
-                        robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
+                        robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
                         scene.update()
                         state = scene.get_state()
                         continue
@@ -379,7 +381,7 @@ if __name__ == "__main__":
         if e == AssertionError:
             print("Not enough data to build exploration policy")
         else:
-            print(f"[ERROR] Failed to build exploration policy due to")
+            print(f"[ERROR] Failed to build exploration policy due to {e}")
         robot.stop_simulation()
         exit(1)
 
@@ -389,7 +391,7 @@ if __name__ == "__main__":
         robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
         #execute the exploration policy
         step =0
-        episode_length =20
+        episode_length =EPISODE_LENGTH
         #get the initial state
         scene.update()
         state = scene.get_state()
@@ -398,6 +400,11 @@ if __name__ == "__main__":
             policy_state = state_to_policy_state(state)
             action = policy.get_action(state=policy_state,time=step)
             print(f'policy value {policy.get_value(policy_state,time=step)}')
+            if policy.get_value(policy_state,time=step)==None:
+                print("No more valid actions in policy")
+                break
+            print(policy_state)
+            print(action)
             action = executor.policy_action_to_executor_action(action,state)
             print(f"Action: {action}")
             if action is None:
@@ -424,6 +431,7 @@ if __name__ == "__main__":
                     robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
                     scene.update()
                     state = scene.get_state()
+                    break
             
         print(f"Episode {episode} ended")
         print("Revising policy")
