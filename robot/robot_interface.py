@@ -716,6 +716,7 @@ class RoboticsEnvironment():
         objHandle = self.sim.getObject(obj_name)
         direction_str, _ = grasp_value.split("_")
         objPose = self.sim.getObjectPose(objHandle)  # [x, y, z, qx, qy, qz, qw]
+        objPose = objPose[:3]+[0,0,0,1]
         #if object is objstacle 0, use the dummy handle for top grasping
         if obj_name == '/obs0' :#and direction_str == 'top':
             pickDummy = self.sim.getObject('/obs0_dummy')
@@ -859,10 +860,11 @@ def main():
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='right_0')
     # env.pick(obj_name='/column2',grasp_value='right_0')
     # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
-    env.pick(obj_name='/column1',grasp_value='left_0')
+    env.pick(obj_name='/column2',grasp_value='top_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
-    env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='top_0')
+    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='left_0')
+    env.pick(obj_name='/column2',grasp_value='top_0')
     env.stop_simulation()
     
 
