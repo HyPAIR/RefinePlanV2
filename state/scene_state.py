@@ -1,4 +1,4 @@
-
+import copy
 class SceneState:
     def __init__(self,env):
         self.env = env #coppeliasim interface
@@ -6,6 +6,7 @@ class SceneState:
         #objectnames from coppeliasim
         self.goal_objects =['/column0','/column1','/column2']
         self.all_objects = self.goal_objects 
+        self.initial_object_poses = {obj:self.env.get_object_pose(obj) for obj in self.all_objects}
 
         #predefined region slots
         from state.slot_config import SHOP_SLOTS, GOAL_SLOTS
@@ -45,7 +46,9 @@ class SceneState:
             elif self._is_in_slot(pos,self.goal_slots):
                 self.object_status[obj] = "goal"
             else:
-                self.object_status[obj] ="unknown"
+                #we should not have terminal states, hence we keep the state and revert the object to prev state
+                # self.object_status[obj] ="unknown"
+                pass
     
     def _update_object_slots(self):
         """ Update which slot each object is in """
@@ -57,7 +60,9 @@ class SceneState:
             elif self._is_in_slot(pos,self.goal_slots):
                 self.object_slots[obj] = self._closest_slot(pos,self.goal_slots)
             else:
-                self.object_slots[obj] = "unknown"
+                self.object_slots[obj]="unknown"
+                #Assign it to the closes region to avoid terminal states
+                # self.object_slots[obj] = self._closest_slot(self.env.get_object_pose(obj),{**self.shop_slots,**self.goal_slots},0.1)
 
     def _update_goal_occupancy(self):
         """Track what object (if any) is currently occupying each goal slot"""

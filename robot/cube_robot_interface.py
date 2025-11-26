@@ -388,9 +388,7 @@ class RoboticsEnvironment():
         #close gripper
         target_obj = self.sim.getObject(obj_name)
         isGrasped =gripper.closeGripper(target_obj)
-        self.sim.wait(2.2)
-        # gripper.openGripper()
-        # self.sim.wait(0.00001)
+        self.sim.wait(2)
         #fail the operation if grasp failed
         if not isGrasped:
             print('[ERROR] Grasping failed, object not within gripper.')
@@ -400,9 +398,12 @@ class RoboticsEnvironment():
             return 0,duration
         # attach object to the collection tip to include it in further path planning calculations
         # parent to robottip
-        target_obj = self.sim.getObject(obj_name)
-        # self.sim.setBoolProperty(target_obj,'dynamic',False)
-        self.sim.setObjectParent(target_obj,self.robotTip,True)
+        if obj_name == '/obs0_dummy':
+            obstacle_parent = self.sim.getObject('/obs0')
+            self.sim.setObjectParent(obstacle_parent,self.robotTip,True)
+        else:
+            target_obj = self.sim.getObject(obj_name)
+            self.sim.setObjectParent(target_obj,self.robotTip,True)
         # Add to collection
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_single, target_obj,0)
 
@@ -420,9 +421,12 @@ class RoboticsEnvironment():
         print(f'Tip distance after pick: {tip_distance}')
         if tip_distance > tip_distance_threshold:
             print('[ERROR] Grasped object lost during pick action.')
-            #Unparent            
-            self.sim.setObjectParent(target_obj,-1,True)
-            # self.sim.setBoolProperty(target_obj,'dynamic',True)
+            #Unparent
+            if obj_name == '/obs0_dummy':
+                obstacle_parent = self.sim.getObject('/obs0')
+                self.sim.setObjectParent(obstacle_parent,-1,False)
+            else:
+                self.sim.setObjectParent(target_obj,-1,False)
             self.gripper.openGripper()
             self.sim.wait(2.2)
             self.enableGripperCollision(True)
@@ -503,14 +507,13 @@ class RoboticsEnvironment():
         self.moveToPose(pose)
 
         gripper.openGripper()
-        self.sim.wait(2.2)
+        self.sim.wait(2)
+        # Re-enable gripper collision
+        self.enableGripperCollision(True)
         # Remove object form the collision collection and parenting
         target_handle = self.sim.getObject(target_obj)
         #Unparent
-        self.sim.setObjectParent(target_handle,-1,True)
-        # self.sim.setBoolProperty(target_handle,'dynamic',True)
-        # Re-enable gripper collision
-        self.enableGripperCollision(True)
+        self.sim.setObjectParent(target_handle,-1,False)
         # self.sim.removeItemFromCollection(self.robotCollection,self.sim.handle_single,target_handle)
         self.resetCollection()
 
@@ -621,7 +624,6 @@ class RoboticsEnvironment():
         self.sim.setStepping(True)
         reset_status = True
         if self.sim.getSimulationState() == self.sim.simulation_stopped:
-            time.sleep(1)
             self.sim.startSimulation()
             self.sim.setStepping(True)
         #reset the robot first before objects to avoid collisions
@@ -726,13 +728,16 @@ class RoboticsEnvironment():
         R_final, objPose = self.rotate_for_grasp(grasp_value, objPose)
 
         # Offset the pick position slightly above the object for path planning
-        planned_path_offset = 0.060
+        if direction_str == "top":
+            planned_path_offset = 0.18
+        elif direction_str in ["left", "right","front","back"]:
+            planned_path_offset = 0.08
         #Calculating approach at a distance for path plan
         objPose[:3] = R_final.apply([0,0,planned_path_offset])+objPose[:3]
     
         # Define approach and withdraw transforms in gripper-local frame
         # Approach along global -Z axis (in gripper-local frame)
-        approachIKTr = [0, 0, -0.075, 0, 0, 0, 1]
+        approachIKTr = [0, 0, -0.1, 0, 0, 0, 1]
         # Withdraw along global +Z axis (in gripper-local frame)
         withdraw_vec_world = np.array([0, 0, 0.1])
         withdraw_vec_local = R_final.inv().apply(withdraw_vec_world)
@@ -751,6 +756,8 @@ class RoboticsEnvironment():
             approachIKTr=approachIKTr,
             withdrawIkTr=withdrawIkTr
         )
+        if obj_name == '/obs0_dummy':
+            obj_name = '/obs0'
         if outcome:
             self.grasped_object = obj_name
 
@@ -766,7 +773,7 @@ class RoboticsEnvironment():
         #define the final pose assuming correct orientation based on traget position
         target_pose = target_pos+[0,0,0,1]
         #add offset to set object above place position
-        target_pose[2]+=0.12
+        target_pose[2]+=0.36
        
         #to correct for the grip taken, rotate the target pose to gripper coordinates
         R_final,target_pose = self.rotate_for_grasp(grasp_value,target_pose)
@@ -774,7 +781,11 @@ class RoboticsEnvironment():
         
         # Approach along global -Z axis (in gripper-local frame)
         #top grasp has smaller approach distance
-        approach_vec_world=np.array([0,0,-0.075])
+        if direction_str == "top":
+            approach_vec_world=np.array([0,0,-0.12])
+        #others have larger approach distance
+        elif direction_str in ["left", "right","front","back"]:
+            approach_vec_world=np.array([0,0,-0.2])
         approach_vec_local = R_final.inv().apply(approach_vec_world)
         approachIkTr = [
             approach_vec_local[0],
@@ -813,8 +824,7 @@ class RoboticsEnvironment():
         if self.grasped_object is not None:
             target_obj = self.sim.getObject(self.grasped_object)
             #Unparent
-            self.sim.setObjectParent(target_obj,-1,True)
-            # self.sim.setBoolProperty(target_obj,'dynamic',True)
+            self.sim.setObjectParent(target_obj,-1,False)
         gripper.openGripper()
         self.sim.wait(2)
         # Re-enable gripper collision
@@ -825,26 +835,11 @@ class RoboticsEnvironment():
         return 1
 
 def main():
-    env = RoboticsEnvironment(port=23000)
+    env = RoboticsEnvironment(port=23001)
     env.connect()
     env.initialize_params()
-    # initConfig = env.getConfig()
     initConfig = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
-    #get a pick pose
-    # pickItem = env.sim.getObject('/pickPose')
-    # pickPose = env.sim.getObjectPose(pickItem)
-    # pickPose[2]+=0.1
-    #the appoach and withdrawal transforms have distance as pose transform
-    # print(f"pickPose {pickPose}")
-    # outcome_pick = env.ActionPick(pickPose,[ 0,0,-0.10, 0, 0, 0, 1],[0,0,0.10, 0, 0, 0, 1])
-    # placeTarget = env.sim.getObject('/placePose')
-    # placePose =env.sim.getObjectPose(placeTarget)
-    # placePose[0]+=0.6
-    # outcome_place = env.ActionPlace(placePose,[ -0.10,0,0, 0, 0, 0, 1])
-    #pick the item
-    # env.setConfig(initConfig)
-    # env.sim.step()
-    # q = input('Quit ?')
+
     env.setConfig(initConfig)
     env.sim.step()
     GOAL_SLOTS ={
@@ -852,17 +847,10 @@ def main():
     '/goal_1': [-0.275, 1.0250000000000006, 0.5],
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
-    #pick column 2 with top_0
-    # env.pick(obj_name='/obs2',grasp_value='top_0')
-    #pick column 1 with left_0
-    # env.pick(obj_name='/obs_cube',grasp_value='top_0')
-    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='right_0')
-    # env.pick(obj_name='/column2',grasp_value='right_0')
-    # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
-    env.pick(obj_name='/column1',grasp_value='left_0')
-    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
-    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
-    env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='top_0')
+    env.gripper.openGripper()
+    env.sim.wait(2.2)
+    env.pick(obj_name='/pickPose',grasp_value='top_0')
+
     env.stop_simulation()
     
 

@@ -8,7 +8,7 @@ import numpy as np
 
 class Robotiq85F():
 
-    __CLOSURE_DEFAULT = -0.1
+    __CLOSURE_DEFAULT = -0.019
     #contructor
     def __init__(self,API):
         
@@ -20,6 +20,7 @@ class Robotiq85F():
         #protected values
         self.closure = Robotiq85F.__CLOSURE_DEFAULT
         self.opening = 0
+        self.joint_max_force = 5000
 
         #check that all the handles have been retrieved correctly
         if self.robotiqParam1 == -1 :
@@ -87,8 +88,8 @@ class Robotiq85F():
         
         isClosed = False
 
-        self.API.sim.setJointMaxForce(self.robotiqParam1, 1000)  # Example value, adjust as needed
-        self.API.sim.setJointMaxForce(self.robotiqParam2, 1000)
+        self.API.sim.setJointMaxForce(self.robotiqParam1, self.joint_max_force)  # Example value, adjust as needed
+        self.API.sim.setJointMaxForce(self.robotiqParam2, self.joint_max_force)
         
     
         self.API.sim.setJointTargetPosition(self.robotiqParam1,self.closure)
@@ -148,8 +149,8 @@ class Robotiq85F():
 
     def openGripper(self):
 
-        self.API.sim.setJointMaxForce(self.robotiqParam1, 1000)  # Example value, adjust as needed
-        self.API.sim.setJointMaxForce(self.robotiqParam2, 1000)
+        self.API.sim.setJointMaxForce(self.robotiqParam1, self.joint_max_force)  # Example value, adjust as needed
+        self.API.sim.setJointMaxForce(self.robotiqParam2, self.joint_max_force)
         
         self.API.sim.setJointTargetPosition(self.robotiqParam1,self.opening)
         self.API.sim.setJointTargetPosition(self.robotiqParam2,self.opening)

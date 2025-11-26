@@ -19,7 +19,7 @@ class ActionExecutor:
 
     def _place(self, obj, pos,grasp):
         grasp_value = grasp.value if isinstance(grasp,GraspType) else "top_0"
-        print(f"[EXEC] Placing {obj} at {pos} with grasp {grasp_value}")
+        print(f"[EXEC] Placing at {pos} with grasp {grasp_value}")
         return self.robot.place(obj, pos,grasp_value)
     
     def execute(self,action:Action):
@@ -32,7 +32,7 @@ class ActionExecutor:
         elif action.action_type == ActionType.PLACE:
             if action.obj == None or action.target_pos is None:
                 print(f"[ERROR] PLACE action requires obj and target_pos to be specified.")
-                return 0, 0.0
+                return 0, 0.001
             success,duration = self._place(action.obj, action.target_pos,action.grasp)
         else:
             print(f"[WARN] Unknown action type: {action.action_type}")

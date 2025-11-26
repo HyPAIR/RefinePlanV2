@@ -21,7 +21,7 @@ from refine_plan.models.state import State
 import random
 import copy
 # Define constants
-collection_name ="manipulator-reduced-dataset-exploration"
+collection_name ="cubic-objects-manipulator-exploration"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
@@ -209,10 +209,10 @@ def run_plan_manually(plan:list,executor:ActionExecutor,state:SceneState):
 if __name__ == "__main__":
 
     #setup the initial state
-    initial_locations =[[0.225003473985302, 0.8750057601488297, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
-                        [0.6, 1.075, 0.6249999984821841, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
+    initial_locations =[[0.225003473985302, 0.8750057601488297, 0.54, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
+                        [0.6, 1.075, 0.54, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
                         # [0.375003473985302, 0.7250057601488303, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column2
-                        [0.425003473985302, 0.8000057601488304, 0.6249999972840121, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838]
+                        [0.425003473985302, 0.8000057601488304, 0.54, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838]
                         ]
 
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=collection_name)
 
     #Reset the simulation
-    robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
+    robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
 
     scene.update()
     state = scene.get_state()
@@ -328,17 +328,17 @@ if __name__ == "__main__":
                 print(f"Executing planned action: {action}")
                 if state['gripper_status']['holding']==None and action.action_type.value =='place':
                     #picking something to place
+                    print(f"Executing a temporary action instead {action}")
                     tmp_pick = Action(
                         action_type=ActionType.PICK,
                         obj=random.choice(goal_objects),
                         grasp=action.grasp
                     )
-                    executor.execute(tmp_pick)
-                    scene.update()
-                    state =scene.get_state()
-                if state['gripper_status']['holding'] is not None and action.action_type.value =='pick':
+                    success,exec_time =executor.execute(tmp_pick)
+                elif state['gripper_status']['holding'] != None and action.action_type.value =='pick':
                     #place it some where
                     target_slot =f'{random.choice(goal_slots+shop_slots)}'
+                    print(f'Executing a temporary place action in {target_slot} instead {action}')
                     tmp_place = Action(
                         action_type=ActionType.PLACE,
                         obj=action.obj,
@@ -346,10 +346,9 @@ if __name__ == "__main__":
                         target_pos={**GOAL_SLOTS,**SHOP_SLOTS}[target_slot]
                     )
                     tmp_place.grasp = action.grasp
-                    executor.execute(tmp_place)
-                    scene.update()
-                    state =scene.get_state()
-                success,exec_time = executor.execute(action)
+                    success,exec_time =executor.execute(tmp_place)
+                else:
+                    success,exec_time = executor.execute(action)
                 if not success:
                     print(f"Action failed ! time elapsed: {exec_time}")
                     if not robot.test_motion_planner():
@@ -428,7 +427,7 @@ if __name__ == "__main__":
                 if not robot.test_motion_planner():
                     print("Resetting scene because of OMPL failure")
                     robot.leave_object(action=action)
-                    robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
+                    robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
                     scene.update()
                     state = scene.get_state()
                     break
