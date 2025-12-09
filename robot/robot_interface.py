@@ -6,9 +6,9 @@ import numpy as np
 import copy
 from scipy.spatial.transform import Rotation as R
 try:
-    from robot.gripper import Robotiq85F
+    from robot.gripper import Robotiq85F,RG2
 except:
-    from gripper import Robotiq85F
+    from gripper import Robotiq85F,RG2
 
 class RoboticsEnvironment():
     def __init__(self,port = 23000):
@@ -41,7 +41,7 @@ class RoboticsEnvironment():
         '''
         Initialise robot parameters and solver configs
         '''
-        self.gripper = Robotiq85F(self)
+        self.gripper = RG2(self)#Robotiq85F(self)
         #start with gripper open
         self.gripper.openGripper()
         self.sim.wait(2.2)
@@ -59,9 +59,9 @@ class RoboticsEnvironment():
         #get base handle
         self.robotBase=self.sim.getObject('/UR10')
         #get robot left finger
-        self.robotLeftFinger = self.sim.getObject('/UR10/ROBOTIQ85/LfingerTipVisible')
+        self.robotLeftFinger = self.gripper.robotLeftFinger#self.sim.getObject('/UR10/ROBOTIQ85/LfingerTipVisible')
         #get robot right finger
-        self.robotRightFinger = self.sim.getObject('/UR10/ROBOTIQ85/RfingerTipVisible')
+        self.robotRightFinger = self.gripper.robotRightFinger#self.sim.getObject('/UR10/ROBOTIQ85/RfingerTipVisible')
         #create a robot collection
         self.robotCollection = self.sim.createCollection()
         self.sim.addItemToCollection(self.robotCollection,self.sim.handle_tree,self.robotBase,0)
@@ -225,7 +225,9 @@ class RoboticsEnvironment():
             self.joints,                   # joint handles
             self.robotBase,                # robot base handle
             self.robotTip,                 # robot tip handle
-            self.robotTarget               # robot target handle
+            self.robotTarget,              # robot target handle
+            # self.gripper                   # robot gripper
+            
         )
 
         #TODO: Convert Lua output to Python if something special is needed
@@ -363,7 +365,8 @@ class RoboticsEnvironment():
         if passiveVizShape:
             # optional: keep or remove; remove to avoid clutter
             try:
-                self.sim.removeObjects([passiveVizShape])
+                # self.sim.removeObjects([passiveVizShape])
+                pass
             except Exception:
                 pass
 
@@ -860,11 +863,11 @@ def main():
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='right_0')
     # env.pick(obj_name='/column2',grasp_value='right_0')
     # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
-    env.pick(obj_name='/column2',grasp_value='top_0')
+    env.pick(obj_name='/pickPose',grasp_value='left_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
-    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='left_0')
-    env.pick(obj_name='/column2',grasp_value='top_0')
+    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='left_0')
+    # env.pick(obj_name='/column2',grasp_value='top_0')
     env.stop_simulation()
     
 

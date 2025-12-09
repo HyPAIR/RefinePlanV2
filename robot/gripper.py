@@ -16,6 +16,8 @@ class Robotiq85F():
         #Position control part
         self.robotiqParam1 = self.API.sim.getObject("/UR10/ROBOTIQ85/active1")
         self.robotiqParam2 = self.API.sim.getObject("/UR10/ROBOTIQ85/active2")
+        self.robotLeftFinger = self.API.sim.getObject('/UR10/ROBOTIQ85/LfingerTipVisible')
+        self.robotRightFinger = self.API.sim.getObject('/UR10/ROBOTIQ85/RfingerTipVisible')
         #value of closure and openning of the gripper
         #protected values
         self.closure = Robotiq85F.__CLOSURE_DEFAULT
@@ -241,4 +243,28 @@ class Robotiq85F():
                
 
 
+class RG2():
+    """
+    Class to interface RG2 gripper
+    """
+    def __init__(self,env):
+        self.sim = env.sim
+        self.gripper = self.sim.getObject('/UR10/RG2')
+        self.velocity = 0.11
+        self.force =20
+        self.dat = {'velocity':self.velocity,'force':self.force}
+        self.robotLeftFinger = self.sim.getObject('/UR10/RG2/leftTouch')
+        self.robotRightFinger = self.sim.getObject('/UR10/RG2/rightTouch')
     
+    def setGripperData(self,open):
+        if not open:
+            self.dat['veocity'] = -self.dat['velocity']
+        self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable(self.dat))
+
+
+    def openGripper(self):
+        self.setGripperData(True)
+        return True
+    def closeGripper(self,objectHandle):
+        self.setGripperData(False)
+        return True
