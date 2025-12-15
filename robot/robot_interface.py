@@ -6,9 +6,9 @@ import numpy as np
 import copy
 from scipy.spatial.transform import Rotation as R
 try:
-    from robot.gripper import Robotiq85F,RG2
+    from robot.gripper import Robotiq85F,RG2,Robotiq85New
 except:
-    from gripper import Robotiq85F,RG2
+    from gripper import Robotiq85F,RG2,Robotiq85New
 
 class RoboticsEnvironment():
     def __init__(self,port = 23000):
@@ -41,7 +41,7 @@ class RoboticsEnvironment():
         '''
         Initialise robot parameters and solver configs
         '''
-        self.gripper = RG2(self)#Robotiq85F(self)
+        self.gripper =RG2(self)#Robotiq85F(self)#Robotiq85New(self)# 
         #start with gripper open
         self.gripper.openGripper()
         self.sim.wait(2.2)
@@ -70,16 +70,16 @@ class RoboticsEnvironment():
         self.pathPlanningAlgo = self.simOMPL.Algorithm.RRTConnect#PRM#RRTstar
 
         #create an object collection for collision checking
-        self.objectCollection = self.sim.createCollection()
         goal_objects = ["/column0","/column1","/column2"]
-        obstacle_objects=["/obs0","/obs1","/obs2"]
+        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/obs3","/table1","/assembly_table","/MPO_700"]#
         shop_slots =[f"/region_{i}" for i in range(9)]
         goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
         objects = goal_objects + obstacle_objects
         self.objects = objects
-        for obj in objects:
-            obj_handle = self.sim.getObject(obj)
-            self.sim.addItemToCollection(self.objectCollection,self.sim.handle_single,obj_handle,0)
+        # self.objectCollection = self.sim.createCollection()
+        # for obj in self.objects:
+        #     obj_handle = self.sim.getObject(obj)
+        #     self.sim.addItemToCollection(self.objectCollection,self.sim.handle_tree,obj_handle,0)
 
         #IK Motions
         self.ikMaxVel=[0.4,0.4,0.4,1.8]
@@ -94,6 +94,9 @@ class RoboticsEnvironment():
         self.fkMaxVel = [fkVel*math.pi/180]*6
         self.fkMaxAccel = [fkAccel*math.pi/180]*6
         self.fkMaxJerk =[fkJerk*math.pi/180]*6
+    
+
+
 
     def resetCollection(self):
         self.sim.destroyCollection(self.robotCollection)
@@ -102,12 +105,15 @@ class RoboticsEnvironment():
         self.robotCollection = robotCollection
 
     def enableGripperCollision(self,enable:bool):
-        if enable:
-            self.sim.setBoolProperty(self.robotLeftFinger,'collidable',True)
-            self.sim.setBoolProperty(self.robotRightFinger,'collidable',True)
+        if isinstance(self.gripper,RG2):
+            return
         else:
-            self.sim.setBoolProperty(self.robotLeftFinger,'collidable',False)
-            self.sim.setBoolProperty(self.robotRightFinger,'collidable',False)
+            if enable:
+                self.sim.setBoolProperty(self.robotLeftFinger,'collidable',True)
+                self.sim.setBoolProperty(self.robotRightFinger,'collidable',True)
+            else:
+                self.sim.setBoolProperty(self.robotLeftFinger,'collidable',False)
+                self.sim.setBoolProperty(self.robotRightFinger,'collidable',False)
     def getConfig(self):
         '''
         gets current robot configuration 
@@ -125,27 +131,7 @@ class RoboticsEnvironment():
         '''
         return self.sim.getObjectPose(self.robotTip)
     
-    # def collides(self,target_configs):
-    #     '''
-    #     checks if any configuration self collides
-    #     input: List of configurations
-    #     output:bool collision 
-    #     '''
-    #     retVal = False
-    #     bufferedConfig = self.getConfig()
-    #     for target in target_configs:
-    #         self.setConfig(target)
-    #         res = self.sim.checkCollision(self.robotCollection,self.sim.handle_all)[0]
-    #         if res >0:
-    #             retVal = True
-    #             break
-    #         else:
-    #             res= self.sim.checkCollision(self.robotCollection,self.robotCollection)[0]
-    #             if res >0:
-    #                 retVal = True
-    #                 break
-    #     self.setConfig(bufferedConfig)
-    #     return retVal
+
     def collides(self,target_configs):
         '''
         checks if any configuration self collides
@@ -235,17 +221,31 @@ class RoboticsEnvironment():
             return None, None, remaining_configs
         return list(retVal), passiveVizShape, remaining_configs
 
+
     def findPath(self,config):
         #set true for joints who's positions are to be used for default values
         useForProjection=[]
         for i in range(len(self.joints)):
-            useForProjection.append(i<3 and 1 or 0)       
+            useForProjection.append(i<3 and 1 or 0)  
+
+        self.objectCollection = self.sim.createCollection()
+        for obj in self.objects:
+            #ignore the object that is being picked or placed
+            if self.grasped_object and obj==self.grasped_object:
+                print(f'skipping grasped {self.grasped_object}')
+                continue
+            obj_handle = self.sim.getObject(obj)
+            self.sim.addItemToCollection(self.objectCollection,self.sim.handle_tree,obj_handle,0)     
 
         task = self.simOMPL.createTask('task')
         self.task = task
         self.simOMPL.setAlgorithm(task,self.pathPlanningAlgo)
+        self.simOMPL.setStateValidityCheckingResolution(task, 0.01)  
         self.simOMPL.setStateSpaceForJoints(task,self.joints,useForProjection)
-        self.simOMPL.setCollisionPairs(task,[self.robotCollection,self.sim.handle_all,self.robotCollection,self.robotCollection,self.objectCollection,self.objectCollection])
+        collision_pairs = [self.robotCollection,self.robotCollection,self.robotCollection,self.objectCollection]
+        if self.grasped_object:
+            collision_pairs+=[self.sim.getObject(self.grasped_object),self.objectCollection]
+        self.simOMPL.setCollisionPairs(task,collision_pairs)
         self.simOMPL.setStartState(task,self.getConfig())
         self.simOMPL.setGoalState(task,config)
         self.simOMPL.setup(task)
@@ -256,7 +256,27 @@ class RoboticsEnvironment():
         else:
             retVal = None
         self.simOMPL.destroyTask(task)
+        # if self.dryRunTrajectoryCollision(path=retVal,extra_interp=0):
+            # return None
+        self.sim.destroyCollection(self.objectCollection)
         return retVal
+
+    def dryRunTrajectoryCollision(self, path, extra_interp=10):
+        scriptHandle = self.sim.getScript(self.sim.scripttype_customization,'dryRun@Scene')
+        collision = self.sim.callScriptFunction(
+            'dryRunTrajectoryCollision',
+            scriptHandle,
+            self.robotCollection,
+            self.objectCollection,
+            self.joints,
+            path,
+            self.fkMaxVel,
+            self.fkMaxAccel,
+            extra_interp,
+        )
+        
+        return collision # True means collision-free
+
 
     def followPath(self, path):
         # Compute trajectory timing etc. (same as before)
@@ -335,6 +355,7 @@ class RoboticsEnvironment():
                 # found a reachable config -> proceed with pick
                 break
 
+
             # If path not found: discard this config and its viz, then retry
             print('[WARN] No path found to picked config, discarding and trying next valid config...')
             if passiveVizShape:
@@ -365,8 +386,8 @@ class RoboticsEnvironment():
         if passiveVizShape:
             # optional: keep or remove; remove to avoid clutter
             try:
-                # self.sim.removeObjects([passiveVizShape])
-                pass
+                self.sim.removeObjects([passiveVizShape])
+                
             except Exception:
                 pass
 
@@ -407,7 +428,7 @@ class RoboticsEnvironment():
         # self.sim.setBoolProperty(target_obj,'dynamic',False)
         self.sim.setObjectParent(target_obj,self.robotTip,True)
         # Add to collection
-        self.sim.addItemToCollection(self.robotCollection,self.sim.handle_single, target_obj,0)
+        self.sim.addItemToCollection(self.robotCollection,self.sim.handle_tree, target_obj,0)
 
         # Withdraw
         pose = self.sim.getObjectPose(self.robotTip)
@@ -514,7 +535,7 @@ class RoboticsEnvironment():
         # self.sim.setBoolProperty(target_handle,'dynamic',True)
         # Re-enable gripper collision
         self.enableGripperCollision(True)
-        # self.sim.removeItemFromCollection(self.robotCollection,self.sim.handle_single,target_handle)
+        # self.sim.removeItemFromCollection(self.robotCollection,self.sim.handle_tree,target_handle)
         self.resetCollection()
 
         # Withdraw from place
@@ -649,7 +670,7 @@ class RoboticsEnvironment():
         task = self.simOMPL.createTask('test_task')
         self.simOMPL.setAlgorithm(task,self.pathPlanningAlgo)
         self.simOMPL.setStateSpaceForJoints(task,self.joints,useForProjection)
-        self.simOMPL.setCollisionPairs(task,[self.robotCollection,self.sim.handle_all,self.robotCollection,self.robotCollection,self.objectCollection,self.objectCollection])
+        self.simOMPL.setCollisionPairs(task,[self.robotCollection,self.robotCollection])
         self.simOMPL.setStartState(task,self.getConfig())
         self.simOMPL.setGoalState(task,self.getConfig())
         self.simOMPL.setup(task)
@@ -719,7 +740,7 @@ class RoboticsEnvironment():
         objHandle = self.sim.getObject(obj_name)
         direction_str, _ = grasp_value.split("_")
         objPose = self.sim.getObjectPose(objHandle)  # [x, y, z, qx, qy, qz, qw]
-        objPose = objPose[:3]+[0,0,0,1]
+        # objPose = objPose[:3]+[0,0,0,1]
         #if object is objstacle 0, use the dummy handle for top grasping
         if obj_name == '/obs0' :#and direction_str == 'top':
             pickDummy = self.sim.getObject('/obs0_dummy')
@@ -733,10 +754,12 @@ class RoboticsEnvironment():
         planned_path_offset = 0.060
         #Calculating approach at a distance for path plan
         objPose[:3] = R_final.apply([0,0,planned_path_offset])+objPose[:3]
+        table_contact_tolerance =0.02
+        objPose[2]+=table_contact_tolerance
     
         # Define approach and withdraw transforms in gripper-local frame
         # Approach along global -Z axis (in gripper-local frame)
-        approachIKTr = [0, 0, -0.075, 0, 0, 0, 1]
+        approachIKTr = [0, 0, -0.050, 0, 0, 0, 1]
         # Withdraw along global +Z axis (in gripper-local frame)
         withdraw_vec_world = np.array([0, 0, 0.1])
         withdraw_vec_local = R_final.inv().apply(withdraw_vec_world)
@@ -778,7 +801,7 @@ class RoboticsEnvironment():
         
         # Approach along global -Z axis (in gripper-local frame)
         #top grasp has smaller approach distance
-        approach_vec_world=np.array([0,0,-0.075])
+        approach_vec_world=np.array([0,0,-0.05])
         approach_vec_local = R_final.inv().apply(approach_vec_world)
         approachIkTr = [
             approach_vec_local[0],
@@ -861,11 +884,11 @@ def main():
     #pick column 1 with left_0
     # env.pick(obj_name='/obs_cube',grasp_value='top_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='right_0')
-    # env.pick(obj_name='/column2',grasp_value='right_0')
-    # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
-    env.pick(obj_name='/pickPose',grasp_value='left_0')
+    env.pick(obj_name='/column1',grasp_value='left_0')
+    env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='top_0')
+    # env.pick(obj_name='/column1',grasp_value='top_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
-    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
+    # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='left_0')
     # env.pick(obj_name='/column2',grasp_value='top_0')
     env.stop_simulation()

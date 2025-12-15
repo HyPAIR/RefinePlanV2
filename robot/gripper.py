@@ -252,19 +252,61 @@ class RG2():
         self.gripper = self.sim.getObject('/UR10/RG2')
         self.velocity = 0.11
         self.force =20
-        self.dat = {'velocity':self.velocity,'force':self.force}
-        self.robotLeftFinger = self.sim.getObject('/UR10/RG2/leftTouch')
-        self.robotRightFinger = self.sim.getObject('/UR10/RG2/rightTouch')
-    
-    def setGripperData(self,open):
-        if not open:
-            self.dat['veocity'] = -self.dat['velocity']
-        self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable(self.dat))
-
-
+        
+        self.robotLeftFinger = self.sim.getObject('/UR10/RG2/leftLink0_visible')
+        self.robotRightFinger = self.sim.getObject('/UR10/RG2/rightLink0_visible')
     def openGripper(self):
-        self.setGripperData(True)
+        self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable({'velocity':self.velocity,'force':self.force}))
         return True
     def closeGripper(self,objectHandle):
-        self.setGripperData(False)
+        self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable({'velocity':-self.velocity,'force':self.force}))
+        return True
+    
+class Robotiq85New:
+    """
+    Class to interface ROBOTIQ-85 gripper via signal-based command
+    with optional fake grasping support.
+    """
+    def __init__(self, env):
+        self.sim = env.sim
+        self.gripper = self.sim.getObject('/UR10/ROBOTIQ85')   # adjust path
+        self.cmd_signal = 'robotiq85_cmd'
+        self.robotLeftFinger = self.sim.getObject('/UR10/ROBOTIQ85/LfingerTipVisible')
+        self.robotRightFinger = self.sim.getObject('/UR10/ROBOTIQ85/RfingerTipVisible')
+
+    # -------------------------------
+    # LOW-LEVEL SETTERS
+    # -------------------------------
+    def _send_cmd(self, close: bool):
+        """
+        Send 1=close, 0=open to CoppeliaSim.
+        """
+        self.sim.setInt32Signal(self.cmd_signal, 1 if close else 0)
+
+    # -------------------------------
+    # PUBLIC API
+    # -------------------------------
+    def openGripper(self):
+        """
+        Opens the gripper and automatically DETACHES any object.
+        Lua script handles the detach.
+        """
+        self._send_cmd(False)
+        return True
+
+    def closeGripper(self, objectHandle=None):
+        """
+        Closes gripper. Fake grasp handled in Lua.
+        objectHandle ignored unless you want an explicit attach.
+        """
+        self._send_cmd(True)
+
+        # OPTIONAL: explicit attach (if you want deterministic behavior)
+        if objectHandle is not None:
+            try:
+                connector = self.sim.getObject('/UR10/ROBOTIQ85/attachPoint')
+                self.sim.setObjectParent(objectHandle, connector, True)
+            except:
+                pass   # silently ignore if not needed
+
         return True

@@ -21,7 +21,7 @@ from refine_plan.models.state import State
 import random
 import copy
 # Define constants
-collection_name ="cubic-objects-manipulator-exploration"
+collection_name ="manipulator-rg2-exploration"#"cubic-objects-manipulator-exploration"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
