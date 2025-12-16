@@ -82,22 +82,43 @@ class RoboticsEnvironment():
         #     self.sim.addItemToCollection(self.objectCollection,self.sim.handle_tree,obj_handle,0)
 
         #IK Motions
-        self.ikMaxVel=[0.4,0.4,0.4,1.8]
-        self.ikMaxAccel=[0.8,0.8,0.8,0.9]
+        self.ikMaxVel=[0.4,0.4,0.4,1.8] 
+        self.ikMaxAccel=[0.8,0.8,0.8,0.9] 
         self.ikMaxJerk=[0.6,0.6,0.6,0.8]
 
         #FK Motions
-        fkVel=180
-        fkAccel=40
+        fkVel=80
+        fkAccel=80
         fkJerk=80
         
         self.fkMaxVel = [fkVel*math.pi/180]*6
         self.fkMaxAccel = [fkAccel*math.pi/180]*6
         self.fkMaxJerk =[fkJerk*math.pi/180]*6
+        # UR10e factory joint speed limits (deg/s)
+        # fkVelDeg = [120, 120, 180, 180, 180, 180]
+
+        # # Conservative accelerations for good tracking (deg/s^2)
+        # fkAccelDeg = [200, 200, 300, 300, 300, 300]
+
+        # self.fkMaxVel = [
+        #     fkVelDeg[0] * math.pi / 180,
+        #     fkVelDeg[1] * math.pi / 180,
+        #     fkVelDeg[2] * math.pi / 180,
+        #     fkVelDeg[3] * math.pi / 180,
+        #     fkVelDeg[4] * math.pi / 180,
+        #     fkVelDeg[5] * math.pi / 180
+        # ]
+
+        # self.fkMaxAccel = [
+        #     fkAccelDeg[0] * math.pi / 180,
+        #     fkAccelDeg[1] * math.pi / 180,
+        #     fkAccelDeg[2] * math.pi / 180,
+        #     fkAccelDeg[3] * math.pi / 180,
+        #     fkAccelDeg[4] * math.pi / 180,
+        #     fkAccelDeg[5] * math.pi / 180
+        # ]
+
     
-
-
-
     def resetCollection(self):
         self.sim.destroyCollection(self.robotCollection)
         robotCollection = self.sim.createCollection()
@@ -516,7 +537,11 @@ class RoboticsEnvironment():
             return 0,duration
         print(f'[INFO] Selected reachable configuration: {placeConfig}')
         print('[INFO] Executing path to place position...')
+        #get the target handle
+        target_handle = self.sim.getObject(target_obj)
         self.sim.wait(1)
+        #turn of object physics
+        self.sim.setBoolProperty(target_handle,'dynamic',False)
         duration =self.followPath(path)
         self.sim.wait(1)
 
@@ -525,14 +550,13 @@ class RoboticsEnvironment():
         pose = self.sim.multiplyPoses(pose, approachIkTr)
         gripper = self.gripper
         self.moveToPose(pose)
-
+        #re enable object physics
+        self.sim.setBoolProperty(target_handle,'dynamic',True)
         gripper.openGripper()
         self.sim.wait(2.2)
         # Remove object form the collision collection and parenting
-        target_handle = self.sim.getObject(target_obj)
         #Unparent
         self.sim.setObjectParent(target_handle,-1,True)
-        # self.sim.setBoolProperty(target_handle,'dynamic',True)
         # Re-enable gripper collision
         self.enableGripperCollision(True)
         # self.sim.removeItemFromCollection(self.robotCollection,self.sim.handle_tree,target_handle)
