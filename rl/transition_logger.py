@@ -93,14 +93,17 @@ class TransitionLogger:
             "unique_id": self.unique_id,
             "duration": execution_time,
             **state_0,
-            "option": action.action_type.value+action.obj.replace('/','.') if action.action_type.value=="pick" else action.action_type.value+action.target_slot.replace('/','.'),
+            "option": action.action_type.value+action.obj.replace('/','_') if action.action_type.value=="pick" else action.action_type.value+action.target_slot.replace('/','_'),
             "motion":action.grasp.value if action.grasp else "none",
             "reward": reward,
             **state_t,
             "done": done,
             "timestamp": datetime.now().isoformat(),
         }
-     
+        #if any of the state_0 or state_t values are "unknown", dont insert to collection and return
+        if "unknown" in state_0.values() or "unknown" in state_t.values():
+            print(f"[LOG] Transition contains 'unknown' state, not logging to MongoDB.")
+            return
         self.collection.insert_one(transition)
         print(f"[LOG] Transition logged to MongoDB: {self.unique_id} - Episode {self.episode_count}")
 

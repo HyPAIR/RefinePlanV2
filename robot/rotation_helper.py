@@ -32,7 +32,7 @@ def rotation_from_a_to_b(a, b):
 def rename_frame_top_is_world_up(qx, qy, qz, qw):
     """
     Returns:
-      - q_world_cprime: quaternion of the renamed frame C' in world (no yaw fixing)
+      - q_world_cprime: quaternion of the renamed frame C' in world
       - R_c_to_cprime: rotation mapping vectors in old cube frame -> renamed cube frame
       - up_face: which original face is now 'top'
     """

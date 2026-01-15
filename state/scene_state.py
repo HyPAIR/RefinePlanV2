@@ -90,7 +90,6 @@ class SceneState:
         return None
     
     def _dist(self,p1,p2):
-        #ignore z for now
         position1 = p1[:2]
         position2 = p2[:2]
         return sum((a-b)**2 for a,b in zip(position1,position2))**0.5

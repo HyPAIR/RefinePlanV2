@@ -255,12 +255,15 @@ class RG2():
         
         self.robotLeftFinger = self.sim.getObject('/UR10/RG2/leftLink0_visible')
         self.robotRightFinger = self.sim.getObject('/UR10/RG2/rightLink0_visible')
+        self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable({'velocity':self.velocity,'force':self.force}))
+        self.sim.wait(4.0)
     def openGripper(self):
         self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable({'velocity':self.velocity,'force':self.force}))
         return True
     def closeGripper(self,objectHandle):
-        self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable({'velocity':-self.velocity,'force':self.force}))
+        # self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable({'velocity':-self.velocity,'force':self.force,'targetHandle':objectHandle}))
         return True
+ 
     
 class Robotiq85New:
     """

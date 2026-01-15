@@ -86,7 +86,14 @@ class ActionExecutor:
         Convert a policy action to an executor action. This is a placeholder for any necessary conversion.
         In this case, we assume they are the same.
         """
-        policy_action_type,policy_action_target,policy_action_grasp = policy_action.split('.')
+        parts = policy_action.split('_')
+        policy_action_type = parts[0]
+        if policy_action_type == 'pick':
+            policy_action_target=parts[1]
+            policy_action_grasp = f'{parts[2]}_{parts[3]}'
+        else:
+            policy_action_target=parts[1]+'_'+parts[2]
+            policy_action_grasp = f'{parts[3]}_{parts[4]}'
         if policy_action_type =='pick':
             executor_action = Action(
                 action_type= ActionType.PICK,
