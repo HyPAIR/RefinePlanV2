@@ -263,7 +263,20 @@ class RG2():
     def closeGripper(self,objectHandle):
         # self.sim.setBufferProperty(self.gripper,'customData.activity',self.sim.packTable({'velocity':-self.velocity,'force':self.force,'targetHandle':objectHandle}))
         return True
- 
+
+class PandaGripper():
+    def __init__(self,env):
+        self.sim = env.sim
+        self.gripper = self.sim.getObject('/Panda/Panda_gripper')
+
+        self.robotLeftFinger = self.sim.getObject('/Panda/Panda_leftfinger_respondable')
+        self.robotRightFinger = self.sim.getObject('/Panda/Panda_rightfinger_respondable')
+    def openGripper(self):
+        self.sim.setInt32Signal( "Panda_gripper", 0)
+        return True
+    def closeGripper(self,objectHandle=None):
+        self.sim.setInt32Signal( "Panda_gripper", 1)
+        return True
     
 class Robotiq85New:
     """
