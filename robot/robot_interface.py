@@ -86,7 +86,7 @@ class RoboticsEnvironment():
 
         #create an object collection for collision checking
         goal_objects = ["/column0","/column1","/column2"]
-        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/obs3","/table1","/assembly_table","/MPO_700"]#
+        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/assembly_table","/MPO_700"]#
         shop_slots =[f"/region_{i}" for i in range(9)]
         goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
         objects = goal_objects + obstacle_objects
@@ -316,6 +316,7 @@ class RoboticsEnvironment():
 
     def followPath(self, path):
         # Compute trajectory timing etc. (same as before)
+        startTime =time.time()
         minMaxVel = []
         for vel in self.fkMaxVel:
             minMaxVel += [-vel, vel]
@@ -335,6 +336,9 @@ class RoboticsEnvironment():
         # Wait for Lua to finish execution
         while not self.sim.getStringSignal('FollowPathDone'):
             self.sim.step()  # advance simulation manually if stepping
+            if time.time() - startTime > 100:
+                print('[ERROR] Timeout while waiting for FollowPath to complete.')
+                break
         self.sim.clearStringSignal('FollowPathDone')
 
         # Return total trajectory duration
@@ -682,7 +686,15 @@ class RoboticsEnvironment():
         '''
         reset_status = False
         self.sim.stopSimulation()
-        time.sleep(1)
+        time.sleep(5)
+        # self.sim.closeScene()
+        # time.sleep(1)
+        # import os
+        # cwd = os.getcwd()
+        # print(f'Current working directory: {cwd}')
+        # self.sim.loadScene(f'{cwd}/scenes/cubic_objects_scene_new_problem.ttt')
+        for joint,position in zip(self.joints,arm_config):
+            self.sim.setJointTargetPosition(joint,position)
         self.sim.startSimulation()
         self.sim.setStepping(True)
         reset_status = True
@@ -925,11 +937,15 @@ def main():
     '/goal_1': [-0.275, 1.0250000000000006, 0.5],
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
-    
-    env.pick(obj_name='/column0',grasp_value='left_0')
-    env.place(obj_name='/column0',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
-    env.pick(obj_name='/column0',grasp_value='right_0')
-    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='left_0')
+    env.pick('/column0','top_0')
+    env.place('/column0',GOAL_SLOTS['/goal_0'],'right_0')
+    env.pick('/column0','front_270')
+    # env.pick(obj_name='/column2',grasp_value='top_0')
+    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
+    # env.pick(obj_name='/column0',grasp_value='left_0')
+    # env.place(obj_name='/column0',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
+    # env.pick(obj_name='/column1',grasp_value='front_270')
+    # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
     env.stop_simulation()
     
 

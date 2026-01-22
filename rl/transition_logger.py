@@ -79,12 +79,20 @@ class TransitionLogger:
             #object SFs
             **state['object_slots'],
             }
+        #if the same value exists more than once in state_0, don't log the transition and return
+        if len(state_0.values()) != len(set(state_0.values())):
+            print(f"[LOG] Transition has duplicate state values, not logging to MongoDB.")
+            return
         state_t = {
 
             #object SFs
             **next_state['object_slots'],
 
             }
+        #if the same value exists more than once in state_t, don't log the transition and return
+        if len(state_t.values()) != len(set(state_t.values())):
+            print(f"[LOG] Transition has duplicate next state values, not logging to MongoDB.")
+            return
         #suffix state_0 keys with _0 and state_t keys with _t to differentiate
         state_0 = {f"{k.replace('/','')}0": v.replace('/','') for k, v in state_0.items()}
         state_t = {f"{k.replace('/','')}t": v.replace('/','') for k, v in state_t.items()}

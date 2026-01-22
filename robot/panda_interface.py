@@ -86,7 +86,7 @@ class RoboticsEnvironment():
 
         #create an object collection for collision checking
         goal_objects = ["/column0","/column1","/column2"]
-        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/obs3","/ShopTable","/AssemblyTable","/RobotBase"]#
+        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/obs3","/AssemblyTable"]
         shop_slots =[f"/region_{i}" for i in range(9)]
         goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
         objects = goal_objects + obstacle_objects
@@ -102,8 +102,8 @@ class RoboticsEnvironment():
         self.ikMaxJerk=[0.6,0.6,0.6,0.8]
 
         #FK Motions
-        fkVel=80
-        fkAccel=80
+        fkVel=90
+        fkAccel=40
         fkJerk=80
         
         self.fkMaxVel = [fkVel*math.pi/180]*7
@@ -334,7 +334,8 @@ class RoboticsEnvironment():
 
         # Wait for Lua to finish execution
         while not self.sim.getStringSignal('FollowPathDone'):
-            self.sim.step()  # advance simulation manually if stepping
+            # self.sim.step()  # advance simulation manually if stepping
+            self.sim.wait(0.01)  # or just wait a bit
         self.sim.clearStringSignal('FollowPathDone')
 
         # Return total trajectory duration
@@ -347,6 +348,11 @@ class RoboticsEnvironment():
         This works based on the rucking trajectory generator
         Interpolation between current pose and target pose. No planning
         '''
+        endConfig = self.findConfigs(pose)
+        if not endConfig or len(endConfig)==0:
+            print('[ERROR] No IK solution found for desired pose.')
+            return
+        endConfig = endConfig[0]
         p={
             'ik' :{
                 'tip' : self.robotTip,
@@ -360,7 +366,12 @@ class RoboticsEnvironment():
             'maxJerk' : self.ikMaxJerk 
         }
         # self.sim.setStringSignal('moveToPoseSignal',self.sim.packTable(p))
+        tolerance = 0.005
+        # while np.linalg.norm(np.array(self.sim.getObjectPosition(self.robotTip)) - np.array(pose[0:3])) > tolerance:
+        #     print('Moving to pose...')
         self.sim.moveToPose(p)
+            # self.sim.wait(0.5)
+
 
     def ActionPick(self, obj_name, pickPose, approachIKTr, withdrawIkTr):
         """
@@ -433,16 +444,20 @@ class RoboticsEnvironment():
         self.sim.wait(0.1)
 
         # Approach and grasp sequence
-        pose = self.sim.getObjectPose(self.robotTip)
+        # pose = self.sim.getObjectPose(self.robotTip)
+        pose = pickPose
         pose = self.sim.multiplyPoses(pose, approachIKTr)
+        # pose[3:]=[0,0,0,1]
         #gripper normally open
         gripper = self.gripper
         #TODO: comment this if the open again is not being selected
-        gripper.openGripper()
-        self.sim.wait(2.2)
+        # gripper.openGripper()
+        # self.sim.wait(2.2)
         #disable gripper collision for approach
-        self.enableGripperCollision(False)
+        # self.enableGripperCollision(False)
         self.moveToPose(pose)
+        #ensure move to pose completed
+        self.sim.wait(1.0)
 
         # Close the gripper and attach object
         #close gripper
@@ -787,25 +802,20 @@ class RoboticsEnvironment():
         #this pose is not always local z up 
         q_world_cprime, R_c_to_cprime, best_face = rename_frame_top_is_world_up(qx=qx, qy=qy, qz=qz, qw=qw)
         objPose = objPose[:3]+list(q_world_cprime)
-        #if object is objstacle 0, use the dummy handle for top grasping
-        if obj_name == '/obs0' :#and direction_str == 'top':
-            pickDummy = self.sim.getObject('/obs0_dummy')
-            objPose = self.sim.getObjectPose(pickDummy)
-            obj_name = '/obs0_dummy'
 
         # Rotate object pose based on grasp
         R_final, objPose = self.rotate_for_grasp(grasp_value, objPose)
 
         # Offset the pick position slightly above the object for path planning
-        planned_path_offset = 0.06
+        planned_path_offset = 0.1
         #Calculating approach at a distance for path plan
         objPose[:3] = R_final.apply([0,0,planned_path_offset])+objPose[:3]
-        table_contact_tolerance =0.02
+        table_contact_tolerance =0.00
         objPose[2]+=table_contact_tolerance
     
         # Define approach and withdraw transforms in gripper-local frame
         # Approach along global -Z axis (in gripper-local frame)
-        approachIKTr = [0, 0, -0.020, 0, 0, 0, 1]
+        approachIKTr = [0, 0, -0.08, 0, 0, 0, 1]
         # Withdraw along global +Z axis (in gripper-local frame)
         withdraw_vec_world = np.array([0, 0, 0.1])
         withdraw_vec_local = R_final.inv().apply(withdraw_vec_world)
@@ -926,8 +936,10 @@ def main():
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
     
-
-    env.pick(obj_name='/C_block',grasp_value='top_0')
+    # env.moveToPose([0.024873951078117327, 0.571939996481846, 0.5847999248504692, 0.0, 0.0, 0.0, 1.0])
+    # env.moveToPose([-0.2800000000002473, 0.48000000000000015, 0.83, 2.747661802696606e-16, 0.7071067811865475, -2.7476618026966064e-16, 0.7071067811865476])
+    # env.pick(obj_name='/column0',grasp_value='front_180')
+    env.pick(obj_name='/C_block',grasp_value='right_90')
     # env.gripper.closeGripper(env.sim.getObject('/pickPose'))
     env.sim.wait(2.2)
     # env.place(obj_name='/column0',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
