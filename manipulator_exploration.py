@@ -163,7 +163,7 @@ def select_random_action(valid_actions,motion_params,picked_grasp=None):
             selected_motion_param = random.choice(motion_params["{}_{}".format(action.action_type.value,action.obj[1:])])
             picked_grasp = selected_motion_param
         else:
-            selected_motion_param = random.choice(motion_params["{}_{}".format(action.action_type.value,action.obj[1:])])
+            selected_motion_param = random.choice(motion_params["{}_{}".format(action.action_type.value,action.target_slot[1:])])
             # selected_motion_param = picked_grasp #random.choice(motion_params["place"])
         print(f"Selected action: {action} with motion param: {selected_motion_param}")
         print("here")
@@ -257,10 +257,11 @@ if __name__ == "__main__":
     picked_grasp = None
     #Run 3 pilot runs to have seed data for exploration and save them to the database
     if random_collection:
-        n_runs = 3
+        n_runs = 20
         action = None
         for run in range(n_runs):
             print(f"Pilot run {run}")
+            failsafe =0
             #execute 50 random actions
             for step in range(20):
                 print(f"Step {step}")
@@ -280,6 +281,15 @@ if __name__ == "__main__":
                     success,exec_time = executor.execute(action)
                     if not success:
                         print(f"Action failed ! time elapsed: {exec_time}")
+                        failsafe +=1
+                        if failsafe>=3:
+                            print("Too many failures, resetting scene")
+                            robot.leave_object(action=action)
+                            robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
+                            scene.update()
+                            state = scene.get_state()
+                            failsafe=0
+                            break
                         if not robot.test_motion_planner():
                             print("Resetting scene because of OMPL failure")
                             robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
@@ -288,7 +298,9 @@ if __name__ == "__main__":
                             scene.update()
                             state = scene.get_state()
                             continue
-                    # break
+                    else:
+                        #reset failsafe counter
+                        failsafe=0
                 #update the scene state
                 scene.update()
                 next_state = scene.get_state()

@@ -86,7 +86,7 @@ class RoboticsEnvironment():
 
         #create an object collection for collision checking
         goal_objects = ["/column0","/column1","/column2"]
-        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/assembly_table","/MPO_700"]#
+        obstacle_objects=["/obs0","/MPO_700"]#
         shop_slots =[f"/region_{i}" for i in range(9)]
         goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
         objects = goal_objects + obstacle_objects
@@ -799,11 +799,7 @@ class RoboticsEnvironment():
         #this pose is not always local z up 
         q_world_cprime, R_c_to_cprime, best_face = rename_frame_top_is_world_up(qx=qx, qy=qy, qz=qz, qw=qw)
         objPose = objPose[:3]+list(q_world_cprime)
-        #if object is objstacle 0, use the dummy handle for top grasping
-        if obj_name == '/obs0' :#and direction_str == 'top':
-            pickDummy = self.sim.getObject('/obs0_dummy')
-            objPose = self.sim.getObjectPose(pickDummy)
-            obj_name = '/obs0_dummy'
+  
 
         # Rotate object pose based on grasp
         R_final, objPose = self.rotate_for_grasp(grasp_value, objPose)
@@ -885,10 +881,18 @@ class RoboticsEnvironment():
             withdrawIkTr=withdrawIkTr
         )
 
+
         # --- 6. Cleanup ---
         if outcome:
+            print(f'realigning placed object {obj_name} to target position')
+            self.sim.setObjectPose(self.sim.getObject(obj_name),target_pos[:3]+[0,0,0,1])
+            self.sim.step()
             self.grasped_object = None
 
+        return outcome,duration
+    def push(self,obj_name,target_pos):
+        outcome=None
+        duration=None
         return outcome,duration
     def leave_object(self, action):
         '''
@@ -937,9 +941,9 @@ def main():
     '/goal_1': [-0.275, 1.0250000000000006, 0.5],
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
-    env.pick('/column0','top_0')
-    env.place('/column0',GOAL_SLOTS['/goal_0'],'right_0')
-    env.pick('/column0','front_270')
+    env.pick('/column1','front_270')
+    # env.place('/column0',GOAL_SLOTS['/goal_0'],'front_270')
+    # env.pick('/column0','right_0')
     # env.pick(obj_name='/column2',grasp_value='top_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
     # env.pick(obj_name='/column0',grasp_value='left_0')

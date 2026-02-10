@@ -43,7 +43,7 @@ def write_mongodb_to_yaml(mongo_connection_str):
     mongodb_to_yaml(
         connection_str=mongo_connection_str,
         db_name="refine-plan-v2",
-        collection_name="manipulator-informed-data",
+        collection_name="manipulator-random-data",
         sf_list=object_sfs,
         out_file="./refine-plan/data/manipulator/dataset.yaml",
         split_by_motion=True

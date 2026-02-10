@@ -28,6 +28,7 @@ class SceneState:
         self._update_object_slots()
         self._update_goal_occupancy()
         self._update_shop_occupancy()
+        # self._reorient_scene()
 
     def _update_object_poses(self):
         for obj in self.all_objects:
@@ -93,6 +94,13 @@ class SceneState:
         position1 = p1[:2]
         position2 = p2[:2]
         return sum((a-b)**2 for a,b in zip(position1,position2))**0.5
+    
+    def _reorient_scene(self):
+        """Reorient the scene to avoid numerical drift over time"""
+        for obj in self.all_objects:
+            if self.object_status.get(obj,"unknown") != "held":
+                self.env.set_object_pose(obj,self.initial_object_poses[obj])
+        self.update()
     
     def get_state(self):
         return {
