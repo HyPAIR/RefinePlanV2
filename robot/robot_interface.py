@@ -86,7 +86,8 @@ class RoboticsEnvironment():
 
         #create an object collection for collision checking
         goal_objects = ["/column0","/column1","/column2"]
-        obstacle_objects=["/obs0","/MPO_700"]#
+        # obstacle_objects=["/obs0","/MPO_700"]#
+        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/assembly_table","/MPO_700"]
         shop_slots =[f"/region_{i}" for i in range(9)]
         goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
         objects = goal_objects + obstacle_objects

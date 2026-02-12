@@ -263,7 +263,7 @@ if __name__ == "__main__":
             print(f"Pilot run {run}")
             failsafe =0
             #execute 50 random actions
-            for step in range(20):
+            for step in range(50):
                 print(f"Step {step}")
                 #We should pick a random action from valid actions
                 valid_actions,_ = action_set.valid_actions(state)

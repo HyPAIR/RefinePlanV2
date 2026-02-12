@@ -33,7 +33,7 @@ possible_slots =[slot.replace('/','') for slot in possible_slots] #Boolean conve
 object_sfs = [StateFactor(obj,possible_slots) for obj in objects_formatted]
 logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=collection_name)
 
-def write_mongodb_to_yaml(mongo_connection_str):
+def write_mongodb_to_yaml(mongo_connection_str,limit=None):
     """Learn the DBNOptions from the database.
 
     Args:
@@ -46,7 +46,8 @@ def write_mongodb_to_yaml(mongo_connection_str):
         collection_name="manipulator-random-data",
         sf_list=object_sfs,
         out_file="./refine-plan/data/manipulator/dataset.yaml",
-        split_by_motion=True
+        split_by_motion=True,
+        limit=limit
 
     )
     print("YAML Dataset Created")
@@ -121,7 +122,7 @@ def run_planner(initial_state:State)->Policy:
 
 
 if __name__ == "__main__":
-    write_mongodb_to_yaml(connection_string)
+    write_mongodb_to_yaml(connection_string,limit=500)
     learn_options()
     #policy = TimeDependentPolicy("./refine-plan/data/manipulator/manipulator_refined_policy.yaml")
 
