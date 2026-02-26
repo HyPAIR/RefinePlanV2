@@ -20,6 +20,7 @@ from robot.action_executor import ActionExecutor
 from refine_plan.models.state import State
 import random
 import copy
+import time
 # Define constants
 collection_name ="manipulator-informed-data"
 connection_string="mongodb://localhost:27017/"
@@ -259,6 +260,7 @@ if __name__ == "__main__":
     if random_collection:
         n_runs = 20
         action = None
+        start_time = time.time()
         for run in range(n_runs):
             print(f"Pilot run {run}")
             failsafe =0
@@ -318,6 +320,7 @@ if __name__ == "__main__":
             state = scene.get_state()
 
         print("Warmup runs complete")
+        print(f"Time taken for random data collection: {time.time()-start_time} seconds")
     else:
         print("Skipping warmup runs and using existing data")
     

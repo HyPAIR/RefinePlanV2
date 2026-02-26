@@ -5,13 +5,14 @@ import random
 import numpy as np
 import copy
 from scipy.spatial.transform import Rotation as R
+import sys
 try:
     from robot.gripper import Robotiq85F,RG2,Robotiq85New
     from robot.rotation_helper import rename_frame_top_is_world_up
 except:
     from gripper import Robotiq85F,RG2,Robotiq85New
     from rotation_helper import rename_frame_top_is_world_up
-
+initConfig = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
 
 class RoboticsEnvironment():
     def __init__(self,port = 23000):
@@ -87,7 +88,7 @@ class RoboticsEnvironment():
         #create an object collection for collision checking
         goal_objects = ["/column0","/column1","/column2"]
         # obstacle_objects=["/obs0","/MPO_700"]#
-        obstacle_objects=["/obs0","/obs1","/obs2_collisiondummy","/assembly_table","/MPO_700"]
+        obstacle_objects=["/obs0","/obs0_collisiondummy","/obs1","/obs1_collisiondummy","/obs2_collisiondummy","/assembly_table","/MPO_700"]
         shop_slots =[f"/region_{i}" for i in range(9)]
         goal_slots=["/goal_1","/goal_2","/goal_4","/goal_5"]
         objects = goal_objects + obstacle_objects
@@ -272,14 +273,20 @@ class RoboticsEnvironment():
                 print(f'skipping grasped {self.grasped_object}')
                 continue
             obj_handle = self.sim.getObject(obj)
-            self.sim.addItemToCollection(self.objectCollection,self.sim.handle_tree,obj_handle,0)     
+            self.sim.addItemToCollection(self.objectCollection,self.sim.handle_tree,obj_handle,0) 
+        self.gripperCollection = self.sim.createCollection()
+        #add gripper to collection for collision checking if not already added
+        self.sim.addItemToCollection(self.gripperCollection,self.sim.handle_tree,self.robotLeftFinger,0) 
+        self.sim.addItemToCollection(self.gripperCollection,self.sim.handle_tree,self.robotRightFinger,0)
+        gbase = self.sim.getObject('/UR10/RG2/baseVisible')   
+        l4vis = self.sim.getObject('/UR10/link4_visible')
 
         task = self.simOMPL.createTask('task')
         self.task = task
         self.simOMPL.setAlgorithm(task,self.pathPlanningAlgo)
-        self.simOMPL.setStateValidityCheckingResolution(task, 0.01)  
+        self.simOMPL.setStateValidityCheckingResolution(task, 0.001)  
         self.simOMPL.setStateSpaceForJoints(task,self.joints,useForProjection)
-        collision_pairs = [self.robotCollection,self.robotCollection,self.robotCollection,self.objectCollection]
+        collision_pairs = [self.robotCollection,self.robotCollection,self.robotCollection,self.objectCollection,gbase,l4vis]
         if self.grasped_object:
             collision_pairs+=[self.sim.getObject(self.grasped_object),self.objectCollection]
         self.simOMPL.setCollisionPairs(task,collision_pairs)
@@ -327,7 +334,7 @@ class RoboticsEnvironment():
 
         pl, _ = self.sim.getPathLengths(path, 6)
         pathPts, times, _ = self.sim.generateTimeOptimalTrajectory(
-            path, pl, minMaxVel, minMaxAcc, 1000, 'not-a-knot', 5, None
+            path, pl, minMaxVel, minMaxAcc, 5000, 'not-a-knot', 5, None
         )
 
         # Pack and send to Lua
@@ -337,8 +344,28 @@ class RoboticsEnvironment():
         # Wait for Lua to finish execution
         while not self.sim.getStringSignal('FollowPathDone'):
             self.sim.step()  # advance simulation manually if stepping
-            if time.time() - startTime > 100:
+            if time.time() - startTime > 60:
                 print('[ERROR] Timeout while waiting for FollowPath to complete.')
+                self.sim.clearStringSignal('FollowPathSignal')
+                self.sim.clearStringSignal('FollowPathTimes')
+                self.sim.setStringSignal('FollowPathDone', '1')
+                self.sim.clearStringSignal('FollowPathDone')
+                self.sim.step()
+                
+                #
+                #reset scene
+                reset_status = False
+                self.sim.stopSimulation()
+                time.sleep(5)
+                for joint,position in zip(self.joints,initConfig):
+                    self.sim.setJointTargetPosition(joint,position)
+                self.sim.startSimulation()
+                self.sim.setStepping(True)
+                reset_status = True
+                if self.sim.getSimulationState() == self.sim.simulation_stopped:
+                    time.sleep(1)
+                    self.sim.startSimulation()
+                    self.sim.setStepping(True)
                 break
         self.sim.clearStringSignal('FollowPathDone')
 
@@ -942,7 +969,7 @@ def main():
     '/goal_1': [-0.275, 1.0250000000000006, 0.5],
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
-    env.pick('/column1','front_270')
+    env.pick('/column2','front_270')
     # env.place('/column0',GOAL_SLOTS['/goal_0'],'front_270')
     # env.pick('/column0','right_0')
     # env.pick(obj_name='/column2',grasp_value='top_0')
