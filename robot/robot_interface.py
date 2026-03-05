@@ -20,7 +20,7 @@ class RoboticsEnvironment():
         self.sim = self.client.getObject('sim')
         self.simIK = self.client.require('simIK')
         self.simOMPL =self.client.require('simOMPL')
-        self.max_ik_attempts = 1
+        self.max_ik_attempts = 5
         self.task = None
         
     def connect(self):    
@@ -324,7 +324,7 @@ class RoboticsEnvironment():
 
     def followPath(self, path):
         # Compute trajectory timing etc. (same as before)
-        startTime =time.time()
+        startTime =self.sim.getsimulationTime()
         minMaxVel = []
         for vel in self.fkMaxVel:
             minMaxVel += [-vel, vel]
@@ -332,14 +332,11 @@ class RoboticsEnvironment():
         for acc in self.fkMaxAccel:
             minMaxAcc += [-acc, acc]
 
-        pl, _ = self.sim.getPathLengths(path, 6)
-        pathPts, times, _ = self.sim.generateTimeOptimalTrajectory(
-            path, pl, minMaxVel, minMaxAcc, 5000, 'not-a-knot', 5, None
-        )
+      
 
         # Pack and send to Lua
-        self.sim.setStringSignal('FollowPathSignal', self.sim.packTable(pathPts))
-        self.sim.setStringSignal('FollowPathTimes', self.sim.packTable(times))
+        self.sim.setStringSignal('FollowPathSignal', self.sim.packTable(path))
+        # self.sim.setStringSignal('FollowPathTimes', self.sim.packTable(times))
 
         # Wait for Lua to finish execution
         while not self.sim.getStringSignal('FollowPathDone'):
@@ -347,7 +344,7 @@ class RoboticsEnvironment():
             if time.time() - startTime > 60:
                 print('[ERROR] Timeout while waiting for FollowPath to complete.')
                 self.sim.clearStringSignal('FollowPathSignal')
-                self.sim.clearStringSignal('FollowPathTimes')
+                # self.sim.clearStringSignal('FollowPathTimes')
                 self.sim.setStringSignal('FollowPathDone', '1')
                 self.sim.clearStringSignal('FollowPathDone')
                 self.sim.step()
@@ -370,8 +367,35 @@ class RoboticsEnvironment():
         self.sim.clearStringSignal('FollowPathDone')
 
         # Return total trajectory duration
-        return times[-1]
+        return self.sim.getsimulationTime() - startTime
+    def waitForMotion(self, timeout=30.0):
+        start_time = time.time()
 
+        while True:
+            status = self.sim.getStringSignal('MotionStatus')
+            result = self.sim.getStringSignal('MotionResult')
+            if status is not None:
+                status = status.decode('utf-8') if isinstance(status, bytes) else status
+                result = result.decode('utf-8') if isinstance(result, bytes) else result
+                if status == 'done':
+                    self.sim.clearStringSignal('MotionStatus')
+                    print(f'[INFO] Motion completed successfully with result: {result}')
+                    return True
+
+                if status == 'failed':
+                    print('[ERROR] Motion failed (collision or invalid path)')
+                    print(f'[ERROR] Motion result: {result}')
+                    self.sim.clearStringSignal('MotionStatus')
+                    return False
+
+            # Step simulation if stepping mode
+            self.sim.step()
+
+            # Timeout protection
+            if time.time() - start_time > timeout:
+                print('[ERROR] Motion timeout')
+                self.sim.clearStringSignal('MotionStatus')
+                return False
 
 
     def moveToPose(self,pose):
@@ -418,10 +442,19 @@ class RoboticsEnvironment():
                 return 0,duration
 
             # try to plan a path to this config
-            path = self.findPath(pickConfig)
-            if path and path is not None:
-                # found a reachable config -> proceed with pick
+            #1.set the config to goal signal
+            self.sim.setStringSignal(
+                'GoalConfig',
+                self.sim.packTable(pickConfig)
+                )
+            #2.wait for the motion status from lua
+            success = self.waitForMotion(timeout=10.0)
+            if success:
+                print(f'[INFO] Found a reachable configuration for pick action after {iteration+1} attempts.')
                 break
+            else:
+                print(f'[WARN] Failed to find a path to the selected pick config on attempt {iteration+1}.')
+            
 
 
             # If path not found: discard this config and its viz, then retry
@@ -447,9 +480,6 @@ class RoboticsEnvironment():
         if iteration >= self.max_ik_attempts:
             print('[ERROR] Max IK attempts reached, pick action failed.')
             return 0,duration
-        if path is None:
-            print('[ERROR] No reachable configuration found for pick action.')
-            return 0,duration
         # if we reach here, path exists
         if passiveVizShape:
             # optional: keep or remove; remove to avoid clutter
@@ -459,10 +489,7 @@ class RoboticsEnvironment():
             except Exception:
                 pass
 
-        print(f'[INFO] Selected reachable configuration: {pickConfig}')
-        print('[INFO] Executing path to pick position...')
-        duration =self.followPath(path)
-        self.sim.wait(0.1)
+
 
         # Approach and grasp sequence
         pose = self.sim.getObjectPose(self.robotTip)
@@ -544,16 +571,33 @@ class RoboticsEnvironment():
         passiveVizShape = None
         #set a max iteration to avoid long loops
         iteration = 0
+            #get the target handle
+        target_handle = self.sim.getObject(target_obj)
+
         while configs and iteration < self.max_ik_attempts:
             placeConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIkTr, withdrawIkTr)
 
             if placeConfig is None:
                 print('[WARN] No valid configuration found (all tested configs invalid).')
                 return 0,duration
-
-            path = self.findPath(placeConfig)
-            if path:
-                break
+            else:
+                      
+                #turn of object physics
+                self.sim.setBoolProperty(target_handle,'dynamic',False)
+                #try to plan a path to this config
+                #1.set the config to goal signal
+                self.sim.setStringSignal(
+                    'GoalConfig',
+                    self.sim.packTable(placeConfig)
+                    )
+                #2.wait for the motion status from lua
+                success = self.waitForMotion(timeout=10.0)
+                if success:
+                    print(f'[INFO] Found a reachable configuration for place action after {iteration+1} attempts.')
+                    break
+                else:
+                    print(f'[WARN] Failed to find a path to the selected place config on attempt {iteration+1}.')
+                    
 
             # no path -> discard this config and its viz, then retry
             print('[WARN] No path found to selected place config, discarding and trying next valid config...')
@@ -578,35 +622,25 @@ class RoboticsEnvironment():
                 # pass
             except Exception:
                 pass
-        if path is None:
-            print('[ERROR] No reachable configuration found for place action.')
-            return 0,duration
+        
 
-        if path is None:
-            print('[ERROR] No reachable configuration found for place action.')
-            return 0,duration
-        print(f'[INFO] Selected reachable configuration: {placeConfig}')
-        print('[INFO] Executing path to place position...')
-        #get the target handle
-        target_handle = self.sim.getObject(target_obj)
-        self.sim.wait(1)
-        #turn of object physics
-        self.sim.setBoolProperty(target_handle,'dynamic',False)
-        duration =self.followPath(path)
-        self.sim.wait(1)
+    
+      
 
         # Approach and release sequence
         pose = self.sim.getObjectPose(self.robotTip)
         pose = self.sim.multiplyPoses(pose, approachIkTr)
         gripper = self.gripper
         self.moveToPose(pose)
+        #Un-parent
+        self.sim.setObjectParent(target_handle,-1,True)
+        #Unparent
+        self.sim.setObjectParent(target_handle,-1,True)
         #re enable object physics
         self.setObjectPhysics(target_handle,True)
         gripper.openGripper()
         self.sim.wait(2.2)
         # Remove object form the collision collection and parenting
-        #Unparent
-        self.sim.setObjectParent(target_handle,-1,True)
         # Re-enable gripper collision
         self.enableGripperCollision(True)
         # self.sim.removeItemFromCollection(self.robotCollection,self.sim.handle_tree,target_handle)
@@ -970,7 +1004,7 @@ def main():
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
     env.pick('/column2','front_270')
-    # env.place('/column0',GOAL_SLOTS['/goal_0'],'front_270')
+    env.place('/column0',GOAL_SLOTS['/goal_0'],'front_270')
     # env.pick('/column0','right_0')
     # env.pick(obj_name='/column2',grasp_value='top_0')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
