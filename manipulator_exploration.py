@@ -29,6 +29,7 @@ shop_slots =["/region_0","/region_1","/region_2"]
 goal_slots=["/goal_0","/goal_1","/goal_2"]
 objects_formatted =[obj.replace('/','') for obj in goal_objects] #Boolean conversion issue
 EPISODE_LENGTH =30
+EPISIDE_COUNT = 20
 
 
 def _get_enabled_cond(sf_list, option):
@@ -258,14 +259,14 @@ if __name__ == "__main__":
     picked_grasp = None
     #Run 3 pilot runs to have seed data for exploration and save them to the database
     if random_collection:
-        n_runs = 20
+        n_runs = EPISIDE_COUNT
         action = None
         start_time = time.time()
         for run in range(n_runs):
             print(f"Pilot run {run}")
             failsafe =0
             #execute 50 random actions
-            for step in range(50):
+            for step in range(EPISODE_LENGTH):
                 print(f"Step {step}")
                 #We should pick a random action from valid actions
                 valid_actions,_ = action_set.valid_actions(state)
@@ -422,7 +423,7 @@ if __name__ == "__main__":
             exit(1)
 
         print("Exploration policy built")
-        exploration_episodes =20
+        exploration_episodes =EPISIDE_COUNT
         explore = False
         if explore:
             for episode in range(exploration_episodes):
