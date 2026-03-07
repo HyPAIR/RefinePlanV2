@@ -11,8 +11,8 @@ params = {}
 params.maxVelDeg = 90
 params.maxAccelDeg = 40
 
-params.omplMaxTime = 2
-params.simplifyTime = 0.5
+params.omplMaxTime = 5
+params.simplifyTime = 5
 params.interpolatePts = 200
 
 params.validationStep = 5
@@ -75,6 +75,15 @@ function initRobot()
 
 end
 
+pathDrawing = sim.addDrawingObject(
+        sim.drawing_linestrip,
+        2,              -- line width
+        0,
+        -1,
+        10000,
+        {0,0,1}         -- red
+    )
+
 
 -- FK limits (example)
 local fkVel, fkAccel, fkJerk = 180, 40, 80
@@ -104,6 +113,15 @@ function getConfig()
     end
     return c
 end
+function getCurrentConfig()
+    local config = {}
+
+    for i=1,#params.joints do
+        config[i] = sim.getJointPosition(params.joints[i])
+    end
+
+    return config
+end
 function setConfig(config)
     for i=1,#params.joints do
         sim.setJointPosition(params.joints[i], config[i])
@@ -125,6 +143,71 @@ function l2_norm_diff(a, b)
     end
     return math.sqrt(s)
 end
+
+function isConfigValid(robotCollection, objectCollection)
+
+    local result = sim.checkCollision(robotCollection, objectCollection)
+
+    return result == 0
+end
+
+function flattenConfigs(configs)
+
+    local flat = {}
+
+    for i=1,#configs do
+        for j=1,#configs[i] do
+            table.insert(flat, configs[i][j])
+        end
+    end
+
+    return flat
+end
+--------------------------------------------------
+-- IK SETUP
+--------------------------------------------------
+function sampleIKConfigs(goalPose, robotCollection, objectCollection)
+
+    local maxSamples = 40
+    local validConfigs = {}
+
+    local originalConfig = getCurrentConfig()
+
+    for i=1,maxSamples do
+
+        -- randomize joints slightly to find different IK branches
+        for j=1,#params.joints do
+            local interval = sim.getJointInterval(params.joints[j])
+            local low = interval[1]
+            local range = interval[2]
+
+            local rnd = low + math.random() * range
+            sim.setJointPosition(params.joints[j], rnd)
+        end
+
+        -- set target pose
+        sim.setObjectPose(params.target, -1, goalPose)
+
+        simIK.syncFromSim(ikEnv)
+
+        local result = simIK.handleGroup(ikEnv, ikGroup)
+
+        if result == simIK.result_success then
+
+            if isConfigValid(robotCollection, objectCollection) then
+
+                local config = getCurrentConfig()
+                table.insert(validConfigs, config)
+
+            end
+        end
+    end
+
+    -- restore original robot state
+    setConfig(originalConfig)
+
+    return validConfigs
+end
 --------------------------------------------------
 -- COLLISION SETUP
 --------------------------------------------------
@@ -140,7 +223,7 @@ function createObjectCollection(graspedObject)
             if graspedObject == nil or h ~= graspedObject then
                 sim.addItemToCollection(
                     coll,
-                    sim.handle_single,
+                    sim.handle_tree,
                     h,
                     0
                 )
@@ -172,7 +255,39 @@ function createRobotCollection(graspedObject)
     end
     return robotCollection
 end
+-------------------------------------------------------
+---visualise path
+-------------------------------------------------------
+function visualizePath(path)
 
+    sim.addDrawingObjectItem(pathDrawing, nil)
+
+    local dof = #params.joints
+    local originalConfig = {}
+
+    for i=1,dof do
+        originalConfig[i] = sim.getJointPosition(params.joints[i])
+    end
+
+    for i=1,#path/dof do
+
+        local config = {}
+
+        for j=1,dof do
+            config[j] = path[(i-1)*dof + j]
+            sim.setJointPosition(params.joints[j], config[j])
+        end
+
+        local pos = sim.getObjectPosition(params.tip, -1)
+        sim.addDrawingObjectItem(pathDrawing, pos)
+
+    end
+
+    -- restore robot state
+    for i=1,dof do
+        sim.setJointPosition(params.joints[i], originalConfig[i])
+    end
+end
 -------------------------------------
 -- OMPL PLANNING
 --------------------------------------------------
@@ -214,12 +329,12 @@ function planPath(goalConfig, graspedObject)
 
     simOMPL.setGoalState(task, goalConfig)
     print('goal state set')
+    simOMPL.setAlgorithm(task,simOMPL.Algorithm.RRTConnect)
     simOMPL.setStateValidityCheckingResolution(task, 0.002)
-    print('validity checking resolution set')
     simOMPL.setup(task)
     print('task setup complete')
     local success = simOMPL.solve(task, params.omplMaxTime)
-    print('solving task')
+    print('solving task...')
     if not success or not simOMPL.hasExactSolution(task) then
         simOMPL.destroyTask(task)
         sim.destroyCollection(objectCollection)
@@ -376,6 +491,7 @@ function executeTrajectory(pathPts, times)
 
     sim.setStringSignal('MotionResult', 'success')
     sim.setStringSignal('MotionStatus', 'done')
+    sim.setStringSignal('ExecutionTime',sim.getSimulationTime()-startTime)
 
     return true
 end
@@ -420,6 +536,7 @@ function sysCall_thread()
         if goalSignal then
             print('Goal signal recieved..')
             sim.clearStringSignal('GoalConfig')
+            sim.clearStringSignal('ExecutionTime')
             local goalConfig = sim.unpackTable(goalSignal)
 
             local graspedObjectName = sim.getStringSignal('GraspedObject')
@@ -433,6 +550,8 @@ function sysCall_thread()
             )
             --local timeData = sim.getStringSignal(timeSignalName)
             if path then
+                print('path found')
+                visualizePath(path)
                 if validatePath(path,graspedObject)then
                     print('valid path found, generating trajectory...')
                     local pathPts,times = generateTrajectory(path)
@@ -440,6 +559,7 @@ function sysCall_thread()
                     print('excecuting path...')
                     executeTrajectory(pathPts,times)
                 else
+                    print('path invalid')
                     sim.setStringSignal('MotionResult','collision')
                     sim.setStringSignal('MotionStatus','failed')
                 end
@@ -448,6 +568,7 @@ function sysCall_thread()
         sim.switchThread() -- yield to let sim continue
     end
 end
+
 
 
 

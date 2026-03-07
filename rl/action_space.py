@@ -132,3 +132,14 @@ class ActionSet:
             valid_actions.append(action)
             valid_indices.append(idx)
         return valid_actions, valid_indices
+    def is_action_valid(self,action:Action,state):
+        valid_actions,_ =self.valid_actions(state)
+        for v_action in valid_actions:
+            if action.action_type==v_action.action_type:
+                if action.action_type == ActionType.PICK:
+                    if action.obj == v_action.obj:
+                        return True
+                else:
+                    if action.target_slot == v_action.target_slot:
+                        return True
+        return False

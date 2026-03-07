@@ -146,7 +146,7 @@ if __name__ == "__main__":
                         [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
                         ]
     #each run would have a different initial location for the objects, of the 6 total permutations
-    permutations_list = [list(permutations(initial_locations))[1]]
+    permutations_list = [list(permutations(initial_locations))[0]]
     for perm in permutations_list:
         initial_locations_perm = list(perm)
         initial_locations = initial_locations_perm
@@ -154,7 +154,7 @@ if __name__ == "__main__":
         #for each permutation we will do 10 runs to account for stochasticity in the environment and policy
         for run in range(10):
                 
-            robot = RoboticsEnvironment()
+            robot = RoboticsEnvironment(port=23002)
             robot.connect()
             robot.initialize_params()
             scene = SceneState(robot)

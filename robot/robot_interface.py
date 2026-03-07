@@ -20,7 +20,7 @@ class RoboticsEnvironment():
         self.sim = self.client.getObject('sim')
         self.simIK = self.client.require('simIK')
         self.simOMPL =self.client.require('simOMPL')
-        self.max_ik_attempts = 5
+        self.max_ik_attempts = 3
         self.task = None
         
     def connect(self):    
@@ -368,7 +368,7 @@ class RoboticsEnvironment():
 
         # Return total trajectory duration
         return self.sim.getsimulationTime() - startTime
-    def waitForMotion(self, timeout=30.0):
+    def waitForMotion(self, timeout=100.0):
         start_time = time.time()
 
         while True:
@@ -378,15 +378,17 @@ class RoboticsEnvironment():
                 status = status.decode('utf-8') if isinstance(status, bytes) else status
                 result = result.decode('utf-8') if isinstance(result, bytes) else result
                 if status == 'done':
+                    exec_time = self.sim.getStringSignal('ExecutionTime')
+                    exec_time = float(exec_time.decode('utf-8')) if isinstance(exec_time, bytes) else float(exec_time)
                     self.sim.clearStringSignal('MotionStatus')
-                    print(f'[INFO] Motion completed successfully with result: {result}')
-                    return True
+                    print(f'[INFO] Motion completed successfully with result: {result},in execution time: {exec_time:.2f} seconds')
+                    return True, exec_time
 
                 if status == 'failed':
                     print('[ERROR] Motion failed (collision or invalid path)')
                     print(f'[ERROR] Motion result: {result}')
                     self.sim.clearStringSignal('MotionStatus')
-                    return False
+                    return False,0.001
 
             # Step simulation if stepping mode
             self.sim.step()
@@ -395,7 +397,12 @@ class RoboticsEnvironment():
             if time.time() - start_time > timeout:
                 print('[ERROR] Motion timeout')
                 self.sim.clearStringSignal('MotionStatus')
-                return False
+                #reset the sim
+                self.sim.stopSimulation()
+                time.sleep(5)
+                sys.exit(1)
+                self.sim.startSimulation()
+                return False,0.001
 
 
     def moveToPose(self,pose):
@@ -448,7 +455,7 @@ class RoboticsEnvironment():
                 self.sim.packTable(pickConfig)
                 )
             #2.wait for the motion status from lua
-            success = self.waitForMotion(timeout=10.0)
+            success,duration = self.waitForMotion(timeout=100.0)
             if success:
                 print(f'[INFO] Found a reachable configuration for pick action after {iteration+1} attempts.')
                 break
@@ -550,7 +557,7 @@ class RoboticsEnvironment():
             self.enableGripperCollision(True)
             return 0,duration
         
-        print('[INFO] Pick action completed successfully.')
+        print(f'[INFO] Pick action completed successfully.in execution time: {duration:.2f} seconds')
         return 1,duration
 
 
@@ -591,7 +598,7 @@ class RoboticsEnvironment():
                     self.sim.packTable(placeConfig)
                     )
                 #2.wait for the motion status from lua
-                success = self.waitForMotion(timeout=10.0)
+                success,duration = self.waitForMotion(timeout=100.0)
                 if success:
                     print(f'[INFO] Found a reachable configuration for place action after {iteration+1} attempts.')
                     break
@@ -614,7 +621,9 @@ class RoboticsEnvironment():
                 print('[ERROR] No more configs to try.')
                 return 0,duration
             iteration += 1
-
+        if iteration >= self.max_ik_attempts:
+            print('[ERROR] Max IK attempts reached, place action failed.')
+            return 0,duration
         # proceed with placement
         if passiveVizShape:
             try:
@@ -947,7 +956,7 @@ class RoboticsEnvironment():
         # --- 6. Cleanup ---
         if outcome:
             print(f'realigning placed object {obj_name} to target position')
-            self.sim.setObjectPose(self.sim.getObject(obj_name),target_pos[:3]+[0,0,0,1])
+            self.sim.setObjectOrientation(self.sim.getObject(obj_name),[0,0,0,1])#target_pos[:3]+
             self.sim.step()
             self.grasped_object = None
 
@@ -976,7 +985,7 @@ class RoboticsEnvironment():
         return 1
 
 def main():
-    env = RoboticsEnvironment(port=23000)
+    env = RoboticsEnvironment(port=23001)
     env.connect()
     env.initialize_params()
     # initConfig = env.getConfig()
@@ -1003,16 +1012,21 @@ def main():
     '/goal_1': [-0.275, 1.0250000000000006, 0.5],
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
-    # env.pick('/column2','front_270')
+    SHOP_SLOTS = {
+    '/region_0': [0.35, 0.8, 0.521],
+    '/region_1': [0.6, 1.075, 0.5],
+    '/region_2': [0.6, 0.80001, 0.5]}
     # env.place('/column0',GOAL_SLOTS['/goal_0'],'front_270')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='front_270')
     # env.pick('/column0','right_0')
     env.pick(obj_name='/column2',grasp_value='top_0')
-    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
-    env.pick(obj_name='/column0',grasp_value='left_0')
-    env.place(obj_name='/column0',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
-    env.pick(obj_name='/column1',grasp_value='front_270')
-    env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
+    env.place(obj_name='/column2',target_pos=SHOP_SLOTS['/region_2'],grasp_value='top_0')
+    # env.place(obj_name='/column0',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
+    # env.pick('/column2','top_0')
+    # env.pick(obj_name='/column0',grasp_value='left_0')
+    # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
+    # env.pick(obj_name='/column1',grasp_value='front_270')
+    # env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
     env.stop_simulation()
     
 
