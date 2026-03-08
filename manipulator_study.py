@@ -13,7 +13,7 @@ from refine_plan.models.semi_mdp import SemiMDP
 from refine_plan.models.policy import Policy,TimeDependentPolicy
 from refine_plan.algorithms.semi_mdp_solver import synthesise_policy
 
-from manipulator_exploration import _get_enabled_cond,state_to_policy_state
+from manipulator_utils import _get_enabled_cond,state_to_policy_state
 from robot.robot_interface import RoboticsEnvironment
 from robot.action_executor import ActionExecutor
 from state.scene_state import SceneState

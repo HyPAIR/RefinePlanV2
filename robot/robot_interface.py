@@ -202,26 +202,58 @@ class RoboticsEnvironment():
         for i in range(len(self.joints)):
             self.sim.setJointTargetPosition(self.joints[i],c[i])
     
+    # def findConfigs(self,pose):
+    #     '''
+    #     returns configurations for the manipultor for given pose
+    #     '''
+    #     ikEnv = self.simIK.createEnvironment()
+    #     ikGroup = self.simIK.createGroup(ikEnv)
+    #     ikEl,simToIk,ikToSim = self.simIK.addElementFromScene(ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,self.simIK.constraint_pose)
+    #     ikJoints=[simToIk[joint] for joint in self.joints]
+    #     self.sim.setObjectPose(self.robotTarget,pose)
+    #     self.simIK.syncFromSim(ikEnv,[ikGroup])
+    #     p={
+    #         'maxDist':0.28,
+    #         'maxTime':1,
+    #         'cMetric':[8,8,8,0.8,0.6,0.3],
+    #         'findMultiple': True
+    #     }
+    #     retVal = self.simIK.findConfigs(ikEnv,ikGroup,ikJoints,p)
+    #     self.simIK.eraseEnvironment(ikEnv)
+    #     return retVal
     def findConfigs(self,pose):
-        '''
-        returns configurations for the manipultor for given pose
-        '''
-        ikEnv = self.simIK.createEnvironment()
-        ikGroup = self.simIK.createGroup(ikEnv)
-        ikEl,simToIk,ikToSim = self.simIK.addElementFromScene(ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,self.simIK.constraint_pose)
-        ikJoints=[simToIk[joint] for joint in self.joints]
+
+        ikEnv=self.simIK.createEnvironment()
+        ikGroup=self.simIK.createGroup(ikEnv)
+
+        ikEl,simToIk,ikToSim=self.simIK.addElementFromScene(
+            ikEnv,ikGroup,self.robotBase,self.robotTip,self.robotTarget,
+            self.simIK.constraint_pose
+        )
+
+        ikJoints=[simToIk[j] for j in self.joints]
+
         self.sim.setObjectPose(self.robotTarget,pose)
+
         self.simIK.syncFromSim(ikEnv,[ikGroup])
+
         p={
-            'maxDist':0.28,
+            'maxDist':0.5,
             'maxTime':1,
-            'cMetric':[8,8,8,0.8,0.6,0.3],
-            'findMultiple': True
+            'findAlt':True,
+            'findMultiple':True,
+            'cMetric':[1,1,1,1,1,1]
         }
-        retVal = self.simIK.findConfigs(ikEnv,ikGroup,ikJoints,p)
+
+        configs=[]
+
+        for _ in range(3):
+            newConfigs=self.simIK.findConfigs(ikEnv,ikGroup,ikJoints,p)
+            configs.extend(newConfigs)
+
         self.simIK.eraseEnvironment(ikEnv)
-        return retVal
-    
+
+        return configs
    
     def selectOneValidConfig(self, configs, approachIKTr, withdrawIkTr):
         """
@@ -430,71 +462,80 @@ class RoboticsEnvironment():
         Action to pick objects (does not close the gripper).
         Repeatedly queries selectOneValidConfig until a reachable config is found.
         """
-        configs = self.findConfigs(pickPose)
         duration = 0.001
-        if not configs:
-            print('[ERROR] No IK configurations found for desired pick pose.')
+        #self.findConfigs(pickPose)
+        # if not configs:
+        #     print('[ERROR] No IK configurations found for desired pick pose.')
+        #     return 0,duration
+
+        # print(f'\n[INFO] Found {len(configs)} potential configurations.')
+        #1. set the pick pose to the one specified by the action
+        self.sim.setStringSignal('TargetPose',self.sim.packTable(pickPose))
+        #2. wait for status from lua
+        success, duration = self.waitForMotion(timeout=100.0)
+        if success:
+            print(f'[INFO] Target pose attained for pick action, proceeding with grasp.')
+        else:
+            print(f'[ERROR] Failed to reach target pose for pick action, aborting pick.')
             return 0,duration
 
-        print(f'\n[INFO] Found {len(configs)} potential configurations.')
+        # passiveVizShape = None
+        # iteration = 0   
+        # while configs and iteration < self.max_ik_attempts:
+        #     # get the first valid config (and trimmed configs list)
+        #     pickConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIKTr, withdrawIkTr)
 
-        passiveVizShape = None
-        iteration = 0   
-        while configs and iteration < self.max_ik_attempts:
-            # get the first valid config (and trimmed configs list)
-            pickConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIKTr, withdrawIkTr)
+        #     if pickConfig is None:
+        #         print('[WARN] No valid configuration found (all tested configs invalid).')
+        #         return 0,duration
 
-            if pickConfig is None:
-                print('[WARN] No valid configuration found (all tested configs invalid).')
-                return 0,duration
-
-            # try to plan a path to this config
-            #1.set the config to goal signal
-            self.sim.setStringSignal(
-                'GoalConfig',
-                self.sim.packTable(pickConfig)
-                )
-            #2.wait for the motion status from lua
-            success,duration = self.waitForMotion(timeout=100.0)
-            if success:
-                print(f'[INFO] Found a reachable configuration for pick action after {iteration+1} attempts.')
-                break
-            else:
-                print(f'[WARN] Failed to find a path to the selected pick config on attempt {iteration+1}.')
+        #     # try to plan a path to this config
+        #     #1.set the config to goal signal
+        #     self.sim.setStringSignal(
+        #         'GoalConfig',
+        #         self.sim.packTable(pickConfig)
+        #         )
+        #     #2.wait for the motion status from lua
+        #     success,duration = self.waitForMotion(timeout=100.0)
+        #     if success:
+        #         print(f'[INFO] Found a reachable configuration for pick action after {iteration+1} attempts.')
+        #         break
+        #     else:
+        #         print(f'[WARN] Failed to find a path to the selected pick config on attempt {iteration+1}.')
             
 
 
-            # If path not found: discard this config and its viz, then retry
-            print('[WARN] No path found to picked config, discarding and trying next valid config...')
-            if passiveVizShape:
-                try:
-                    self.sim.removeObjects([passiveVizShape])
+        #     # If path not found: discard this config and its viz, then retry
+        #     print('[WARN] No path found to picked config, discarding and trying next valid config...')
+        #     if passiveVizShape:
+        #         try:
+        #             self.sim.removeObjects([passiveVizShape])
 
-                except Exception:
-                    pass
-                passiveVizShape = None
+        #         except Exception:
+        #             pass
+        #         passiveVizShape = None
 
-            # remove the problematic config (first element) so next selectOneValidConfig won't return it
-            if configs:
-                # note: selectOneValidConfig returns configs starting with the returned valid config,
-                # so after failing on pickConfig we should remove it (it would be configs[0])
-                configs.pop(0)
-            else:
-                # no configs left
-                print('[ERROR] No more configs to try.')
-                return 0,duration
-            iteration += 1
-        if iteration >= self.max_ik_attempts:
-            print('[ERROR] Max IK attempts reached, pick action failed.')
-            return 0,duration
-        # if we reach here, path exists
-        if passiveVizShape:
-            # optional: keep or remove; remove to avoid clutter
-            try:
-                self.sim.removeObjects([passiveVizShape])
+        #     # remove the problematic config (first element) so next selectOneValidConfig won't return it
+        #     if configs:
+        #         # note: selectOneValidConfig returns configs starting with the returned valid config,
+        #         # so after failing on pickConfig we should remove it (it would be configs[0])
+        #         configs.pop(0)
+        #     else:
+        #         # no configs left
+        #         print('[ERROR] No more configs to try.')
+        #         return 0,duration
+        #     iteration += 1
+        # if iteration >= self.max_ik_attempts:
+        #     print('[ERROR] Max IK attempts reached, pick action failed.')
+        #     return 0,duration
+        # # if we reach here, path exists
+        # if passiveVizShape:
+        #     # optional: keep or remove; remove to avoid clutter
+        #     try:
+        #         self.sim.removeObjects([passiveVizShape])
                 
-            except Exception:
-                pass
+        #     except Exception:
+        #         pass
 
 
 
@@ -568,69 +609,79 @@ class RoboticsEnvironment():
         duration = 0.001
         #disable gripper collision for place
         self.enableGripperCollision(False)
-        configs = self.findConfigs(placePose)
-        if not configs:
-            print('[ERROR] No IK configurations found for desired place pose.')
-            return 0,duration
+        # configs = self.findConfigs(placePose)
+        # if not configs:
+        #     print('[ERROR] No IK configurations found for desired place pose.')
+        #     return 0,duration
 
-        print(f'\n[INFO] Found {len(configs)} potential configurations.')
-
-        passiveVizShape = None
-        #set a max iteration to avoid long loops
-        iteration = 0
-            #get the target handle
+        # print(f'\n[INFO] Found {len(configs)} potential configurations.')
+        # turn of object physics
         target_handle = self.sim.getObject(target_obj)
+        self.sim.setBoolProperty(target_handle,'dynamic',False)
+        #1. set the place pose to the one specified by the action
+        self.sim.setStringSignal('TargetPose',self.sim.packTable(placePose))
+        #2. wait for status from lua
+        success,duration = self.waitForMotion(timeout=100.0)
+        if success:
+            print(f'[INFO] Target pose attained for place action, proceeding with placement.')
+        else:           
+            print(f'[ERROR] Failed to reach target pose for place action, aborting place.')
+            return 0,duration
+        # passiveVizShape = None
+        # #set a max iteration to avoid long loops
+        # iteration = 0
+        #     #get the target handle
 
-        while configs and iteration < self.max_ik_attempts:
-            placeConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIkTr, withdrawIkTr)
+        # while configs and iteration < self.max_ik_attempts:
+        #     placeConfig, passiveVizShape, configs = self.selectOneValidConfig(configs, approachIkTr, withdrawIkTr)
 
-            if placeConfig is None:
-                print('[WARN] No valid configuration found (all tested configs invalid).')
-                return 0,duration
-            else:
+        #     if placeConfig is None:
+        #         print('[WARN] No valid configuration found (all tested configs invalid).')
+        #         return 0,duration
+        #     else:
                       
-                #turn of object physics
-                self.sim.setBoolProperty(target_handle,'dynamic',False)
-                #try to plan a path to this config
-                #1.set the config to goal signal
-                self.sim.setStringSignal(
-                    'GoalConfig',
-                    self.sim.packTable(placeConfig)
-                    )
-                #2.wait for the motion status from lua
-                success,duration = self.waitForMotion(timeout=100.0)
-                if success:
-                    print(f'[INFO] Found a reachable configuration for place action after {iteration+1} attempts.')
-                    break
-                else:
-                    print(f'[WARN] Failed to find a path to the selected place config on attempt {iteration+1}.')
+        #         #turn of object physics
+        #         self.sim.setBoolProperty(target_handle,'dynamic',False)
+        #         #try to plan a path to this config
+        #         #1.set the config to goal signal
+        #         self.sim.setStringSignal(
+        #             'GoalConfig',
+        #             self.sim.packTable(placeConfig)
+        #             )
+        #         #2.wait for the motion status from lua
+        #         success,duration = self.waitForMotion(timeout=100.0)
+        #         if success:
+        #             print(f'[INFO] Found a reachable configuration for place action after {iteration+1} attempts.')
+        #             break
+        #         else:
+        #             print(f'[WARN] Failed to find a path to the selected place config on attempt {iteration+1}.')
                     
 
-            # no path -> discard this config and its viz, then retry
-            print('[WARN] No path found to selected place config, discarding and trying next valid config...')
-            if passiveVizShape:
-                try:
-                    self.sim.removeObjects([passiveVizShape])
-                except Exception:
-                    pass
-                passiveVizShape = None
+        #     # no path -> discard this config and its viz, then retry
+        #     print('[WARN] No path found to selected place config, discarding and trying next valid config...')
+        #     if passiveVizShape:
+        #         try:
+        #             self.sim.removeObjects([passiveVizShape])
+        #         except Exception:
+        #             pass
+        #         passiveVizShape = None
 
-            if configs:
-                configs.pop(0)
-            else:
-                print('[ERROR] No more configs to try.')
-                return 0,duration
-            iteration += 1
-        if iteration >= self.max_ik_attempts:
-            print('[ERROR] Max IK attempts reached, place action failed.')
-            return 0,duration
-        # proceed with placement
-        if passiveVizShape:
-            try:
-                self.sim.removeObjects([passiveVizShape])
-                # pass
-            except Exception:
-                pass
+        #     if configs:
+        #         configs.pop(0)
+        #     else:
+        #         print('[ERROR] No more configs to try.')
+        #         return 0,duration
+        #     iteration += 1
+        # if iteration >= self.max_ik_attempts:
+        #     print('[ERROR] Max IK attempts reached, place action failed.')
+        #     return 0,duration
+        # # proceed with placement
+        # if passiveVizShape:
+        #     try:
+        #         self.sim.removeObjects([passiveVizShape])
+        #         # pass
+        #     except Exception:
+        #         pass
         
 
     

@@ -212,7 +212,7 @@ function planPath(goalConfig, graspedObject)
 
 
 
-    simOMPL.setGoalState(task, goalConfig)
+    simOMPL.setGoalStates(task, goalConfig)
     print('goal state set')
     simOMPL.setStateValidityCheckingResolution(task, 0.002)
     print('validity checking resolution set')

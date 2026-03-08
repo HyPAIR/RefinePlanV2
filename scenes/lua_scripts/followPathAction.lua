@@ -42,6 +42,7 @@ function initRobot()
 
     params.tip = sim.getObject('/UR10/tip')
     params.base = sim.getObject('/UR10')
+    params.target = sim.getObject('/UR10/target')
 
     params.robotCollection = sim.createCollection()
     sim.addItemToCollection(
@@ -163,50 +164,138 @@ function flattenConfigs(configs)
 
     return flat
 end
+function configDistance(q1, q2)
+    local d = 0
+    for i=1,#q1 do
+        local diff = q1[i] - q2[i]
+        d = d + diff*diff
+    end
+    return math.sqrt(d)
+end
 --------------------------------------------------
 -- IK SETUP
 --------------------------------------------------
-function sampleIKConfigs(goalPose, robotCollection, objectCollection)
+function filterConfigDiversity(configs, threshold)
 
-    local maxSamples = 40
-    local validConfigs = {}
+    local filtered = {}
 
-    local originalConfig = getCurrentConfig()
+    for i=1,#configs do
 
-    for i=1,maxSamples do
+        local keep = true
 
-        -- randomize joints slightly to find different IK branches
-        for j=1,#params.joints do
-            local interval = sim.getJointInterval(params.joints[j])
-            local low = interval[1]
-            local range = interval[2]
-
-            local rnd = low + math.random() * range
-            sim.setJointPosition(params.joints[j], rnd)
+        for j=1,#filtered do
+            if configDistance(configs[i], filtered[j]) < threshold then
+                keep = false
+                break
+            end
         end
 
-        -- set target pose
-        sim.setObjectPose(params.target, -1, goalPose)
-
-        simIK.syncFromSim(ikEnv)
-
-        local result = simIK.handleGroup(ikEnv, ikGroup)
-
-        if result == simIK.result_success then
-
-            if isConfigValid(robotCollection, objectCollection) then
-
-                local config = getCurrentConfig()
-                table.insert(validConfigs, config)
-
-            end
+        if keep then
+            table.insert(filtered, configs[i])
         end
     end
 
-    -- restore original robot state
-    setConfig(originalConfig)
+    return filtered
+end
+function limitConfigs(configs, maxCount)
 
-    return validConfigs
+    local result = {}
+
+    for i=1,math.min(maxCount,#configs) do
+        table.insert(result, configs[i])
+    end
+
+    return result
+end
+function validateConfig(config, auxData)
+
+    local joints = auxData.joints
+    local robotCollection = auxData.robotCollection
+    local objectCollection = auxData.objectCollection
+
+    -- apply candidate configuration
+    for i=1,#joints do
+        sim.setJointPosition(joints[i], config[i])
+    end
+
+    -- collision test
+    local coll = sim.checkCollision(robotCollection, objectCollection)
+
+    return coll == 0
+end
+function findConfigs(goalPose, robotCollection, objectCollection)
+
+    -- 1. create IK environment
+    local ikEnv = simIK.createEnvironment()
+
+    -- 2. create IK group
+    local ikGroup = simIK.createGroup(ikEnv)
+
+    -- 3. add element from scene
+    local ikElement, simToIk, ikToSim =
+        simIK.addElementFromScene(
+            ikEnv,
+            ikGroup,
+            params.base,
+            params.tip,
+            params.target,
+            simIK.constraint_pose
+        )
+
+    -- 4. map simulation joints ? IK joints
+    local ikJoints = {}
+
+    for i=1,#params.joints do
+        ikJoints[i] = simToIk[params.joints[i]]
+    end
+
+    -- 5. set goal pose
+    sim.setObjectPose(params.target, -1, goalPose)
+
+    -- 6. sync scene ? IK environment
+    simIK.syncFromSim(ikEnv, {ikGroup})
+
+    -- aux data for callback
+    local auxData = {
+        joints = params.joints,
+        robotCollection = robotCollection,
+        objectCollection = objectCollection
+    }
+
+    -- parameters
+    local p = {
+        maxDist = 0.5,
+        maxTime = 3,
+        pMetric = {1,1,1,0.1},
+        cMetric = {1,1,1,1,1,1},
+        findMultiple = true,
+        findAlt = true,
+        cb = validateConfig,
+        auxData = auxData
+    }
+    local original = {}
+
+    for i=1,#params.joints do
+        original[i] = sim.getJointPosition(params.joints[i])
+    end
+
+    
+    -- 7. find IK configs
+    local configs = simIK.findConfigs(
+        ikEnv,
+        ikGroup,
+        ikJoints,
+        p
+    )
+    -- restore after collision check
+    for i=1,#params.joints do
+        sim.setJointPosition(params.joints[i], original[i])
+    end
+
+    -- 8. destroy IK environment
+    simIK.eraseEnvironment(ikEnv)
+
+    return configs
 end
 --------------------------------------------------
 -- COLLISION SETUP
@@ -327,7 +416,7 @@ function planPath(goalConfig, graspedObject)
 
 
 
-    simOMPL.setGoalState(task, goalConfig)
+    simOMPL.setGoalStates(task, goalConfig)
     print('goal state set')
     simOMPL.setAlgorithm(task,simOMPL.Algorithm.RRTConnect)
     simOMPL.setStateValidityCheckingResolution(task, 0.002)
@@ -364,7 +453,9 @@ end
 function validatePath(path,graspedObject)
 
     print("Validating path...")
-
+    if #path <2 then
+        return false
+    end
     local states = #path/#params.joints
     local objectCollection = createObjectCollection(graspedObject)
     local robotCollection = createRobotCollection(graspedObject)
@@ -531,37 +622,56 @@ function sysCall_thread()
 
     while true do
         -- Check if a new goal config has been sent from python
-        local goalSignal = sim.getStringSignal('GoalConfig')
+        -- local goalSignal = sim.getStringSignal('GoalConfig')
+        local targetPoseSignal = sim.getStringSignal('TargetPose')
 
-        if goalSignal then
-            print('Goal signal recieved..')
-            sim.clearStringSignal('GoalConfig')
+        if targetPoseSignal then
+            print('Target signal recieved..')
+            -- sim.clearStringSignal('GoalConfig')
+            sim.clearStringSignal('TargetPose')
             sim.clearStringSignal('ExecutionTime')
-            local goalConfig = sim.unpackTable(goalSignal)
-
             local graspedObjectName = sim.getStringSignal('GraspedObject')
             local graspedObject = nil
             if graspedObjectName then
                 graspedObject = sim.getObject(graspedObjectName)
             end
-            local path = planPath(
-                goalConfig,
-                graspedObject
-            )
-            --local timeData = sim.getStringSignal(timeSignalName)
-            if path then
-                print('path found')
-                visualizePath(path)
-                if validatePath(path,graspedObject)then
-                    print('valid path found, generating trajectory...')
-                    local pathPts,times = generateTrajectory(path)
-                    -- executePath(pathPts,times)
-                    print('excecuting path...')
-                    executeTrajectory(pathPts,times)
-                else
-                    print('path invalid')
-                    sim.setStringSignal('MotionResult','collision')
-                    sim.setStringSignal('MotionStatus','failed')
+            robotCollection = createRobotCollection(graspedObject)
+            objectCollection = createObjectCollection(graspedObject)
+            local goalPose = sim.unpackTable(targetPoseSignal)
+            --local goalConfig = sim.unpackTable(goalSignal)
+            local configs = findConfigs(goalPose,robotCollection,objectCollection)
+            local goalConfigs = filterConfigDiversity(configs,0.2)
+            --local goalConfigs = goalPose
+
+            print("IK solutions found:", #goalConfigs)
+            if #goalConfigs == 0 then
+                print("No valid IK solutions")
+                sim.setStringSignal('MotionResult','no_ik_solution')
+                sim.setStringSignal('MotionStatus','failed')
+                
+           
+            else
+
+                local path = planPath(
+                    goalConfigs,
+                    graspedObject
+                )
+
+                --local timeData = sim.getStringSignal(timeSignalName)
+                if path then
+                    print('path found')
+                    visualizePath(path)
+                    if validatePath(path,graspedObject)then
+                        print('valid path found, generating trajectory...')
+                        local pathPts,times = generateTrajectory(path)
+                        -- executePath(pathPts,times)
+                        print('excecuting path...')
+                        executeTrajectory(pathPts,times)
+                    else
+                        print('path invalid')
+                        sim.setStringSignal('MotionResult','collision')
+                        sim.setStringSignal('MotionStatus','failed')
+                    end
                 end
             end
         end
