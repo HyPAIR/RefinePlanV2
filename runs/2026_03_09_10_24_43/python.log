@@ -1,0 +1,65 @@
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+[LOG] TransitionLogger initialized with ID: 69a7ca11-1759-476c-92c5-f7abc5390dc8
+[LOG] MongoDB connection established
+Pilot run 0
+Step 0
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=None) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.45 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 69a7ca11-1759-476c-92c5-f7abc5390dc8 - Episode 0
+Step 1
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=None) with motion param: left_0
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 9.56 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 69a7ca11-1759-476c-92c5-f7abc5390dc8 - Episode 0
+Step 2
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=None) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 43.62 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 69a7ca11-1759-476c-92c5-f7abc5390dc8 - Episode 0
+Step 3
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+Traceback (most recent call last):
+  File "/home/kolletms/refine_plan_v2/manipulator_random_exploration.py", line 285, in <module>
+    success,exec_time = executor.execute(action)
+  File "/home/kolletms/refine_plan_v2/robot/action_executor.py", line 31, in execute
+    success,duration = self._pick(action.obj, action.grasp)
+  File "/home/kolletms/refine_plan_v2/robot/action_executor.py", line 17, in _pick
+    return self.robot.pick(obj, grasp_value)
+  File "/home/kolletms/refine_plan_v2/robot/robot_interface.py", line 957, in pick
+    outcome,duration = self.ActionPick(
+  File "/home/kolletms/refine_plan_v2/robot/robot_interface.py", line 478, in ActionPick
+    success, duration = self.waitForMotion(timeout=100.0)
+  File "/home/kolletms/refine_plan_v2/robot/robot_interface.py", line 426, in waitForMotion
+    self.sim.step()
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/coppeliasim_zmqremoteapi_client/__init__.py", line 174, in <lambda>
+    setattr(ret, k, lambda *a, func=f'{name}.{k}': self.call(func, a))
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/coppeliasim_zmqremoteapi_client/__init__.py", line 162, in call
+    raise Exception(reply.get('err'))  # __EXCEPTION__
+Exception: No such function: _*executed*_

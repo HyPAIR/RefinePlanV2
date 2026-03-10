@@ -82,9 +82,8 @@ pathDrawing = sim.addDrawingObject(
         0,
         -1,
         10000,
-        {0,0,1}         -- red
+        {0,0.6,1,0.35}
     )
-
 
 -- FK limits (example)
 local fkVel, fkAccel, fkJerk = 180, 40, 80
@@ -197,33 +196,35 @@ function filterConfigDiversity(configs, threshold)
 
     return filtered
 end
-function limitConfigs(configs, maxCount)
-
-    local result = {}
-
-    for i=1,math.min(maxCount,#configs) do
-        table.insert(result, configs[i])
+function selectNValidConfigs(configs, n, robotCollection, approachIKTr, withdrawIkTr)
+    local validConfigs = {}
+    local scriptHandle = sim.getScript(sim.scripttype_customization,'collisionCheck@Scene')
+    local remaining_configs = configs
+    local retVal={}
+    local passiveVizShape = nil
+    for i=1,n do
+        retVal, passiveVizShape, remaining_configs = sim.callScriptFunction(
+            'selectOneValidConfig',        -- Lua function name
+            scriptHandle,                 -- script handle
+            remaining_configs,                       -- configs table
+            approachIKTr or {},           -- approach IK transform
+            withdrawIkTr or {},            -- withdraw IK transform
+            robotCollection,          -- robot collection handle
+            params.joints,                   -- joint handles
+            params.base,                -- robot base handle
+            params.tip,                 -- robot tip handle
+            params.target              -- robot target handle
+            
+        )
+        ---add retVal to validConfigs and remove from configs
+        if retVal then
+            table.insert(validConfigs, retVal)
+        end
     end
-
-    return result
+    
+    return validConfigs
 end
-function validateConfig(config, auxData)
-
-    local joints = auxData.joints
-    local robotCollection = auxData.robotCollection
-    local objectCollection = auxData.objectCollection
-
-    -- apply candidate configuration
-    for i=1,#joints do
-        sim.setJointPosition(joints[i], config[i])
-    end
-
-    -- collision test
-    local coll = sim.checkCollision(robotCollection, objectCollection)
-
-    return coll == 0
-end
-function findConfigs(goalPose, robotCollection, objectCollection)
+function findConfigs(goalPose)
 
     -- 1. create IK environment
     local ikEnv = simIK.createEnvironment()
@@ -255,13 +256,6 @@ function findConfigs(goalPose, robotCollection, objectCollection)
     -- 6. sync scene ? IK environment
     simIK.syncFromSim(ikEnv, {ikGroup})
 
-    -- aux data for callback
-    local auxData = {
-        joints = params.joints,
-        robotCollection = robotCollection,
-        objectCollection = objectCollection
-    }
-
     -- parameters
     local p = {
         maxDist = 0.5,
@@ -269,15 +263,8 @@ function findConfigs(goalPose, robotCollection, objectCollection)
         pMetric = {1,1,1,0.1},
         cMetric = {1,1,1,1,1,1},
         findMultiple = true,
-        findAlt = true,
-        cb = validateConfig,
-        auxData = auxData
+        findAlt = true
     }
-    local original = {}
-
-    for i=1,#params.joints do
-        original[i] = sim.getJointPosition(params.joints[i])
-    end
 
     
     -- 7. find IK configs
@@ -287,10 +274,6 @@ function findConfigs(goalPose, robotCollection, objectCollection)
         ikJoints,
         p
     )
-    -- restore after collision check
-    for i=1,#params.joints do
-        sim.setJointPosition(params.joints[i], original[i])
-    end
 
     -- 8. destroy IK environment
     simIK.eraseEnvironment(ikEnv)
@@ -377,7 +360,8 @@ function visualizePath(path)
         sim.setJointPosition(params.joints[i], originalConfig[i])
     end
 end
--------------------------------------
+
+--------------------------------------------------
 -- OMPL PLANNING
 --------------------------------------------------
 
@@ -624,12 +608,15 @@ function sysCall_thread()
         -- Check if a new goal config has been sent from python
         -- local goalSignal = sim.getStringSignal('GoalConfig')
         local targetPoseSignal = sim.getStringSignal('TargetPose')
-
-        if targetPoseSignal then
+        local approachIKTrSignal = sim.getStringSignal('ApproachIKTr')
+        local withdrawIKTrSignal = sim.getStringSignal('WithdrawIKTr')
+        if targetPoseSignal and approachIKTrSignal and withdrawIKTrSignal then 
             print('Target signal recieved..')
-            -- sim.clearStringSignal('GoalConfig')
+            -- Clear any previous signals
             sim.clearStringSignal('TargetPose')
             sim.clearStringSignal('ExecutionTime')
+            sim.clearStringSignal('ApproachIKTr')
+            sim.clearStringSignal('WithdrawIKTr')
             local graspedObjectName = sim.getStringSignal('GraspedObject')
             local graspedObject = nil
             if graspedObjectName then
@@ -638,10 +625,12 @@ function sysCall_thread()
             robotCollection = createRobotCollection(graspedObject)
             objectCollection = createObjectCollection(graspedObject)
             local goalPose = sim.unpackTable(targetPoseSignal)
+            local approachIKTr = sim.unpackTable(approachIKTrSignal)
+            local withdrawIKTr = sim.unpackTable(withdrawIKTrSignal)
             --local goalConfig = sim.unpackTable(goalSignal)
-            local configs = findConfigs(goalPose,robotCollection,objectCollection)
-            local goalConfigs = filterConfigDiversity(configs,0.2)
-            --local goalConfigs = goalPose
+            local configs = findConfigs(goalPose)
+            --local goalConfigs = filterConfigDiversity(configs,0.02)
+            local goalConfigs = selectNValidConfigs(configs, 15, robotCollection, approachIKTr, withdrawIkTr)
 
             print("IK solutions found:", #goalConfigs)
             if #goalConfigs == 0 then

@@ -1,0 +1,852 @@
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+[LOG] TransitionLogger initialized with ID: b2b58562-ef19-4ab8-8c97-754565b49248
+[LOG] MongoDB connection established
+Pilot run 0
+Step 0
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=None) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 24.95 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 1
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=None) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 11.35 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 2
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=None) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.028273578703539446
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 15.35 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 3
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=None) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp right_0
+[INFO] Motion completed successfully with result: success,in execution time: 14.40 seconds
+[INFO] Target pose attained for place action, proceeding with placement.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 31.04 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 4
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 13.37 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 5
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+[INFO] Motion completed successfully with result: success,in execution time: 3.12 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.02783450498454894
+[INFO] Pick action completed successfully.in execution time: 3.12 seconds
+[EXEC] Action ActionType.PICK executed in 18.69 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 6
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=None) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 19.63 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 7
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=None) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 17.51 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 8
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 13.40 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 9
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 66.98 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 10
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+[INFO] Motion completed successfully with result: success,in execution time: 8.16 seconds
+[INFO] Target pose attained for place action, proceeding with placement.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 25.41 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 11
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[INFO] Motion completed successfully with result: success,in execution time: 3.32 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.09434387508434908
+[INFO] Pick action completed successfully.in execution time: 3.32 seconds
+[EXEC] Action ActionType.PICK executed in 17.44 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 12
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=None) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 24.55 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 13
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=None) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 27.18 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 14
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=None) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp front_270
+[INFO] Motion completed successfully with result: success,in execution time: 8.44 seconds
+[INFO] Target pose attained for place action, proceeding with placement.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 23.89 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+Step 15
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 3.04 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+Step 16
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 3.05 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+Step 17
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+[INFO] Motion completed successfully with result: success,in execution time: 6.76 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.02073669388896932
+[INFO] Pick action completed successfully.in execution time: 6.76 seconds
+[EXEC] Action ActionType.PICK executed in 21.02 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+Step 18
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.TOP_0) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 25.44 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 19
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp left_0
+[INFO] Motion completed successfully with result: success,in execution time: 0.96 seconds
+[INFO] Target pose attained for place action, proceeding with placement.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 17.97 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 20
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.44 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 21
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 9.32 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 22
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 19.35 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 23
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 3.06 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 24
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.01 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 25
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 9.16 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+Too many failures, resetting scene
+Pilot run finished, resetting scene
+Leaving object if held
+Pilot run 1
+Step 0
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 11.98 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 1
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+[INFO] Motion completed successfully with result: success,in execution time: 3.44 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.03569153199792453
+[INFO] Pick action completed successfully.in execution time: 3.44 seconds
+[EXEC] Action ActionType.PICK executed in 20.40 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 2
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=None) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp left_0
+[INFO] Motion completed successfully with result: success,in execution time: 3.28 seconds
+[INFO] Target pose attained for place action, proceeding with placement.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 28.91 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 3
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 3.05 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 4
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 25.90 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 5
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 17.93 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 6
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 15.44 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 7
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 18.21 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 8
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.34 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+Too many failures, resetting scene
+Pilot run finished, resetting scene
+Leaving object if held
+Pilot run 2
+Step 0
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 46.33 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 1
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+[INFO] Motion completed successfully with result: success,in execution time: 4.04 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.020731274134402344
+[INFO] Pick action completed successfully.in execution time: 4.04 seconds
+[EXEC] Action ActionType.PICK executed in 28.38 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 2
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/goal_2,grasp=None) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 18.78 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 3
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/region_0,grasp=None) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/region_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 16.33 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 4
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 17.91 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 5
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/region_0,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/region_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 12.85 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 6
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp left_0
+[INFO] Motion completed successfully with result: success,in execution time: 1.96 seconds
+[INFO] Target pose attained for place action, proceeding with placement.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 24.00 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 7
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 18.04 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 8
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 3.05 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 9
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+[INFO] Motion completed successfully with result: success,in execution time: 2.32 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.020860138239954234
+[INFO] Pick action completed successfully.in execution time: 2.32 seconds
+[EXEC] Action ActionType.PICK executed in 18.24 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 10
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 14.66 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 11
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.TOP_0) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 16.94 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 12
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 12.99 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 13
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 27.11 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 14
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 12.29 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 15
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 16.83 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+Too many failures, resetting scene
+Pilot run finished, resetting scene
+Leaving object if held
+Pilot run 3
+Step 0
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+[INFO] Motion completed successfully with result: success,in execution time: 8.80 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.023960165653162748
+[INFO] Pick action completed successfully.in execution time: 8.80 seconds
+[EXEC] Action ActionType.PICK executed in 24.17 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 1
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp left_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 15.59 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 2
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 17.92 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 3
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 21.87 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 4
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp top_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 27.53 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 5
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=None) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 20.97 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 6
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=None) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [0.6, 1.075, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 3.08 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+Too many failures, resetting scene
+Pilot run finished, resetting scene
+Leaving object if held
+Pilot run 4
+Step 0
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.52 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 1
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.20 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 2
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.06 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 3
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for pick action, aborting pick.
+[EXEC] Action ActionType.PICK executed in 12.82 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 4
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+[INFO] Motion completed successfully with result: success,in execution time: 3.44 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.03570330396983736
+[INFO] Pick action completed successfully.in execution time: 3.44 seconds
+[EXEC] Action ActionType.PICK executed in 21.52 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 5
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 18.28 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 6
+Selected action: Action(ActionType.PLACE, obj=/column0, slot=/region_0,grasp=None) with motion param: left_0
+here
+Action: Action(ActionType.PLACE, obj=/column0, slot=/region_0,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp left_0
+[INFO] Motion completed successfully with result: success,in execution time: 3.28 seconds
+[INFO] Target pose attained for place action, proceeding with placement.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 19.73 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 7
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+[INFO] Motion completed successfully with result: success,in execution time: 7.20 seconds
+[INFO] Target pose attained for pick action, proceeding with grasp.
+Tip distance after pick: 0.024703307331451048
+[INFO] Pick action completed successfully.in execution time: 7.20 seconds
+[EXEC] Action ActionType.PICK executed in 22.77 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 8
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/goal_2,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 11.91 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 9
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=None) with motion param: right_0
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [0.6, 1.075, 0.5] with grasp right_0
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 3.05 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 10
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/goal_2,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp front_270
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_ik_solution
+[ERROR] Failed to reach target pose for place action, aborting place.
+[EXEC] Action ActionType.PLACE executed in 20.75 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: b2b58562-ef19-4ab8-8c97-754565b49248 - Episode 0
+Step 11
+Selected action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 1.075, 0.5] with grasp front_270
+[ERROR] Motion timeout

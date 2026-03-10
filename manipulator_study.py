@@ -21,8 +21,8 @@ from rl.reward_function import compute_reward
 from rl.transition_logger import TransitionLogger
 import csv
 from itertools import permutations
-
-collection_name ="manipulator-refined-data"#"cubic-objects-manipulator-exploration"
+MAX_EPISODE_LEGTH =30
+db_collection_name ="manipulator-refined-data"#"cubic-objects-manipulator-exploration"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
@@ -33,7 +33,7 @@ objects_formatted =[obj.replace('/','') for obj in goal_objects]
 possible_slots = goal_slots+shop_slots+["held","unknown"]
 possible_slots =[slot.replace('/','') for slot in possible_slots] #Boolean conversion issue
 object_sfs = [StateFactor(obj,possible_slots) for obj in objects_formatted]
-logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=collection_name)
+logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=db_collection_name)
 
 def write_mongodb_to_yaml(mongo_connection_str,limit=None):
     """Learn the DBNOptions from the database.
@@ -124,7 +124,7 @@ def run_planner(initial_state:State)->Policy:
 
 
 if __name__ == "__main__":
-    limit = 2200 #set to None to use all data
+    limit = None #set to None to use all data
     write_mongodb_to_yaml(connection_string,limit=limit)
     learn_options()
     #policy = TimeDependentPolicy("./refine-plan/data/manipulator/manipulator_refined_policy.yaml")
@@ -136,9 +136,9 @@ if __name__ == "__main__":
      #setup the initial state
     #for each policy we want to log the transitions and rewards to a csv file for analysis.
     results_filename = 'manipulator_experiment_results_informed.csv'
-    with open(results_filename, mode='a') as results_file:
-        results_writer = csv.writer(results_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        results_writer.writerow(['data limit','run','initial_permutation','goal_percentage','goal_achieved','total_task_time','final_goal_region_occupancy'])
+    # with open(results_filename, mode='a') as results_file:
+    #     results_writer = csv.writer(results_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    #     results_writer.writerow(['data limit','run','initial_permutation','goal_percentage','goal_achieved','total_task_time','final_goal_region_occupancy'])
     
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
     initial_locations =[[0.35, 0.8, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
@@ -146,15 +146,15 @@ if __name__ == "__main__":
                         [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
                         ]
     #each run would have a different initial location for the objects, of the 6 total permutations
-    permutations_list = [list(permutations(initial_locations))[0]]
+    permutations_list = [list(permutations(initial_locations))[1]]
     for perm in permutations_list:
         initial_locations_perm = list(perm)
         initial_locations = initial_locations_perm
 
         #for each permutation we will do 10 runs to account for stochasticity in the environment and policy
-        for run in range(10):
+        for run in range(1):
                 
-            robot = RoboticsEnvironment(port=23002)
+            robot = RoboticsEnvironment(port=23003)
             robot.connect()
             robot.initialize_params()
             scene = SceneState(robot)
@@ -167,13 +167,12 @@ if __name__ == "__main__":
             scene.update()
             state = scene.get_state()
             init_perm =state['object_slots']
+            print
             #formulate the refined policy given initial state
             policy =run_planner(initial_state=state)
             # run the policy
             act_policy = True
             if act_policy:
-
-                MAX_EPISODE_LEGTH =20
                 step =0
                 failsafe =0
                 total_task_time =0
@@ -218,26 +217,26 @@ if __name__ == "__main__":
                             print("Too many failures, resetting episode")
                             failsafe=0
                             break
-                        if not robot.test_motion_planner():
-                            print("Resetting scene because of OMPL failure")
-                            robot.leave_object(action=action)
-                            robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
-                            scene.update()
-                            state = scene.get_state()
-                            break
+                        # if not robot.test_motion_planner():
+                        #     print("Resetting scene because of OMPL failure")
+                        #     robot.leave_object(action=action)
+                        #     robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
+                        #     scene.update()
+                        #     state = scene.get_state()
+                        #     break
                     else:
                         failsafe =0
-            #check how many of the goals are achieved at the end of the episode
-            goal_achieved = scene.is_goal_achieved()
-            print(f"Goal achieved: {goal_achieved}")
-            #goal region occupancy at the end of the episode
-            goal_region_occupancy = list(scene.goal_region_occupancy.values())
-            #calculate goal percentage
-            goal_percentage = 100*(1-(goal_region_occupancy.count('None')/len(goal_slots)))
-            print(f"Goal region occupancy: {goal_region_occupancy}")
-            print(f'Total task time: {total_task_time} sec')
-            #log the run number, permutation, goal achieved, goal region occupancy, total task time to a csv file for analysis
-            with open(results_filename, mode='a') as results_file:
-                results_writer = csv.writer(results_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                results_writer.writerow([limit,run, init_perm, goal_percentage, goal_achieved, total_task_time ,goal_region_occupancy])
+                #check how many of the goals are achieved at the end of the episode
+                goal_achieved = scene.is_goal_achieved()
+                print(f"Goal achieved: {goal_achieved}")
+                #goal region occupancy at the end of the episode
+                goal_region_occupancy = list(scene.goal_region_occupancy.values())
+                #calculate goal percentage
+                goal_percentage = 100*(1-(goal_region_occupancy.count('None')/len(goal_slots)))
+                print(f"Goal region occupancy: {goal_region_occupancy}")
+                print(f'Total task time: {total_task_time} sec')
+                #log the run number, permutation, goal achieved, goal region occupancy, total task time to a csv file for analysis
+                with open(results_filename, mode='a') as results_file:
+                    results_writer = csv.writer(results_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                    results_writer.writerow([limit,run, init_perm, goal_percentage, goal_achieved, total_task_time ,goal_region_occupancy])
             robot.stop_simulation()

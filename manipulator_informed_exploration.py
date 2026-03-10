@@ -260,7 +260,7 @@ if __name__ == "__main__":
     picked_grasp = None
     #Run 3 pilot runs to have seed data for exploration and save them to the database
 
-    warmup = True
+    warmup = False
     if warmup:
         try:
             policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
@@ -345,7 +345,7 @@ if __name__ == "__main__":
 
     print("Informed collection will begin if selected")
     exploration_episodes =EPISIDE_COUNT
-    explore = False
+    explore = True
     if explore:
         for episode in range(exploration_episodes):
             print('Resetting the scene for new episode')

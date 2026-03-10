@@ -225,8 +225,8 @@ if __name__ == "__main__":
     robot.initialize_params()
     scene = SceneState(robot)
     executor = ActionExecutor(robot)
-    logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=collection_name)
-    random_logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name='manipulator-random-data')
+    # logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=collection_name)
+    random_logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name='example-a-random')
 
     #Reset the simulation
     robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
