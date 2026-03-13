@@ -1,0 +1,2977 @@
+Connecting to port 23005
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+[LOG] TransitionLogger initialized with ID: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3
+[LOG] MongoDB connection established
+[LOG] TransitionLogger initialized with ID: 2e495291-aa15-478f-b870-5f34fab207ca
+[LOG] MongoDB connection established
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 13
+Missing: pick_column1_left_0
+Missing: pick_column2_top_0
+Missing: place_goal_0_top_0
+Missing: place_goal_0_left_0
+Missing: place_goal_0_front_270
+Missing: place_goal_1_right_0
+Missing: place_goal_1_front_270
+Missing: place_goal_2_top_0
+Missing: place_goal_2_left_0
+Missing: place_goal_2_right_0
+Missing: place_goal_2_front_270
+Missing: place_region_0_top_0
+Missing: place_region_0_left_0
+Missing: place_region_0_right_0
+Missing: place_region_0_front_270
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_top_0
+Missing: place_region_2_left_0
+Missing: place_region_2_right_0
+Missing: place_region_2_front_270
+planned action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[INFO] Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) is valid
+Executing planned action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 4800 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.04 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020910303212483574
+[INFO] Pick action completed successfully.in execution time: 4.04 seconds
+[EXEC] Action ActionType.PICK executed in 23.89 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+planned action invalid
+[Error] No valid actions found, object lost in scene
+Resetting scene due to no valid actions
+planned action: Action(ActionType.PLACE, obj=None, slot=/goal_0,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=None) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 384 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 7.94 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/goal_0,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=None) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 4992 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.44 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.04103959814628815
+[INFO] Pick action completed successfully.in execution time: 3.44 seconds
+[EXEC] Action ActionType.PICK executed in 13.48 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.FRONT_270)
+[INFO] Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.FRONT_270) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 6720 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.28 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 12.53 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/goal_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 1344 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.47 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/goal_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 3584 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 9.84 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.02031193220019358
+[INFO] Pick action completed successfully.in execution time: 9.84 seconds
+[EXEC] Action ActionType.PICK executed in 21.02 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.TOP_0)
+[INFO] Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.TOP_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp top_0
+
+[INFO] Found 4480 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 2.83 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0)
+[INFO] Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp left_0
+
+[INFO] Found 3072 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 2.09 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[INFO] Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 3520 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 1.52 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 13.91 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/goal_2,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=None) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 4032 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 8.16 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.020661578916269796
+[INFO] Pick action completed successfully.in execution time: 8.16 seconds
+[EXEC] Action ActionType.PICK executed in 24.08 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.TOP_0)
+[INFO] Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.TOP_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp top_0
+
+[INFO] Found 5888 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 4.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 5.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 48.13 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.LEFT_0)
+[INFO] Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.LEFT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp left_0
+
+[INFO] Found 3712 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 6.32 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 22.33 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_0,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 5376 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.99 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_0,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 4544 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 1.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021644777214656276
+[INFO] Pick action completed successfully.in execution time: 1.84 seconds
+[EXEC] Action ActionType.PICK executed in 14.86 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=None) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 2048 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 4.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 5.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 51.76 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp left_0
+
+[INFO] Found 960 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 4.48 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=None) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 7488 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 10.32 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 31.49 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 5824 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.19 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 1856 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.66 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 1536 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.49 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 3008 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 8.20 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.020296853174297826
+[INFO] Pick action completed successfully.in execution time: 8.20 seconds
+[EXEC] Action ActionType.PICK executed in 23.85 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270)
+[INFO] Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp front_270
+
+[INFO] Found 5184 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 8.00 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 37.99 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 26
+Missing: place_goal_0_left_0
+Missing: place_region_0_right_0
+Missing: place_region_0_front_270
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_top_0
+Missing: place_region_2_left_0
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/goal_0,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 4672 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.95 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_0,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_0,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 2496 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.20 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02676773936232654
+[INFO] Pick action completed successfully.in execution time: 4.20 seconds
+[EXEC] Action ActionType.PICK executed in 11.22 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=None) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp left_0
+
+[INFO] Found 3840 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.76 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 16.88 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 5440 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 48.33 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3520 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 6.56 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.018688311382188533
+[INFO] Pick action completed successfully.in execution time: 6.56 seconds
+[EXEC] Action ActionType.PICK executed in 17.13 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_2,grasp=GraspType.RIGHT_0)
+[INFO] Action(ActionType.PLACE, obj=/column1, slot=/region_2,grasp=GraspType.RIGHT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp right_0
+[ERROR] No IK configurations found for desired place pose.
+[EXEC] Action ActionType.PLACE executed in 1.03 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 27
+Missing: place_goal_0_left_0
+Missing: place_region_0_right_0
+Missing: place_region_0_front_270
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_top_0
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.LEFT_0)
+[INFO] Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.LEFT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column1, slot=/goal_0,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp left_0
+
+[INFO] Found 6080 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 44.13 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_0,grasp=GraspType.RIGHT_0)
+[INFO] Action(ActionType.PLACE, obj=/column1, slot=/region_0,grasp=GraspType.RIGHT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_0,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp right_0
+
+[INFO] Found 5056 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.04 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 29.38 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_0,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 3712 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 1.68 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020221490287444348
+[INFO] Pick action completed successfully.in execution time: 1.68 seconds
+[EXEC] Action ActionType.PICK executed in 12.01 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.TOP_0)
+[INFO] Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.TOP_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [0.6, 1.075, 0.5] with grasp top_0
+
+[INFO] Found 576 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 1.28 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.LEFT_0)
+[INFO] Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.LEFT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.LEFT_0)
+[EXEC] Placing at [0.6, 1.075, 0.5] with grasp left_0
+
+[INFO] Found 1728 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 1.62 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.RIGHT_0)
+[INFO] Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.RIGHT_0) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [0.6, 1.075, 0.5] with grasp right_0
+[ERROR] No IK configurations found for desired place pose.
+[EXEC] Action ActionType.PLACE executed in 1.02 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.FRONT_270)
+[INFO] Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.FRONT_270) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column1, slot=/region_1,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 1.075, 0.5] with grasp front_270
+
+[INFO] Found 4736 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.04 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 22.41 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 4224 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.41 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 5568 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 58.11 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 30
+Missing: place_region_0_front_270
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_0,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 5824 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 8.92 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.020789760923668958
+[INFO] Pick action completed successfully.in execution time: 8.92 seconds
+[EXEC] Action ActionType.PICK executed in 28.82 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=None) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.TOP_0)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp top_0
+
+[INFO] Found 2752 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 4.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 5.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 41.53 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 4096 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 8.88 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 27.66 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 8640 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.24 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027805334348746765
+[INFO] Pick action completed successfully.in execution time: 4.24 seconds
+[EXEC] Action ActionType.PICK executed in 12.40 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 30
+Missing: place_region_0_front_270
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.FRONT_270)
+[INFO] Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.FRONT_270) is valid
+Executing planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.35, 0.8, 0.521] with grasp front_270
+
+[INFO] Found 4416 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 4.56 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 29.32 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 4672 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.20 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.019401350847049543
+[INFO] Pick action completed successfully.in execution time: 3.20 seconds
+[EXEC] Action ActionType.PICK executed in 21.81 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=/column2, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PLACE, obj=/column2, slot=/goal_1,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp front_270
+
+[INFO] Found 3776 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 4.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 10.96 seconds
+[INFO] Found a reachable configuration for place action after 5 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 71.43 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 640 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 14.59 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3456 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.38 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 4672 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.04 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020619037801017093
+[INFO] Pick action completed successfully.in execution time: 4.04 seconds
+[EXEC] Action ActionType.PICK executed in 17.31 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 31
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 128 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.51 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3776 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.96 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020428068640367707
+[INFO] Pick action completed successfully.in execution time: 3.96 seconds
+[EXEC] Action ActionType.PICK executed in 17.69 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 448 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 10.40 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 2880 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027120476141700767
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 12.39 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 31
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 2496 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027664466791492627
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 15.21 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 3328 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.30 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3648 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.08 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.01997086009181044
+[INFO] Pick action completed successfully.in execution time: 4.08 seconds
+[EXEC] Action ActionType.PICK executed in 16.96 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 640 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 14.23 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2240 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.32 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 31
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 2112 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.85 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 3328 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027353831009633428
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 13.68 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 6272 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027781813202218123
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 15.13 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3712 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.47 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 31
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 5440 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.52 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02180316447870322
+[INFO] Pick action completed successfully.in execution time: 4.52 seconds
+[EXEC] Action ActionType.PICK executed in 12.89 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 1856 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.61 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 2496 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02632211797518732
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 13.05 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3392 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.53 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 5120 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.52 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.022099212330397158
+[INFO] Pick action completed successfully.in execution time: 4.52 seconds
+[EXEC] Action ActionType.PICK executed in 19.33 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 31
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 5888 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.56 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020919104469005394
+[INFO] Pick action completed successfully.in execution time: 4.56 seconds
+[EXEC] Action ActionType.PICK executed in 16.60 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 1472 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.65 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 448 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 9.04 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2560 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.08 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.019807246603271954
+[INFO] Pick action completed successfully.in execution time: 4.08 seconds
+[EXEC] Action ActionType.PICK executed in 14.39 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 1344 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.52 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 31
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 4992 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.44 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.03544627514474822
+[INFO] Pick action completed successfully.in execution time: 3.44 seconds
+[EXEC] Action ActionType.PICK executed in 12.12 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 4352 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.56 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021010966126722173
+[INFO] Pick action completed successfully.in execution time: 4.56 seconds
+[EXEC] Action ActionType.PICK executed in 14.35 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.01 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_2,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 3200 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.13 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 31
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+Missing: place_region_2_right_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3904 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.28 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 3200 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.23 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 448 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 10.19 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 2112 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.73 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+Too many failures, resetting scene
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 32
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 4032 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.88 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 6016 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.56 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020592859421561978
+[INFO] Pick action completed successfully.in execution time: 4.56 seconds
+[EXEC] Action ActionType.PICK executed in 15.33 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 3200 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02606752651739708
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 17.75 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 32
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 320 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 7.50 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 4736 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.22 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 4224 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02095490493773546
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 17.85 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 4544 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.85 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 32
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 5248 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028490026780889615
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 14.73 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 256 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3328 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.00 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02023224696246853
+[INFO] Pick action completed successfully.in execution time: 4.00 seconds
+[EXEC] Action ActionType.PICK executed in 19.48 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 32
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 5440 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 7.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 1536 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.79 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 5440 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028375771085944086
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 16.34 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2560 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.39 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 32
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+Missing: place_region_1_right_0
+Missing: place_region_1_front_270
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 4480 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02875819138513164
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 14.48 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 4224 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02161363065343647
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 35.43 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.RIGHT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 4800 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027339260416686165
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 14.29 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.FRONT_270)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3584 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021445796053434853
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 22.55 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 1920 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.69 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3200 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.59 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 2048 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.69 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 3904 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.92 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021154760324585485
+[INFO] Pick action completed successfully.in execution time: 3.92 seconds
+[EXEC] Action ActionType.PICK executed in 12.77 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 2752 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.97 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 4160 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028697356275631452
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 12.64 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 4416 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.52 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02181162522632314
+[INFO] Pick action completed successfully.in execution time: 4.52 seconds
+[EXEC] Action ActionType.PICK executed in 20.55 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 3520 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 4.00 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.020482470073926642
+[INFO] Pick action completed successfully.in execution time: 4.00 seconds
+[EXEC] Action ActionType.PICK executed in 27.50 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 2176 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.92 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 3328 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.18 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 2048 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.0264016532783222
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 12.57 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3008 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.26 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 5568 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 6.14 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 4032 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028700321704872547
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 18.87 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 1152 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.58 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 3008 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027290039336396017
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 20.07 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3264 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.54 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 2880 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.72 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 4288 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.59 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 4352 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.41 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 4544 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.44 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.035385418550240806
+[INFO] Pick action completed successfully.in execution time: 3.44 seconds
+[EXEC] Action ActionType.PICK executed in 14.93 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 1600 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026268202742827415
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 12.60 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 4160 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.05 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 1344 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.53 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3072 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.08 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02011011606692169
+[INFO] Pick action completed successfully.in execution time: 4.08 seconds
+[EXEC] Action ActionType.PICK executed in 13.60 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 3584 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.63 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 5312 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028846764288930852
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 18.97 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 3136 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.92 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021070714318307232
+[INFO] Pick action completed successfully.in execution time: 3.92 seconds
+[EXEC] Action ActionType.PICK executed in 15.22 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 4032 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.20 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 4352 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.60 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3648 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021664617037693748
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 13.35 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.01 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 3136 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.00 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020701769091201166
+[INFO] Pick action completed successfully.in execution time: 4.00 seconds
+[EXEC] Action ActionType.PICK executed in 14.60 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3328 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.56 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020991442650309392
+[INFO] Pick action completed successfully.in execution time: 4.56 seconds
+[EXEC] Action ActionType.PICK executed in 16.20 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 640 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 16.49 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 2176 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.96 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 5760 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.44 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.03664504166342643
+[INFO] Pick action completed successfully.in execution time: 3.44 seconds
+[EXEC] Action ActionType.PICK executed in 15.52 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 3200 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.92 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020694132864948006
+[INFO] Pick action completed successfully.in execution time: 3.92 seconds
+[EXEC] Action ActionType.PICK executed in 14.59 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2240 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.65 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 2624 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.27 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 2048 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.99 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.05 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 512 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 13.14 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+Too many failures, resetting scene
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 4032 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.56 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021056712587599044
+[INFO] Pick action completed successfully.in execution time: 4.56 seconds
+[EXEC] Action ActionType.PICK executed in 14.63 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2304 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.07 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 3072 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026382186172316864
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 18.93 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3072 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.61 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 2240 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 2.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 4.00 seconds
+[INFO] Found a reachable configuration for pick action after 3 attempts.
+Tip distance after pick: 0.021054174516579125
+[INFO] Pick action completed successfully.in execution time: 4.00 seconds
+[EXEC] Action ActionType.PICK executed in 26.73 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3776 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.92 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020608825791064055
+[INFO] Pick action completed successfully.in execution time: 3.92 seconds
+[EXEC] Action ActionType.PICK executed in 20.75 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 4544 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.44 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.03585811187339631
+[INFO] Pick action completed successfully.in execution time: 3.44 seconds
+[EXEC] Action ActionType.PICK executed in 17.21 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.03 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 3840 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.42 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 896 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.46 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 640 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 14.60 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3776 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.00 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021066347631684152
+[INFO] Pick action completed successfully.in execution time: 4.00 seconds
+[EXEC] Action ActionType.PICK executed in 20.46 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 384 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 7.55 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.04 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 1344 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.89 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column2 with right_0
+
+[INFO] Found 4096 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.23 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 3968 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.67 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 512 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 10.54 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action failed ! time elapsed: 0.001
+Too many failures, resetting scene
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 128 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.83 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: top_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column1 with top_0
+
+[INFO] Found 4096 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.64 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028309126890708625
+[INFO] Pick action completed successfully.in execution time: 3.64 seconds
+[EXEC] Action ActionType.PICK executed in 23.01 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 1664 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.60 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column0 with left_0
+
+[INFO] Found 1536 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 1.78 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0) with motion param: front_270
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3136 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.56 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020901999605848064
+[INFO] Pick action completed successfully.in execution time: 4.56 seconds
+[EXEC] Action ActionType.PICK executed in 16.90 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.01 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+USING STORM: False
+Reading data from MongoDB...
+Total option moiton param combinations 36
+Collected combinations 34
+Missing: place_region_1_top_0
+Missing: place_region_1_left_0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.TOP_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: right_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+[ERROR] No IK configurations found for desired pick pose.
+[EXEC] Action ActionType.PICK executed in 1.02 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action failed ! time elapsed: 0.001
+[LOG] Transition logged to MongoDB: 00a2c4e9-4bb4-4057-a7a1-fc82d1d192d3 - Episode 0
+planned action: Action(ActionType.PLACE, obj=None, slot=/region_1,grasp=GraspType.LEFT_0)
+planned action invalid
+Selected action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0) with motion param: left_0
+here
+Executing random valid action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column1 with left_0
+
+[INFO] Found 2496 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path

@@ -399,7 +399,7 @@ class RoboticsEnvironment():
                 self.sim.clearStringSignal('MotionStatus')
                 #reset the sim
                 self.sim.stopSimulation()
-                time.sleep(5)
+                time.sleep(2)
                 sys.exit(1)
                 self.sim.startSimulation()
                 return False,0.001
@@ -957,6 +957,7 @@ class RoboticsEnvironment():
         if outcome:
             print(f'realigning placed object {obj_name} to target position')
             self.sim.setObjectOrientation(self.sim.getObject(obj_name),[0,0,0,1])#target_pos[:3]+
+            # self.sim.setObjectPose(self.sim.getObject(obj_name),target_pos+[0,0,0,1])
             self.sim.step()
             self.grasped_object = None
 
@@ -985,7 +986,7 @@ class RoboticsEnvironment():
         return 1
 
 def main():
-    env = RoboticsEnvironment(port=23001)
+    env = RoboticsEnvironment(port=23000)
     env.connect()
     env.initialize_params()
     # initConfig = env.getConfig()
@@ -1009,7 +1010,7 @@ def main():
     env.sim.step()
     GOAL_SLOTS ={
     '/goal_0': [-0.2749999999999999, 0.825, 0.5],
-    '/goal_1': [-0.275, 1.0250000000000006, 0.5],
+    '/goal_1': [-0.275, 1.0750000000000006, 0.5],
     '/goal_2': [-0.6000000000000001, 0.825, 0.5],
     }
     SHOP_SLOTS = {
@@ -1019,8 +1020,12 @@ def main():
     # env.place('/column0',GOAL_SLOTS['/goal_0'],'front_270')
     # env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='front_270')
     # env.pick('/column0','right_0')
-    env.pick(obj_name='/column2',grasp_value='top_0')
-    env.place(obj_name='/column2',target_pos=SHOP_SLOTS['/region_2'],grasp_value='top_0')
+    env.pick(obj_name='/column2',grasp_value='front_270')
+    env.place(obj_name='/column2',target_pos=GOAL_SLOTS['/goal_1'],grasp_value='top_0')
+    env.pick(obj_name='/column0',grasp_value='top_0')
+    env.place(obj_name='/column0',target_pos=GOAL_SLOTS['/goal_2'],grasp_value='right_0')
+    env.pick(obj_name='/column1',grasp_value='front_270')
+    env.place(obj_name='/column1',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
     # env.place(obj_name='/column0',target_pos=GOAL_SLOTS['/goal_0'],grasp_value='top_0')
     # env.pick('/column2','top_0')
     # env.pick(obj_name='/column0',grasp_value='left_0')

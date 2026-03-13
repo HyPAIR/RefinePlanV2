@@ -3,7 +3,7 @@ Refine plan for manipulator environment
 Author: Mohammed Saleeq Kolleth
 """
 import sys
-
+import os
 from refine_plan.learning.option_learning import mongodb_to_yaml, learn_dbns
 from refine_plan.models.state_factor import StateFactor
 from refine_plan.models.state import State
@@ -13,7 +13,7 @@ from refine_plan.models.semi_mdp import SemiMDP
 from refine_plan.models.policy import Policy,TimeDependentPolicy
 from refine_plan.algorithms.semi_mdp_solver import synthesise_policy
 
-from manipulator_exploration import _get_enabled_cond,state_to_policy_state
+from manipulator_utils import _get_enabled_cond,state_to_policy_state
 from robot.robot_interface import RoboticsEnvironment
 from robot.action_executor import ActionExecutor
 from state.scene_state import SceneState
@@ -21,8 +21,11 @@ from rl.reward_function import compute_reward
 from rl.transition_logger import TransitionLogger
 import csv
 from itertools import permutations
-
-collection_name ="manipulator-refined-data"#"cubic-objects-manipulator-exploration"
+import argparse
+MAX_EPISODE_LEGTH =30
+SAMPLE_COUNT = 1
+db_collection_name ="manipulator-refined-data"#"cubic-objects-manipulator-exploration"
+training_data_collection_name = "manipulator-informed-data"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
@@ -33,9 +36,9 @@ objects_formatted =[obj.replace('/','') for obj in goal_objects]
 possible_slots = goal_slots+shop_slots+["held","unknown"]
 possible_slots =[slot.replace('/','') for slot in possible_slots] #Boolean conversion issue
 object_sfs = [StateFactor(obj,possible_slots) for obj in objects_formatted]
-logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=collection_name)
+logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=db_collection_name)
 
-def write_mongodb_to_yaml(mongo_connection_str,limit=None):
+def write_mongodb_to_yaml(mongo_connection_str,collection_name =training_data_collection_name,limit=None):
     """Learn the DBNOptions from the database.
 
     Args:
@@ -45,11 +48,12 @@ def write_mongodb_to_yaml(mongo_connection_str,limit=None):
     mongodb_to_yaml(
         connection_str=mongo_connection_str,
         db_name="refine-plan-v2",
-        collection_name="manipulator-informed-data",
+        collection_name=collection_name,
         sf_list=object_sfs,
         out_file="./refine-plan/data/manipulator/dataset.yaml",
         split_by_motion=True,
-        limit=limit
+        limit=limit,
+        sort_by=[("timestamp", 1)]
 
     )
     print("YAML Dataset Created")
@@ -124,120 +128,155 @@ def run_planner(initial_state:State)->Policy:
 
 
 if __name__ == "__main__":
-    limit = 2200 #set to None to use all data
-    write_mongodb_to_yaml(connection_string,limit=limit)
-    learn_options()
-    #policy = TimeDependentPolicy("./refine-plan/data/manipulator/manipulator_refined_policy.yaml")
+    parser = argparse.ArgumentParser(description='Run manipulator study')
+    parser.add_argument('-p','--port', type=int, default=23006, help='Port number for CoppeliaSim remote API')
+    args = parser.parse_args()
+    print(f"Using port {args.port} for CoppeliaSim connection")
+    print("Starting Manipulator Study")
+    training_dbs=['mainpulator-informed-data']#'example-a-seeded','example-a-random','example-a-informed']#,'manipulator-informed-data']
+    for training_data_collection_name in training_dbs:
+        for limit in range(2000,3702,500):
+            #limit = 1000 #set to None to use all data
+            print(f"Using first {limit} entries from {training_data_collection_name}")
+            write_mongodb_to_yaml(connection_string,collection_name = training_data_collection_name,limit=limit)
+            learn_options()
+            #policy = TimeDependentPolicy("./refine-plan/data/manipulator/manipulator_refined_policy.yaml")
 
-    
+            
 
-    #run the refined policy
-    #setup the initial state
-     #setup the initial state
-    #for each policy we want to log the transitions and rewards to a csv file for analysis.
-    results_filename = 'manipulator_experiment_results_informed.csv'
-    with open(results_filename, mode='a') as results_file:
-        results_writer = csv.writer(results_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        results_writer.writerow(['data limit','run','initial_permutation','goal_percentage','goal_achieved','total_task_time','final_goal_region_occupancy'])
-    
-    initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
-    initial_locations =[[0.35, 0.8, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
-                        [0.6, 0.8000057601488304, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column2
-                        [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
-                        ]
-    #each run would have a different initial location for the objects, of the 6 total permutations
-    permutations_list = [list(permutations(initial_locations))[0]]
-    for perm in permutations_list:
-        initial_locations_perm = list(perm)
-        initial_locations = initial_locations_perm
-
-        #for each permutation we will do 10 runs to account for stochasticity in the environment and policy
-        for run in range(10):
+            #run the refined policy
+            #setup the initial state
+            #setup the initial state
+            #for each policy we want to log the transitions and rewards to a csv file for analysis.
+            
+            initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
+            initial_locations =[[0.35, 0.8, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
+                                [0.6, 0.8000057601488304, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column2
+                                [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
+                                ]
+            #each run would have a different initial location for the objects, of the 6 total permutations
+            permutations_list = list(permutations(initial_locations))
+            perms = enumerate(permutations_list)
+            
+            for perm_index,perm in perms:
                 
-            robot = RoboticsEnvironment(port=23002)
-            robot.connect()
-            robot.initialize_params()
-            scene = SceneState(robot)
-            executor = ActionExecutor(robot)
+                results_filename = f'results/{training_data_collection_name}_{limit}_points.csv'#_perm_{perm_index} TODO: Just keep db name next time, also to a results folder
+                #check if the study has already been done
+                file_exists = os.path.isfile(results_filename)
+                #chck if the study was complete if yes should have atleast 61 entries
+                study_done = file_exists and sum(1 for line in open(results_filename))>=61 #header + 10 runs + some buffer for incomplete runs
+                if study_done:
+                    print(f"Study already done for permutation {perm_index}, at limit {limit} skipping")
+                    continue
+                else:
+                    print(f"Running study for permutation {perm_index}, at limit {limit}")
+                initial_locations_perm = list(perm)
+                initial_locations = initial_locations_perm
 
-            #reset simulation to statndard initial state
-            robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
+                #for each permutation we will do 10 runs to account for stochasticity in the environment and policy
+                for run in range(SAMPLE_COUNT):
+                        
+                    robot = RoboticsEnvironment(port=args.port)
+                    robot.connect()
+                    robot.initialize_params()
+                    scene = SceneState(robot)
+                    executor = ActionExecutor(robot)
 
-            #get the initial state
-            scene.update()
-            state = scene.get_state()
-            init_perm =state['object_slots']
-            #formulate the refined policy given initial state
-            policy =run_planner(initial_state=state)
-            # run the policy
-            act_policy = True
-            if act_policy:
+                    #reset simulation to statndard initial state
+                    robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
 
-                MAX_EPISODE_LEGTH =20
-                step =0
-                failsafe =0
-                total_task_time =0
-                while step<=MAX_EPISODE_LEGTH:
-                    print(f"Step {step}")
-                    policy_state = state_to_policy_state(state)
-                    print(f'policy state {policy_state}')
-                    #refined policy is not time dependent
-                    print(f'policy value {policy.get_value(policy_state)}')
-                    if policy.get_value(policy_state)==None or policy.get_action(policy_state)==None:
-                        print("No valid actions in policy for given state, stopping")
-                        break
-                    action = policy.get_action(state=policy_state)
-                    print(policy_state)
-                    print(action)
-                    action = executor.policy_action_to_executor_action(action,state)
-                    print(f"Action: {action}")
-                    if action is None:
-                        print("No action found, stopping")
-                        robot.leave_object(action=action)
-                        robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
-                    success,exec_time = executor.execute(action)
-                    print(f'Action duration: {exec_time}')
-                    total_task_time +=exec_time
-                    #update the scene state
+                    #get the initial state
                     scene.update()
-                    next_state = scene.get_state()
-                    reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
-                    print(f'reward {reward}')
-                    done = scene.is_goal_achieved()
-
-                    state = next_state
-                    step+=1
-                    #log the transition
-                    logger.log_transition(state,action,reward,next_state,done,exec_time)
-                    state = next_state
-                    step+=1
-                    if not success:
-                        print(f"Action failed, stopping. Time elapsed: {exec_time}")
-                        failsafe +=1
-                        if failsafe>=3:
-                            print("Too many failures, resetting episode")
-                            failsafe=0
-                            break
-                        if not robot.test_motion_planner():
-                            print("Resetting scene because of OMPL failure")
-                            robot.leave_object(action=action)
-                            robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
-                            scene.update()
-                            state = scene.get_state()
-                            break
-                    else:
+                    state = scene.get_state()
+                    init_perm =state['object_slots']
+                    print
+                    #formulate the refined policy given initial state
+                    policy =run_planner(initial_state=state)
+                    # run the policy
+                    act_policy = True
+                    if act_policy:
+                        step =0
                         failsafe =0
-            #check how many of the goals are achieved at the end of the episode
-            goal_achieved = scene.is_goal_achieved()
-            print(f"Goal achieved: {goal_achieved}")
-            #goal region occupancy at the end of the episode
-            goal_region_occupancy = list(scene.goal_region_occupancy.values())
-            #calculate goal percentage
-            goal_percentage = 100*(1-(goal_region_occupancy.count('None')/len(goal_slots)))
-            print(f"Goal region occupancy: {goal_region_occupancy}")
-            print(f'Total task time: {total_task_time} sec')
-            #log the run number, permutation, goal achieved, goal region occupancy, total task time to a csv file for analysis
-            with open(results_filename, mode='a') as results_file:
-                results_writer = csv.writer(results_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                results_writer.writerow([limit,run, init_perm, goal_percentage, goal_achieved, total_task_time ,goal_region_occupancy])
-            robot.stop_simulation()
+                        total_task_time =0
+                        n_actions =0
+                        visited_states =set()
+                        while step<=MAX_EPISODE_LEGTH:
+                            print(f"Step {step}")
+                            policy_state = state_to_policy_state(state)
+                            state_fingerprint = frozenset(state['object_slots'].items())
+                            print(f"State fingerprint: {state_fingerprint}")
+                            if state_fingerprint in visited_states:
+                                print("State has been visited before, stopping to avoid loops")
+                                # break
+                                #allow one more cycle to see if the policy leads to a different state, if not break
+                                step = MAX_EPISODE_LEGTH+1
+                            visited_states.add(frozenset(state['object_slots'].items()))
+                            print(f'policy state {policy_state}')
+                            #refined policy is not time dependent
+                            print(f'policy value {policy.get_value(policy_state)}')
+                            if policy.get_value(policy_state)==None or policy.get_action(policy_state)==None:
+                                print("No valid actions in policy for given state, stopping")
+                                break
+                            action = policy.get_action(state=policy_state)
+                            print(policy_state)
+                            print(action)
+                            action = executor.policy_action_to_executor_action(action,state)
+                            print(f"Action: {action}")
+                            if action is None:
+                                print("No action found, stopping")
+                                robot.leave_object(action=action)
+                                robot.reset_scene(goal_objects,initial_locations,initial_arm_config)
+                            success,exec_time = executor.execute(action)
+                            print(f'Action duration: {exec_time}')
+                            n_actions+=1
+                            total_task_time +=exec_time
+                            #update the scene state
+                            scene.update()
+                            next_state = scene.get_state()
+                            reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
+                            print(f'reward {reward}')
+                            done = scene.is_goal_achieved()
+
+                            state = next_state
+                            step+=1
+                            #log the transition
+                            logger.log_transition(state,action,reward,next_state,done,exec_time)
+                            state = next_state
+                            step+=1
+                            if not success:
+                                print(f"Action failed, stopping. Time elapsed: {exec_time}")
+                                failsafe +=1
+                                if failsafe>=3:
+                                    print("Too many failures, resetting episode")
+                                    failsafe=0
+                                    break
+                                # if not robot.test_motion_planner():
+                                #     print("Resetting scene because of OMPL failure")
+                                #     robot.leave_object(action=action)
+                                #     robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
+                                #     scene.update()
+                                #     state = scene.get_state()
+                                #     break
+                            else:
+                                failsafe =0
+                        #check how many of the goals are achieved at the end of the episode
+                        goal_achieved = scene.is_goal_achieved()
+                        print(f"Goal achieved: {goal_achieved}")
+                        #goal region occupancy at the end of the episode
+                        goal_region_occupancy = list(scene.goal_region_occupancy.values())
+                        #calculate goal percentage
+                        goal_percentage = 100*(1-(goal_region_occupancy.count('None')/len(goal_slots)))
+                        print(f"Goal region occupancy: {goal_region_occupancy}")
+                        print(f'Number of actions: {n_actions}')
+                        print(f'Total task time: {total_task_time} sec')
+                        #log the run number, permutation, goal achieved, goal region occupancy, total task time to a csv file for analysis
+                        with open(results_filename, mode='a') as results_file:
+                            results_writer = csv.writer(results_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                            #if file is new write the header
+                            if not file_exists:
+                                results_writer.writerow(['data limit','run','initial_permutation','goal_percentage','goal_achieved','number_of_actions','total_task_time','final_goal_region_occupancy'])
+                                file_exists = True
+                            init_perm =f'permutation_{perm_index}'
+                            results_writer.writerow([limit,run, init_perm, goal_percentage, goal_achieved, n_actions,total_task_time ,goal_region_occupancy])
+                    robot.stop_simulation()
+                    
