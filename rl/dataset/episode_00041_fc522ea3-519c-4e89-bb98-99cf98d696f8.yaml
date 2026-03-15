@@ -1,0 +1,294 @@
+- action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+  done: false
+  execution_time: 4.16
+  next_state: &id001
+    goal_region_occupancy:
+      /goal_0: None
+      /goal_1: None
+      /goal_2: None
+    gripper_status:
+      holding: /column0
+    object_poses:
+      /column0:
+      - 0.6002133307094104
+      - 0.8001053131084668
+      - 0.6401869375966246
+      - -0.0005031244694320146
+      - 0.00046409111251211044
+      - 4.7552524939931107e-07
+      - 0.9999997657424633
+      /column1:
+      - 0.5999999948754174
+      - 1.075000002849301
+      - 0.541500021606683
+      - -2.21635677170127e-18
+      - 5.600966329175114e-17
+      - -0.0009820818013692167
+      - 0.9999995177575515
+      /column2:
+      - 0.34999999833707196
+      - 0.8000000023032289
+      - 0.541500021606683
+      - 1.3535748208715023e-17
+      - 3.777154143600706e-17
+      - 1.8385622862993056e-05
+      - 0.9999999998309843
+    object_slots:
+      /column0: held
+      /column1: /region_1
+      /column2: /region_0
+    object_status:
+      /column0: held
+      /column1: shop
+      /column2: shop
+    shop_region_occupancy:
+      /region_0: /column2
+      /region_1: /column1
+      /region_2: /column0
+  reward: 4.16
+  state: *id001
+- action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.TOP_0)
+  done: false
+  execution_time: 7.0399999999999
+  next_state: &id002
+    goal_region_occupancy:
+      /goal_0: None
+      /goal_1: /column0
+      /goal_2: None
+    gripper_status:
+      holding: null
+    object_poses:
+      /column0:
+      - -0.2568383856860657
+      - 1.0762668652379848
+      - 0.541500021606683
+      - -5.810736173645762e-20
+      - 2.511669456460437e-19
+      - 0.0
+      - 1.0
+      /column1:
+      - 0.5999999948754174
+      - 1.075000002849301
+      - 0.541500021606683
+      - -1.986720698967094e-18
+      - 4.9053203248241884e-17
+      - -0.0009820818013692167
+      - 0.9999995177575515
+      /column2:
+      - 0.34999999833707196
+      - 0.8000000023032289
+      - 0.541500021606683
+      - 1.3678723837702008e-18
+      - -3.956404571655036e-17
+      - 1.8385622862993056e-05
+      - 0.9999999998309843
+    object_slots:
+      /column0: /goal_1
+      /column1: /region_1
+      /column2: /region_0
+    object_status:
+      /column0: goal
+      /column1: shop
+      /column2: shop
+    shop_region_occupancy:
+      /region_0: /column2
+      /region_1: /column1
+      /region_2: None
+  reward: 7.0399999999999
+  state: *id002
+- action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+  done: false
+  execution_time: 9.6799999999998
+  next_state: &id003
+    goal_region_occupancy:
+      /goal_0: None
+      /goal_1: /column0
+      /goal_2: None
+    gripper_status:
+      holding: /column1
+    object_poses:
+      /column0:
+      - -0.2568383856860657
+      - 1.0762668652379848
+      - 0.541500021606683
+      - -2.978595070716423e-18
+      - -2.676522280731512e-18
+      - 0.0
+      - 1.0
+      /column1:
+      - 0.6001445364399133
+      - 1.0752686112199967
+      - 0.6392499477385952
+      - -0.000787991369586738
+      - 0.0005080240989087936
+      - -0.0009733143955750756
+      - 0.9999990868196851
+      /column2:
+      - 0.34999999833707196
+      - 0.8000000023032289
+      - 0.541500021606683
+      - 4.666904021549603e-17
+      - 4.052626639743859e-18
+      - 1.8385622862993056e-05
+      - 0.9999999998309843
+    object_slots:
+      /column0: /goal_1
+      /column1: held
+      /column2: /region_0
+    object_status:
+      /column0: goal
+      /column1: held
+      /column2: shop
+    shop_region_occupancy:
+      /region_0: /column2
+      /region_1: /column1
+      /region_2: None
+  reward: 9.6799999999998
+  state: *id003
+- action: Action(ActionType.PLACE, obj=/column1, slot=/goal_2,grasp=GraspType.RIGHT_0)
+  done: false
+  execution_time: 11.32
+  next_state: &id004
+    goal_region_occupancy:
+      /goal_0: None
+      /goal_1: /column0
+      /goal_2: /column1
+    gripper_status:
+      holding: null
+    object_poses:
+      /column0:
+      - -0.2568383856860657
+      - 1.0762668652379848
+      - 0.541500021606683
+      - -1.1975198788988943e-18
+      - 7.899494720755695e-18
+      - 0.0
+      - 1.0
+      /column1:
+      - -0.6101180861605915
+      - 0.8255605337471275
+      - 0.541500021606683
+      - -3.900724495717832e-20
+      - 2.7854072810613797e-19
+      - 0.0
+      - 1.0
+      /column2:
+      - 0.34999999833707196
+      - 0.8000000023032289
+      - 0.541500021606683
+      - -1.1374156611058738e-17
+      - 4.658233444484165e-17
+      - 1.8385622862993056e-05
+      - 0.9999999998309843
+    object_slots:
+      /column0: /goal_1
+      /column1: /goal_2
+      /column2: /region_0
+    object_status:
+      /column0: goal
+      /column1: goal
+      /column2: shop
+    shop_region_occupancy:
+      /region_0: /column2
+      /region_1: None
+      /region_2: None
+  reward: 11.32
+  state: *id004
+- action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+  done: false
+  execution_time: 3.6800000000006
+  next_state: &id005
+    goal_region_occupancy:
+      /goal_0: None
+      /goal_1: /column0
+      /goal_2: /column1
+    gripper_status:
+      holding: /column2
+    object_poses:
+      /column0:
+      - -0.2568383856860657
+      - 1.0762668652379848
+      - 0.541500021606683
+      - -3.671587430700886e-18
+      - -4.0876116048011946e-18
+      - 0.0
+      - 1.0
+      /column1:
+      - -0.6101180861605915
+      - 0.8255605337471275
+      - 0.541500021606683
+      - 1.5607892110493594e-18
+      - 9.488402153751722e-19
+      - 0.0
+      - 1.0
+      /column2:
+      - 0.35011084642936136
+      - 0.8001334555573236
+      - 0.6404511910409624
+      - -0.0005985570027889323
+      - 0.0001848109573702343
+      - 1.7775672173328562e-05
+      - 0.9999998036292058
+    object_slots:
+      /column0: /goal_1
+      /column1: /goal_2
+      /column2: held
+    object_status:
+      /column0: goal
+      /column1: goal
+      /column2: held
+    shop_region_occupancy:
+      /region_0: /column2
+      /region_1: None
+      /region_2: None
+  reward: 3.6800000000006
+  state: *id005
+- action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+  done: true
+  execution_time: 4.2400000000007
+  next_state: &id006
+    goal_region_occupancy:
+      /goal_0: /column2
+      /goal_1: /column0
+      /goal_2: /column1
+    gripper_status:
+      holding: null
+    object_poses:
+      /column0:
+      - -0.2568383856860657
+      - 1.0762668652379848
+      - 0.541500021606683
+      - -1.0212598451032444e-17
+      - -5.683213654827603e-18
+      - 0.0
+      - 1.0
+      /column1:
+      - -0.6101180861605915
+      - 0.8255605337471275
+      - 0.541500021606683
+      - -5.465261501850872e-18
+      - 1.1930995046165666e-17
+      - 0.0
+      - 1.0
+      /column2:
+      - -0.2742677743762151
+      - 0.8528759101131428
+      - 0.541500021606683
+      - -3.0739318776204535e-19
+      - 3.3023589869726444e-19
+      - 0.0
+      - 1.0
+    object_slots:
+      /column0: /goal_1
+      /column1: /goal_2
+      /column2: /goal_0
+    object_status:
+      /column0: goal
+      /column1: goal
+      /column2: goal
+    shop_region_occupancy:
+      /region_0: None
+      /region_1: None
+      /region_2: None
+  reward: 4.2400000000007
+  state: *id006

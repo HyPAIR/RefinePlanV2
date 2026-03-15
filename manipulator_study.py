@@ -23,7 +23,7 @@ import csv
 from itertools import permutations
 import argparse
 MAX_EPISODE_LEGTH =30
-SAMPLE_COUNT = 1
+SAMPLE_COUNT = 7
 db_collection_name ="manipulator-refined-data"#"cubic-objects-manipulator-exploration"
 training_data_collection_name = "manipulator-informed-data"
 connection_string="mongodb://localhost:27017/"
@@ -33,7 +33,7 @@ goal_slots=["/goal_0","/goal_1","/goal_2"]
 goal_objects 
 objects_formatted =[obj.replace('/','') for obj in goal_objects]
  #object and obstacle state factos # object slots in data
-possible_slots = goal_slots+shop_slots+["held","unknown"]
+possible_slots = goal_slots+shop_slots+["held"]
 possible_slots =[slot.replace('/','') for slot in possible_slots] #Boolean conversion issue
 object_sfs = [StateFactor(obj,possible_slots) for obj in objects_formatted]
 logger = TransitionLogger(connection_string=connection_string,database_name="refine-plan-v2", collection_name=db_collection_name)
@@ -133,9 +133,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(f"Using port {args.port} for CoppeliaSim connection")
     print("Starting Manipulator Study")
-    training_dbs=['mainpulator-informed-data']#'example-a-seeded','example-a-random','example-a-informed']#,'manipulator-informed-data']
+    training_dbs=['pick-place-random','pick-place-informed']#'example-a-seeded','example-a-random','example-a-informed']#,'manipulator-informed-data']
     for training_data_collection_name in training_dbs:
-        for limit in range(2000,3702,500):
+        for limit in range(500,6501,500):
             #limit = 1000 #set to None to use all data
             print(f"Using first {limit} entries from {training_data_collection_name}")
             write_mongodb_to_yaml(connection_string,collection_name = training_data_collection_name,limit=limit)
@@ -164,7 +164,7 @@ if __name__ == "__main__":
                 #check if the study has already been done
                 file_exists = os.path.isfile(results_filename)
                 #chck if the study was complete if yes should have atleast 61 entries
-                study_done = file_exists and sum(1 for line in open(results_filename))>=61 #header + 10 runs + some buffer for incomplete runs
+                study_done = file_exists and sum(1 for line in open(results_filename))>=6*SAMPLE_COUNT+1 #header + 10 runs + some buffer for incomplete runs
                 if study_done:
                     print(f"Study already done for permutation {perm_index}, at limit {limit} skipping")
                     continue

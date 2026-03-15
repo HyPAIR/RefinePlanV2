@@ -51,7 +51,8 @@ while true; do
     mkdir -p \$LOG_DIR
 
     echo '======================================'
-    echo \"Starting Experiment on PORT: $PORT\"
+    echo \"Starting Experiment: $SESSION \"
+    echo \"PORT: $PORT\"
     echo \"Logs: \$LOG_DIR\"
     echo '======================================'
 

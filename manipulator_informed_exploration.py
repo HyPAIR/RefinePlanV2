@@ -24,7 +24,7 @@ import time
 import argparse
 import sys
 # Define constants
-collection_name ="example-a-seeded"
+collection_name ="pick-place-informed"#"cubic-objects-manipulator-exploration"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
@@ -108,7 +108,7 @@ def build_exploration_policy(initial_state,option_names,motion_params,connection
 
 
     #object and obstacle state factos # object slots in data
-    possible_slots = goal_slots+shop_slots+["held","unknown"]
+    possible_slots = goal_slots+shop_slots+["held"]
     possible_slots =[slot.replace('/','') for slot in possible_slots] #Boolean conversion issue
     object_sfs = [StateFactor(obj,possible_slots) for obj in objects_formatted]
 

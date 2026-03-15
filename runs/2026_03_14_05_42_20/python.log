@@ -1,0 +1,48 @@
+[LOG] TransitionLogger initialized with ID: 72bbb806-119f-4a1d-a4bb-8cfc1c90bd36
+[LOG] MongoDB connection established
+Using port 23010 for CoppeliaSim connection
+Starting Manipulator Study
+Using first 2000 entries from pick-place-random
+writing mongo databse to yaml file
+Traceback (most recent call last):
+  File "/home/kolletms/refine_plan_v2/manipulator_study.py", line 141, in <module>
+    write_mongodb_to_yaml(connection_string,collection_name = training_data_collection_name,limit=limit)
+  File "/home/kolletms/refine_plan_v2/manipulator_study.py", line 48, in write_mongodb_to_yaml
+    mongodb_to_yaml(
+  File "/home/kolletms/refine_plan_v2/refine-plan/src/refine_plan/learning/option_learning.py", line 149, in mongodb_to_yaml
+    yaml_dict = mongodb_to_dict(
+  File "/home/kolletms/refine_plan_v2/refine-plan/src/refine_plan/learning/option_learning.py", line 101, in mongodb_to_dict
+    for doc in docs:
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1431, in _run_operation
+    return self._retryable_read(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1540, in _retryable_read
+    return self._retry_internal(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1507, in _retry_internal
+    ).run()
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 2353, in run
+    return self._read() if self._is_read else self._write()
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 2483, in _read
+    self._server = self._get_server()
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 2439, in _get_server
+    return self._client._select_server(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1322, in _select_server
+    server = topology.select_server(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/topology.py", line 368, in select_server
+    server = self._select_server(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/topology.py", line 346, in _select_server
+    servers = self.select_servers(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/topology.py", line 253, in select_servers
+    server_descriptions = self._select_servers_loop(
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/pymongo/topology.py", line 303, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [Errno 111] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 69b4f5455bd17f2b65ecff2d, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [Errno 111] Connection refused (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>

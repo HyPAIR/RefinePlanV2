@@ -10,3 +10,3030 @@ Running study for permutation 0, at limit 2000
 connected to simulation
 simulation is explicitly stepped
 Joint handles retrieved
+State(column0: region_0, column1: region_2, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column1', '/region_2'), ('/column0', '/region_0')})
+policy state State(column0: region_0, column1: region_2, column2: region_1)
+policy value 19.482692553703618
+State(column0: region_0, column1: region_2, column2: region_1)
+pick_column1_front_270
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3584 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.08 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020030520482382488
+[INFO] Pick action completed successfully.in execution time: 4.08 seconds
+[EXEC] Action ActionType.PICK executed in 22.58 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+Action duration: 4.08
+reward 4.08
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', 'held')})
+policy state State(column0: region_0, column1: held, column2: region_1)
+policy value 16.434341488042076
+State(column0: region_0, column1: held, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 1664 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.36 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 28.92 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+Action duration: 7.3599999999998
+reward 7.3599999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', '/goal_1')})
+policy state State(column0: region_0, column1: goal_1, column2: region_1)
+policy value 13.409493390203263
+State(column0: region_0, column1: goal_1, column2: region_1)
+pick_column2_front_270
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 2816 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 10.36 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.019560694676259215
+[INFO] Pick action completed successfully.in execution time: 10.36 seconds
+[EXEC] Action ActionType.PICK executed in 27.47 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 10.36
+reward 10.36
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 6
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column1', '/goal_1'), ('/column2', 'held')})
+policy state State(column0: region_0, column1: goal_1, column2: held)
+policy value 4.529273680245829
+State(column0: region_0, column1: goal_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5632 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 42.94 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column1', '/goal_1'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_0, column1: goal_1, column2: held)
+policy value 4.529273680245829
+State(column0: region_0, column1: goal_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5376 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 96.05 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', '/column1', 'None']
+Number of actions: 5
+Total task time: 21.8019999999998 sec
+Running study for permutation 1, at limit 2000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_0, column1: region_1, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.49943777045274
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 4608 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.68 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.49943777045274
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 4288 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.95 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 2, at limit 2000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_0, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column1', '/region_0'), ('/column2', '/region_1')})
+policy state State(column0: region_2, column1: region_0, column2: region_1)
+policy value 24.688743078325572
+State(column0: region_2, column1: region_0, column2: region_1)
+pick_column0_top_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 3072 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028457252830867523
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 13.90 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 3.84
+reward 3.84
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', 'held'), ('/column1', '/region_0')})
+policy state State(column0: held, column1: region_0, column2: region_1)
+policy value 21.281290897303347
+State(column0: held, column1: region_0, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 2048 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 10.04 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 20.67 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 10.04
+reward 10.04
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/goal_1'), ('/column1', '/region_0')})
+policy state State(column0: goal_1, column1: region_0, column2: region_1)
+policy value 17.97120760408663
+State(column0: goal_1, column1: region_0, column2: region_1)
+pick_column2_front_270
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3584 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 12.92 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.01959190009925243
+[INFO] Pick action completed successfully.in execution time: 12.92 seconds
+[EXEC] Action ActionType.PICK executed in 47.38 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 12.92
+reward 12.92
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 6
+State fingerprint: frozenset({('/column0', '/goal_1'), ('/column1', '/region_0'), ('/column2', 'held')})
+policy state State(column0: goal_1, column1: region_0, column2: held)
+policy value 9.090987894129203
+State(column0: goal_1, column1: region_0, column2: held)
+place_region_2_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp front_270
+
+[INFO] Found 3200 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 33.44 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/goal_1'), ('/column1', '/region_0'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: goal_1, column1: region_0, column2: held)
+policy value 9.090987894129203
+State(column0: goal_1, column1: region_0, column2: held)
+place_region_2_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp front_270
+
+[INFO] Found 5056 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 31.64 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', '/column0', 'None']
+Number of actions: 5
+Total task time: 26.802 sec
+Running study for permutation 3, at limit 2000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_1, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: region_2, column1: region_1, column2: region_0)
+policy value 18.07827163870684
+State(column0: region_2, column1: region_1, column2: region_0)
+pick_column0_front_270
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3200 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02123862362195992
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 14.80 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 4.16
+reward 4.16
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column0', 'held'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: held, column1: region_1, column2: region_0)
+policy value 15.273647908405403
+State(column0: held, column1: region_1, column2: region_0)
+place_goal_2_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 2432 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.20 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 20.86 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 7.1999999999998
+reward 7.1999999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 4
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: region_0)
+policy value 13.033784392273569
+State(column0: goal_2, column1: region_1, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 2304 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 5.76 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021029272106064457
+[INFO] Pick action completed successfully.in execution time: 5.76 seconds
+[EXEC] Action ActionType.PICK executed in 29.64 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 5.7599999999999
+reward 5.7599999999999
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 6
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048687
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5440 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 28.62 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048687
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5440 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 30.87 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', '/column0']
+Number of actions: 5
+Total task time: 17.1219999999997 sec
+Running study for permutation 4, at limit 2000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_0, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.66897444251081
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 3136 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.96 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.66897444251081
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 2880 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.34 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 5, at limit 2000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_2, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', '/region_0')})
+policy state State(column0: region_1, column1: region_2, column2: region_0)
+policy value 22.3673685829958
+State(column0: region_1, column1: region_2, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3200 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.92 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020499638603919245
+[INFO] Pick action completed successfully.in execution time: 3.92 seconds
+[EXEC] Action ActionType.PICK executed in 12.75 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 3.92
+reward 3.92
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 3136 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 34.01 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 4
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 4864 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 37.72 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 3
+Total task time: 3.9219999999999997 sec
+Using first 2500 entries from mainpulator-informed-data
+writing mongo databse to yaml file
+YAML Dataset Created
+READING IN DATASET
+Running study for permutation 0, at limit 2500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_0, column1: region_2, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column1', '/region_2'), ('/column0', '/region_0')})
+policy state State(column0: region_0, column1: region_2, column2: region_1)
+policy value 19.482692553703618
+State(column0: region_0, column1: region_2, column2: region_1)
+pick_column1_front_270
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 4288 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021373564273451738
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 16.27 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+Action duration: 4.16
+reward 4.16
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', 'held')})
+policy state State(column0: region_0, column1: held, column2: region_1)
+policy value 16.434341488042076
+State(column0: region_0, column1: held, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 2304 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 9.44 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 29.08 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+Action duration: 9.4399999999998
+reward 9.4399999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', '/goal_1')})
+policy state State(column0: region_0, column1: goal_1, column2: region_1)
+policy value 13.409493390203263
+State(column0: region_0, column1: goal_1, column2: region_1)
+pick_column2_front_270
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 2112 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 21.36 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.019131150979736784
+[INFO] Pick action completed successfully.in execution time: 21.36 seconds
+[EXEC] Action ActionType.PICK executed in 45.42 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 21.36
+reward 21.36
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 6
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column1', '/goal_1'), ('/column2', 'held')})
+policy state State(column0: region_0, column1: goal_1, column2: held)
+policy value 4.529273680245829
+State(column0: region_0, column1: goal_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5504 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 52.20 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column1', '/goal_1'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_0, column1: goal_1, column2: held)
+policy value 4.529273680245829
+State(column0: region_0, column1: goal_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5760 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 9.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 21.36 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+Action duration: 9.6000000000015
+reward 9.6000000000015
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Goal achieved: False
+Goal region occupancy: ['/column2', '/column1', 'None']
+Number of actions: 5
+Total task time: 44.5610000000013 sec
+Running study for permutation 1, at limit 2500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_0, column1: region_1, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.499437770452747
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 2944 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.77 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.499437770452747
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 4096 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.07 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 2, at limit 2500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_0, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column1', '/region_0'), ('/column2', '/region_1')})
+policy state State(column0: region_2, column1: region_0, column2: region_1)
+policy value 24.688743078325572
+State(column0: region_2, column1: region_0, column2: region_1)
+pick_column0_top_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 2432 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026501767827078762
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 13.34 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 3.88
+reward 3.88
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', 'held'), ('/column1', '/region_0')})
+policy state State(column0: held, column1: region_0, column2: region_1)
+policy value 21.281290897303347
+State(column0: held, column1: region_0, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 1664 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 3.72 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', 'held'), ('/column1', '/region_0')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: held, column1: region_0, column2: region_1)
+policy value 21.281290897303347
+State(column0: held, column1: region_0, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 2048 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 56.88 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 3
+Total task time: 3.8819999999999997 sec
+Running study for permutation 3, at limit 2500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_1, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: region_2, column1: region_1, column2: region_0)
+policy value 18.07827163870684
+State(column0: region_2, column1: region_1, column2: region_0)
+pick_column0_front_270
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3712 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021402141203033406
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 16.31 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 4.16
+reward 4.16
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column0', 'held'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: held, column1: region_1, column2: region_0)
+policy value 15.273647908405405
+State(column0: held, column1: region_1, column2: region_0)
+place_goal_2_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 2688 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.12 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 22.35 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 7.1199999999998
+reward 7.1199999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 4
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: region_0)
+policy value 13.03378439227357
+State(column0: goal_2, column1: region_1, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3648 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 5.80 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02156632176787024
+[INFO] Pick action completed successfully.in execution time: 5.80 seconds
+[EXEC] Action ActionType.PICK executed in 20.67 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 5.7999999999999
+reward 5.7999999999999
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 6
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048688
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 7104 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 48.51 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048688
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 4416 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 49.84 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', '/column0']
+Number of actions: 5
+Total task time: 17.081999999999702 sec
+Running study for permutation 4, at limit 2500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_0, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.668974442510793
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 4544 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 5.34 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.668974442510793
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 3840 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.27 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 5, at limit 2500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_2, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', '/region_0')})
+policy state State(column0: region_1, column1: region_2, column2: region_0)
+policy value 22.3673685829958
+State(column0: region_1, column1: region_2, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 3648 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.92 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020375212395968227
+[INFO] Pick action completed successfully.in execution time: 3.92 seconds
+[EXEC] Action ActionType.PICK executed in 15.45 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 3.92
+reward 3.92
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 4288 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 27.49 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Step 4
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5184 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 23.24 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 3
+Total task time: 3.9219999999999997 sec
+Using first 3000 entries from mainpulator-informed-data
+writing mongo databse to yaml file
+YAML Dataset Created
+READING IN DATASET
+Running study for permutation 0, at limit 3000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_0, column1: region_2, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column1', '/region_2'), ('/column0', '/region_0')})
+policy state State(column0: region_0, column1: region_2, column2: region_1)
+policy value 19.482692553703618
+State(column0: region_0, column1: region_2, column2: region_1)
+pick_column1_front_270
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3392 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.08 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020237317138861507
+[INFO] Pick action completed successfully.in execution time: 4.08 seconds
+[EXEC] Action ActionType.PICK executed in 16.59 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+Action duration: 4.08
+reward 4.08
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', 'held')})
+policy state State(column0: region_0, column1: held, column2: region_1)
+policy value 16.434341488042076
+State(column0: region_0, column1: held, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 2432 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 12.00 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 40.57 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+Action duration: 12.0
+reward 12.0
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', '/goal_1')})
+policy state State(column0: region_0, column1: goal_1, column2: region_1)
+policy value 13.409493390203263
+State(column0: region_0, column1: goal_1, column2: region_1)
+pick_column2_front_270
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 2432 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 10.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021392294371712358
+[INFO] Pick action completed successfully.in execution time: 10.40 seconds
+[EXEC] Action ActionType.PICK executed in 27.20 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 10.4
+reward 10.4
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 6
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column1', '/goal_1'), ('/column2', 'held')})
+policy state State(column0: region_0, column1: goal_1, column2: held)
+policy value 4.529273680245829
+State(column0: region_0, column1: goal_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 4736 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 8.04 seconds
+[INFO] Found a reachable configuration for place action after 3 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 56.06 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+Action duration: 8.0400000000006
+reward 8.0400000000006
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 8
+State fingerprint: frozenset({('/column2', '/goal_0'), ('/column0', '/region_0'), ('/column1', '/goal_1')})
+policy state State(column0: region_0, column1: goal_1, column2: goal_0)
+policy value 2.2398635161318334
+State(column0: region_0, column1: goal_1, column2: goal_0)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 3392 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 2.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 15.40 seconds
+[INFO] Found a reachable configuration for pick action after 3 attempts.
+Tip distance after pick: 0.02008918610547393
+[INFO] Pick action completed successfully.in execution time: 15.40 seconds
+[EXEC] Action ActionType.PICK executed in 55.94 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 15.400000000002
+reward 15.400000000002
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+Step 10
+State fingerprint: frozenset({('/column2', '/goal_0'), ('/column0', 'held'), ('/column1', '/goal_1')})
+policy state State(column0: held, column1: goal_1, column2: goal_0)
+policy value 2.2398635161318348
+State(column0: held, column1: goal_1, column2: goal_0)
+place_goal_2_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 2496 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 8.64 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 23.35 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 8.6400000000014
+reward 8.6400000000014
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 0
+[LOG] Saving episode 0 to episode_00000_eee920ad-6296-41fe-b232-c3c061ac9b7c.yaml
+[LOG] Episode saved: rl/dataset/episode_00000_eee920ad-6296-41fe-b232-c3c061ac9b7c.yaml
+[LOG] Episode reset
+Step 12
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', '/goal_0'), ('/column1', '/goal_1')})
+policy state State(column0: goal_2, column1: goal_1, column2: goal_0)
+policy value 0.0
+No valid actions in policy for given state, stopping
+Goal achieved: True
+Goal region occupancy: ['/column2', '/column1', '/column0']
+Number of actions: 6
+Total task time: 58.560000000003996 sec
+Running study for permutation 1, at limit 3000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_0, column1: region_1, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.499437770452747
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 3456 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.64 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.499437770452747
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 4288 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.53 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 2, at limit 3000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_0, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column1', '/region_0'), ('/column2', '/region_1')})
+policy state State(column0: region_2, column1: region_0, column2: region_1)
+policy value 24.688743078325572
+State(column0: region_2, column1: region_0, column2: region_1)
+pick_column0_top_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 2048 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027579348770660924
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 14.87 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 3.84
+reward 3.84
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', 'held'), ('/column1', '/region_0')})
+policy state State(column0: held, column1: region_0, column2: region_1)
+policy value 21.281290897303347
+State(column0: held, column1: region_0, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 1984 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 8.08 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 20.86 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 8.0799999999998
+reward 8.0799999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/goal_1'), ('/column1', '/region_0')})
+policy state State(column0: goal_1, column1: region_0, column2: region_1)
+policy value 17.97120760408663
+State(column0: goal_1, column1: region_0, column2: region_1)
+pick_column2_front_270
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 2240 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 9.24 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.019236731810052338
+[INFO] Pick action completed successfully.in execution time: 9.24 seconds
+[EXEC] Action ActionType.PICK executed in 24.60 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 9.2399999999998
+reward 9.2399999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 6
+State fingerprint: frozenset({('/column0', '/goal_1'), ('/column1', '/region_0'), ('/column2', 'held')})
+policy state State(column0: goal_1, column1: region_0, column2: held)
+policy value 9.090987894129203
+State(column0: goal_1, column1: region_0, column2: held)
+place_region_2_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp front_270
+
+[INFO] Found 3136 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 24.44 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/goal_1'), ('/column1', '/region_0'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: goal_1, column1: region_0, column2: held)
+policy value 9.090987894129203
+State(column0: goal_1, column1: region_0, column2: held)
+place_region_2_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/region_2,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [0.6, 0.80001, 0.5] with grasp front_270
+
+[INFO] Found 2432 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 26.69 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', '/column0', 'None']
+Number of actions: 5
+Total task time: 21.1619999999996 sec
+Running study for permutation 3, at limit 3000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_1, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: region_2, column1: region_1, column2: region_0)
+policy value 18.07827163870684
+State(column0: region_2, column1: region_1, column2: region_0)
+pick_column0_front_270
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 4864 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021599416456429977
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 13.16 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 4.16
+reward 4.16
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 2
+State fingerprint: frozenset({('/column0', 'held'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: held, column1: region_1, column2: region_0)
+policy value 15.273647908405405
+State(column0: held, column1: region_1, column2: region_0)
+place_goal_2_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 2112 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.52 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 17.59 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 7.5199999999998
+reward 7.5199999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 4
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: region_0)
+policy value 13.03378439227357
+State(column0: goal_2, column1: region_1, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 4416 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 5.80 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021300209528436802
+[INFO] Pick action completed successfully.in execution time: 5.80 seconds
+[EXEC] Action ActionType.PICK executed in 18.63 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 5.7999999999999
+reward 5.7999999999999
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 6
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048688
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 4096 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 32.24 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048688
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5824 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 33.22 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', '/column0']
+Number of actions: 5
+Total task time: 17.481999999999704 sec
+Running study for permutation 4, at limit 3000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_0, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.668961771580173
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 4032 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.26 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.668961771580173
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 5440 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.16 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 5, at limit 3000
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_2, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', '/region_0')})
+policy state State(column0: region_1, column1: region_2, column2: region_0)
+policy value 22.3673685829958
+State(column0: region_1, column1: region_2, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 5120 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.00 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.01994030752616975
+[INFO] Pick action completed successfully.in execution time: 4.00 seconds
+[EXEC] Action ActionType.PICK executed in 10.34 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 4.0
+reward 4.0
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 2
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5824 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 32.14 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 4
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 6592 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 30.97 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 3
+Total task time: 4.002000000000001 sec
+Using first 3500 entries from mainpulator-informed-data
+writing mongo databse to yaml file
+YAML Dataset Created
+READING IN DATASET
+Running study for permutation 0, at limit 3500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_0, column1: region_2, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column1', '/region_2'), ('/column0', '/region_0')})
+policy state State(column0: region_0, column1: region_2, column2: region_1)
+policy value 19.48269255370362
+State(column0: region_0, column1: region_2, column2: region_1)
+pick_column1_front_270
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 4032 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02136702887369272
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 10.61 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+Action duration: 4.16
+reward 4.16
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', 'held')})
+policy state State(column0: region_0, column1: held, column2: region_1)
+policy value 16.43434148804208
+State(column0: region_0, column1: held, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 2048 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 38.75 seconds
+[ERROR] Action ActionType.PLACE failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/region_0'), ('/column1', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_0, column1: held, column2: region_1)
+policy value 16.43434148804208
+State(column0: region_0, column1: held, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 3136 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 6.00 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 17.12 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+Action duration: 5.9999999999999
+reward 5.9999999999999
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Goal achieved: False
+Goal region occupancy: ['None', '/column1', 'None']
+Number of actions: 3
+Total task time: 10.1609999999999 sec
+Running study for permutation 1, at limit 3500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_0, column1: region_1, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.499437770452747
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 4800 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.06 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column0', '/region_0'), ('/column2', '/region_2'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_0, column1: region_1, column2: region_2)
+policy value 17.499437770452747
+State(column0: region_0, column1: region_1, column2: region_2)
+pick_column0_right_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column0 with right_0
+
+[INFO] Found 5248 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 4.42 seconds
+[ERROR] Action ActionType.PICK failed for object /column0
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 2, at limit 3500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_0, column2: region_1)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column1', '/region_0'), ('/column2', '/region_1')})
+policy state State(column0: region_2, column1: region_0, column2: region_1)
+policy value 24.688743078325576
+State(column0: region_2, column1: region_0, column2: region_1)
+pick_column0_top_0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 2560 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02696406183654237
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 10.71 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 3.84
+reward 3.84
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 2
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', 'held'), ('/column1', '/region_0')})
+policy state State(column0: held, column1: region_0, column2: region_1)
+policy value 21.28129089730335
+State(column0: held, column1: region_0, column2: region_1)
+place_goal_1_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp right_0
+
+[INFO] Found 2240 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 10.68 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 29.63 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 10.68
+reward 10.68
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 4
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/goal_1'), ('/column1', '/region_0')})
+policy state State(column0: goal_1, column1: region_0, column2: region_1)
+policy value 17.97120760408663
+State(column0: goal_1, column1: region_0, column2: region_1)
+pick_column2_front_270
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3392 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected pick config on attempt 2.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 3.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, pick action failed.
+[EXEC] Action ActionType.PICK executed in 43.43 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 6
+State fingerprint: frozenset({('/column2', '/region_1'), ('/column0', '/goal_1'), ('/column1', '/region_0')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: goal_1, column1: region_0, column2: region_1)
+policy value 17.97120760408663
+State(column0: goal_1, column1: region_0, column2: region_1)
+pick_column2_front_270
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column2 with front_270
+
+[INFO] Found 3584 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected pick config on attempt 2.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected pick config on attempt 3.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, pick action failed.
+[EXEC] Action ActionType.PICK executed in 38.87 seconds
+[ERROR] Action ActionType.PICK failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', '/column0', 'None']
+Number of actions: 4
+Total task time: 14.521999999999998 sec
+Running study for permutation 3, at limit 3500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_2, column1: region_1, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column0', '/region_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: region_2, column1: region_1, column2: region_0)
+policy value 18.078271638706838
+State(column0: region_2, column1: region_1, column2: region_0)
+pick_column0_front_270
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3648 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02161021148508743
+[INFO] Pick action completed successfully.in execution time: 4.16 seconds
+[EXEC] Action ActionType.PICK executed in 18.37 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+Action duration: 4.16
+reward 4.16
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 2
+State fingerprint: frozenset({('/column0', 'held'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: held, column1: region_1, column2: region_0)
+policy value 15.2736479084054
+State(column0: held, column1: region_1, column2: region_0)
+place_goal_2_right_0
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 3072 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.48 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 34.70 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+Action duration: 7.4799999999998
+reward 7.4799999999998
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 4
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', '/region_0'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: region_0)
+policy value 13.033784392273565
+State(column0: goal_2, column1: region_1, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 4032 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 5.80 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020950265083354822
+[INFO] Pick action completed successfully.in execution time: 5.80 seconds
+[EXEC] Action ActionType.PICK executed in 24.74 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 5.7999999999999
+reward 5.7999999999999
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 6
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048683
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5248 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 28.52 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 8
+State fingerprint: frozenset({('/column0', '/goal_2'), ('/column2', 'held'), ('/column1', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: goal_2, column1: region_1, column2: held)
+policy value 9.466867296048683
+State(column0: goal_2, column1: region_1, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5888 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 24.35 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', '/column0']
+Number of actions: 5
+Total task time: 17.4419999999997 sec
+Running study for permutation 4, at limit 3500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_0, column2: region_2)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.66897444251081
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 3200 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.59 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 2
+State fingerprint: frozenset({('/column2', '/region_2'), ('/column1', '/region_0'), ('/column0', '/region_1')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_0, column2: region_2)
+policy value 14.66897444251081
+State(column0: region_1, column1: region_0, column2: region_2)
+pick_column1_right_0
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.RIGHT_0)
+[EXEC] Picking /column1 with right_0
+
+[INFO] Found 4608 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 3.56 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 2
+Total task time: 0.002 sec
+Running study for permutation 5, at limit 3500
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+State(column0: region_1, column1: region_2, column2: region_0)
+Reading in option: pick_column0_top_0
+Reading in option: pick_column0_left_0
+Reading in option: pick_column0_right_0
+Reading in option: pick_column0_front_270
+Reading in option: pick_column1_top_0
+Reading in option: pick_column1_left_0
+Reading in option: pick_column1_right_0
+Reading in option: pick_column1_front_270
+Reading in option: pick_column2_top_0
+Reading in option: pick_column2_left_0
+Reading in option: pick_column2_right_0
+Reading in option: pick_column2_front_270
+Reading in option: place_goal_0_top_0
+Reading in option: place_goal_0_left_0
+Reading in option: place_goal_0_right_0
+Reading in option: place_goal_0_front_270
+Reading in option: place_goal_1_top_0
+Reading in option: place_goal_1_left_0
+Reading in option: place_goal_1_right_0
+Reading in option: place_goal_1_front_270
+Reading in option: place_goal_2_top_0
+Reading in option: place_goal_2_left_0
+Reading in option: place_goal_2_right_0
+Reading in option: place_goal_2_front_270
+Reading in option: place_region_0_top_0
+Reading in option: place_region_0_left_0
+Reading in option: place_region_0_right_0
+Reading in option: place_region_0_front_270
+Reading in option: place_region_1_top_0
+Reading in option: place_region_1_left_0
+Reading in option: place_region_1_right_0
+Reading in option: place_region_1_front_270
+Reading in option: place_region_2_top_0
+Reading in option: place_region_2_left_0
+Reading in option: place_region_2_right_0
+Reading in option: place_region_2_front_270
+Creating MDP...
+Synthesising Policy...
+Step 0
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', '/region_0')})
+policy state State(column0: region_1, column1: region_2, column2: region_0)
+policy value 22.3673685829958
+State(column0: region_1, column1: region_2, column2: region_0)
+pick_column2_left_0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.LEFT_0)
+[EXEC] Picking /column2 with left_0
+
+[INFO] Found 4032 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.00 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02066469603780745
+[INFO] Pick action completed successfully.in execution time: 4.00 seconds
+[EXEC] Action ActionType.PICK executed in 14.65 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+Action duration: 4.0
+reward 4.0
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Step 2
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5312 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 28.98 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Step 4
+State fingerprint: frozenset({('/column1', '/region_2'), ('/column0', '/region_1'), ('/column2', 'held')})
+State has been visited before, stopping to avoid loops
+policy state State(column0: region_1, column1: region_2, column2: held)
+policy value 18.800451486770918
+State(column0: region_1, column1: region_2, column2: held)
+place_goal_0_front_270
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_0,grasp=GraspType.FRONT_270)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp front_270
+
+[INFO] Found 5056 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: collision
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 33.71 seconds
+[ERROR] Action ActionType.PLACE failed for object /column2
+Action duration: 0.001
+reward 0.001
+[LOG] Transition logged to MongoDB: eee920ad-6296-41fe-b232-c3c061ac9b7c - Episode 1
+Action failed, stopping. Time elapsed: 0.001
+Goal achieved: False
+Goal region occupancy: ['None', 'None', 'None']
+Number of actions: 3
+Total task time: 4.002000000000001 sec
