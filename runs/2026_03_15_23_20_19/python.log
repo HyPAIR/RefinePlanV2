@@ -1,0 +1,14 @@
+[LOG] TransitionLogger initialized with ID: aa68da19-44e4-45e1-84cc-f0ec3a6ebb58
+[LOG] MongoDB connection established
+Executing policy for pick-place-random with limit 3000 and permutation 1 on port 23003
+Starting run 1/7
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Traceback (most recent call last):
+  File "/home/kolletms/refine_plan_v2/policy_executor.py", line 111, in <module>
+    if policy.get_value(policy_state) is None or policy.get_action(policy_state) is None:
+  File "/home/kolletms/refine_plan_v2/refine-plan/src/refine_plan/models/policy.py", line 63, in get_value
+    raise Exception("No value dictionary provided to policy")
+Exception: No value dictionary provided to policy

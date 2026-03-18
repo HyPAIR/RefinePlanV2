@@ -139,7 +139,7 @@ def build_exploration_policy(initial_state,option_names,motion_params,connection
         collection_name=collection_name,
         sf_list=sf_list,
         option_names=option_names_formatted,
-        ensemble_size=4,
+        ensemble_size=9,
         horizon=EPISODE_LENGTH,
         enabled_conds=enabled_conds,
         initial_state=initial_state,
@@ -372,67 +372,143 @@ if __name__ == "__main__":
             else:
                 print(f"[ERROR] Failed to build exploration policy due to {e}, skipping informed collection")
 
-    print("Informed collection will begin if selected")
-    exploration_episodes =EPISIDE_COUNT
+    # print("Informed collection will begin if selected")
+    # exploration_episodes =EPISIDE_COUNT
     explore = True
+    # if explore:
+    #     for episode in range(exploration_episodes):
+    #         print('Resetting the scene for new episode')
+    #         robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
+    #         #execute the exploration policy
+    #         step =0
+    #         episode_length =EPISODE_LENGTH
+    #         #get the initial state
+    #         scene.update()
+    #         state = scene.get_state()
+    #         #if we have an uknow state factor value just reset again
+    #         if 'unknown' in state['object_slots'].values():
+    #             break
+    #         failsafe =0
+    #         while step<=episode_length:
+    #             print(f"Step {step}")
+    #             policy_state = state_to_policy_state(state)
+    #             action = policy.get_action(state=policy_state,time=step)
+    #             print(f'policy value {policy.get_value(policy_state,time=step)}')
+    #             if policy.get_value(policy_state,time=step)==None:
+    #                 print("No more valid actions in policy")
+    #                 break
+    #             print(policy_state)
+    #             print(action)
+    #             action = executor.policy_action_to_executor_action(action,state)
+    #             print(f"Action: {action}")
+    #             if action is None:
+    #                 print("No action found, stopping")
+    #                 robot.leave_object(action=action)
+    #                 robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
+    #             success,exec_time = executor.execute(action)
+    #             print(f'Action duration: {exec_time}')
+
+    #             #update the scene state
+    #             scene.update()
+    #             next_state = scene.get_state()
+    #             reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
+    #             done = scene.is_goal_achieved()
+    #             #log the transition
+    #             logger.log_transition(state,action,reward,next_state,done,exec_time)
+    #             state = next_state
+    #             step+=1
+    #             if not success:
+    #                 print(f"Action failed, stopping. Time elapsed: {exec_time}")
+    #                 failsafe +=1
+    #                 if failsafe>=FAILSAFE_LIMIT:
+    #                     print("Too many failures, resetting episode")
+    #                     failsafe=0
+    #                     break
+                
+    #             else:
+    #                 failsafe=0
+                
+    #         print(f"Episode {episode} ended")
+    #         print("Revising policy")
+    #         policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
+    # print("Exploration finished")
+
+# --- RESTRUCTURED MAX EXPLORATION LOOP ---
+    exploration_episodes = EPISIDE_COUNT
+    REBUILD_FREQUENCY = 1  # Re-plan every step (MAX theoretical optimal) or every 3-5 steps for speed
+    ENSEMBLE_SIZE = 8      # Higher diversity for your 3-object/36-action space
+
     if explore:
         for episode in range(exploration_episodes):
-            print('Resetting the scene for new episode')
-            robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-            #execute the exploration policy
-            step =0
-            episode_length =EPISODE_LENGTH
-            #get the initial state
+            print(f"\n--- Starting Exploration Episode {episode} ---")
+            robot.reset_scene(goal_objects, initial_locations, initial_arm_config, domain_randomization=True)
             scene.update()
             state = scene.get_state()
-            #if we have an uknow state factor value just reset again
-            if 'unknown' in state['object_slots'].values():
-                break
-            failsafe =0
-            while step<=episode_length:
-                print(f"Step {step}")
-                policy_state = state_to_policy_state(state)
-                action = policy.get_action(state=policy_state,time=step)
-                print(f'policy value {policy.get_value(policy_state,time=step)}')
-                if policy.get_value(policy_state,time=step)==None:
-                    print("No more valid actions in policy")
-                    break
-                print(policy_state)
-                print(action)
-                action = executor.policy_action_to_executor_action(action,state)
-                print(f"Action: {action}")
-                if action is None:
-                    print("No action found, stopping")
-                    robot.leave_object(action=action)
-                    robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-                success,exec_time = executor.execute(action)
-                print(f'Action duration: {exec_time}')
+            
+            step = 0
+            failsafe = 0
+            policy = None
 
-                #update the scene state
+            while step < EPISODE_LENGTH:
+                # 1. ACTIVE PLANNING: Rebuild policy based on the latest model ensemble
+                # We do this at the start of the episode and every REBUILD_FREQUENCY steps
+                if step % REBUILD_FREQUENCY == 0:
+                    print(f"[MAX] Re-calculating exploration policy at step {step}...")
+                    try:
+                        policy = build_exploration_policy(
+                            initial_state=state, 
+                            option_names=option_names, 
+                            motion_params=motion_params, 
+                            ensemble_size=ENSEMBLE_SIZE
+                        )
+                    except Exception as e:
+                        print(f"[ERROR] Policy rebuild failed: {e}")
+                        break
+
+                # 2. SELECT ACTION: Get the action that maximizes current model disagreement (JSD)
+                policy_state = state_to_policy_state(state)
+                # In MAX, we typically look at the optimal action for the current state (time=0 in the plan)
+                action_obj = policy.get_action(state=policy_state, time=0) 
+                
+                # Check if policy is exhausted (models are too certain/JSD is zero)
+                if action_obj is None or policy.get_value(policy_state, time=0) is None:
+                    print("[INFO] No significant novelty found. Taking a random valid action.")
+                    valid_actions, _ = action_set.valid_actions(state=state)
+                    if not valid_actions:
+                        print("[ERROR] No valid actions available.")
+                        break
+                    action_to_exec, _ = select_random_action(valid_actions, motion_params)
+                else:
+                    action_to_exec = executor.policy_action_to_executor_action(action_obj, state)
+
+                # 3. EXECUTE & OBSERVE
+                print(f"Step {step} Executing: {action_to_exec}")
+                success, exec_time = executor.execute(action_to_exec)
+                
                 scene.update()
                 next_state = scene.get_state()
-                reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
+                reward = compute_reward(prev_state=state, action=action_to_exec, next_state=next_state, duration=exec_time)
                 done = scene.is_goal_achieved()
-                #log the transition
-                logger.log_transition(state,action,reward,next_state,done,exec_time)
+                
+                # 4. LOG TRANSITION: This updates the dataset D that the ensemble trains on
+                logger.log_transition(state, action_to_exec, reward, next_state, done, exec_time)
+                
                 state = next_state
-                step+=1
+                step += 1
+                
                 if not success:
-                    print(f"Action failed, stopping. Time elapsed: {exec_time}")
-                    failsafe +=1
-                    if failsafe>=FAILSAFE_LIMIT:
-                        print("Too many failures, resetting episode")
-                        failsafe=0
+                    failsafe += 1
+                    if failsafe >= FAILSAFE_LIMIT:
+                        print("Failsafe triggered: too many consecutive action failures.")
                         break
-                
                 else:
-                    failsafe=0
+                    failsafe = 0
                 
-            print(f"Episode {episode} ended")
-            print("Revising policy")
-            policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
-    print("Exploration finished")
+                if done:
+                    print("Goal reached during exploration!")
+                    break
 
+    print("MAX Exploration Cycle Finished.")
 
     robot.stop_simulation()
     sys.exit(0)

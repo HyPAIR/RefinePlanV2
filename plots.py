@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Load  data (standard Pandas loading)
-df = pd.read_excel('pick_place_random_results.ods', engine='odf', sheet_name='compiled_data')
+df = pd.read_excel('pick_place_informed_results_problem_1.ods', engine='odf', sheet_name='compiled_data')
 df['Data points'] = pd.to_numeric(df['Data points'], errors='coerce')
 df['Goal percentage'] = pd.to_numeric(df['Goal percentage'], errors='coerce')
 df_clean = df.dropna(subset=['Data points', 'Goal percentage']).sort_values('Data points')
@@ -11,7 +11,7 @@ df_clean = df.dropna(subset=['Data points', 'Goal percentage']).sort_values('Dat
 # 1. Theme and Color Configuration
 sns.set_theme(style="whitegrid")
 plt.figure(figsize=(10, 7))
-color_key = 'random'
+color_key = 'informed'
 if color_key == 'random':
     box_fill_color ="#ff0f53"   # semi-opaque)
     theme_median ="#F70B69"#       
@@ -62,7 +62,7 @@ ax = sns.boxplot(
 
 # 3. Labeling and Aesthetics
 plt.suptitle('Goal Percentage Distribution by Data Points', fontsize=14, fontweight='regular')
-plt.title('random Exploration Results', fontsize=12, fontweight='regular', pad=10)
+plt.title('informed Exploration Results', fontsize=12, fontweight='regular', pad=10)
 plt.xlabel('Data Points', fontsize=12)
 plt.ylabel('Goal Percentage (%)', fontsize=12)
 
@@ -70,5 +70,5 @@ plt.ylabel('Goal Percentage (%)', fontsize=12)
 sns.despine(left=True, bottom=True)
 
 # 4. Save the Final Output
-plt.savefig('pick_place_random_data_boxplot.png', dpi=300, bbox_inches='tight')
+plt.savefig('pick_place_informed_data_problem_1_boxplot.png', dpi=300, bbox_inches='tight')
 plt.show()

@@ -1,0 +1,20 @@
+[LOG] TransitionLogger initialized with ID: 638b73be-8b50-4154-9e33-3083e6fbbd44
+[LOG] MongoDB connection established
+Executing policy for pick-place-random with limit 500 and permutation 0 on port 23000
+Starting run 1/10
+Traceback (most recent call last):
+  File "/home/kolletms/refine_plan_v2/policy_executor.py", line 84, in <module>
+    robot = RoboticsEnvironment(port=args.port)
+  File "/home/kolletms/refine_plan_v2/robot/robot_interface.py", line 20, in __init__
+    self.sim = self.client.getObject('sim')
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/coppeliasim_zmqremoteapi_client/__init__.py", line 169, in getObject
+    _info = self.call('zmqRemoteApi.info', [name])
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/coppeliasim_zmqremoteapi_client/__init__.py", line 137, in call
+    reply = self._recv()
+  File "/home/kolletms/miniconda3/envs/rpenv/lib/python3.10/site-packages/coppeliasim_zmqremoteapi_client/__init__.py", line 119, in _recv
+    rawResp = self.socket.recv()
+  File "zmq/backend/cython/_zmq.py", line 1203, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1238, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1393, in zmq.backend.cython._zmq._recv_copy
+  File "zmq/backend/cython/_zmq.py", line 176, in zmq.backend.cython._zmq._check_rc
+KeyboardInterrupt

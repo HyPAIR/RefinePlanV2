@@ -1,0 +1,753 @@
+[LOG] TransitionLogger initialized with ID: fc485d86-e325-40bc-9e73-7f08eaa0e34c
+[LOG] MongoDB connection established
+Executing policy for pick-place-informed with limit 2500 and permutation 1 on port 23000
+Starting run 1/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 1920 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026118984149404775
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 21.18 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 3008 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 5.32 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 43.19 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3136 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.12265183019593079
+[INFO] Pick action completed successfully.in execution time: 2.40 seconds
+[EXEC] Action ActionType.PICK executed in 35.24 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 4480 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PLACE executed in 26.46 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Run 1 finished.
+Goal achieved: False
+Goal percentage: 33.333333333333336%
+Number of actions: 4
+Total task time: 11.5609999999998 sec
+Starting run 2/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 2176 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026196927203293627
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 25.34 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1088 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 6.80 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 35.10 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3200 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.021535484445912696
+[INFO] Pick action completed successfully.in execution time: 2.40 seconds
+[EXEC] Action ActionType.PICK executed in 20.63 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 4672 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 2.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 3.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[ERROR] Max IK attempts reached, place action failed.
+[EXEC] Action ActionType.PLACE executed in 24.04 seconds
+[ERROR] Action ActionType.PLACE failed for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Run 2 finished.
+Goal achieved: False
+Goal percentage: 33.333333333333336%
+Number of actions: 4
+Total task time: 13.0409999999998 sec
+Starting run 3/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 1920 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.025357522083183832
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 21.69 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1984 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.52 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 36.67 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3776 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.20 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02143079599348768
+[INFO] Pick action completed successfully.in execution time: 4.20 seconds
+[EXEC] Action ActionType.PICK executed in 21.72 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 3840 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 54.48 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 4
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2368 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 11.76 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.01885722489891314
+[INFO] Pick action completed successfully.in execution time: 11.76 seconds
+[EXEC] Action ActionType.PICK executed in 27.38 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+Step 5
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 1344 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 11.48 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 36.07 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 0
+[LOG] Saving episode 0 to episode_00000_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode saved: rl/dataset/episode_00000_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode reset
+Step 6
+No valid actions in policy for a given state, stopping
+Run 3 finished.
+Goal achieved: True
+Goal percentage: 100.0%
+Number of actions: 6
+Total task time: 43.4400000000026 sec
+Starting run 4/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 1664 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026490879745921465
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 30.84 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1536 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 16.96 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 50.78 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3392 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02495910518888916
+[INFO] Pick action completed successfully.in execution time: 2.40 seconds
+[EXEC] Action ActionType.PICK executed in 23.75 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 5568 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 22.40 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+Step 4
+No valid actions in policy for a given state, stopping
+Run 4 finished.
+Goal achieved: False
+Goal percentage: 33.333333333333336%
+Number of actions: 4
+Total task time: 27.839999999999797 sec
+Starting run 5/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 2496 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02655151748885512
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 18.69 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1728 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 10.32 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 41.59 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3264 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026364106629991692
+[INFO] Pick action completed successfully.in execution time: 2.40 seconds
+[EXEC] Action ActionType.PICK executed in 19.44 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 3456 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 24.07 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+Step 4
+No valid actions in policy for a given state, stopping
+Run 5 finished.
+Goal achieved: False
+Goal percentage: 33.333333333333336%
+Number of actions: 4
+Total task time: 21.199999999999797 sec
+Starting run 6/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 1536 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.96 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.028559082741230663
+[INFO] Pick action completed successfully.in execution time: 3.96 seconds
+[EXEC] Action ActionType.PICK executed in 21.30 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1664 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 8.00 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 38.51 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 3264 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.03750378848788623
+[INFO] Pick action completed successfully.in execution time: 2.40 seconds
+[EXEC] Action ActionType.PICK executed in 20.23 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 4352 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 24.57 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 4
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 1856 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 17.16 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.018792130280046844
+[INFO] Pick action completed successfully.in execution time: 17.16 seconds
+[EXEC] Action ActionType.PICK executed in 43.01 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+Step 5
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 1280 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 10.24 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 46.37 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 1
+[LOG] Saving episode 1 to episode_00001_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode saved: rl/dataset/episode_00001_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode reset
+Step 6
+No valid actions in policy for a given state, stopping
+Run 6 finished.
+Goal achieved: True
+Goal percentage: 100.0%
+Number of actions: 6
+Total task time: 46.3600000000026 sec
+Starting run 7/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 1984 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02629422760429229
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 16.38 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 2
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1856 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 11.76 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 48.56 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 2
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 4096 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026841303520026977
+[INFO] Pick action completed successfully.in execution time: 2.40 seconds
+[EXEC] Action ActionType.PICK executed in 23.00 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 2
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 3968 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 22.88 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 2
+Step 4
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3136 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.32 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.018662695229460274
+[INFO] Pick action completed successfully.in execution time: 7.32 seconds
+[EXEC] Action ActionType.PICK executed in 26.52 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 2
+Step 5
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 1536 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 7.52 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 24.47 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 2
+[LOG] Saving episode 2 to episode_00002_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode saved: rl/dataset/episode_00002_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode reset
+Step 6
+No valid actions in policy for a given state, stopping
+Run 7 finished.
+Goal achieved: True
+Goal percentage: 100.0%
+Number of actions: 6
+Total task time: 37.4800000000017 sec
+Starting run 8/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 1152 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027085339567163132
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 20.99 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 3
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1920 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 9.48 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 64.88 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 3
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 2432 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.48 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.020252581599264127
+[INFO] Pick action completed successfully.in execution time: 2.48 seconds
+[EXEC] Action ActionType.PICK executed in 22.70 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 3
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 2240 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 28.36 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 3
+Step 4
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2240 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 9.20 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.01873143180634134
+[INFO] Pick action completed successfully.in execution time: 9.20 seconds
+[EXEC] Action ActionType.PICK executed in 42.28 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 3
+Step 5
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 1408 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 9.72 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 34.34 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 3
+[LOG] Saving episode 3 to episode_00003_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode saved: rl/dataset/episode_00003_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode reset
+Step 6
+No valid actions in policy for a given state, stopping
+Run 8 finished.
+Goal achieved: True
+Goal percentage: 100.0%
+Number of actions: 6
+Total task time: 39.3600000000018 sec
+Starting run 9/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 1280 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026241427249932926
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 17.79 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 4
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 1664 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 8.36 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 27.04 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 4
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 4160 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.40 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.027413133914787467
+[INFO] Pick action completed successfully.in execution time: 2.40 seconds
+[EXEC] Action ActionType.PICK executed in 19.00 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 4
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 3008 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 26.60 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 4
+Step 4
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 2048 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected pick config on attempt 1.
+[WARN] No path found to picked config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 7.08 seconds
+[INFO] Found a reachable configuration for pick action after 2 attempts.
+Tip distance after pick: 0.01867665624959615
+[INFO] Pick action completed successfully.in execution time: 7.08 seconds
+[EXEC] Action ActionType.PICK executed in 35.29 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 4
+Step 5
+Action: Action(ActionType.PLACE, obj=/column1, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 512 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 10.16 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column1 to target position
+[EXEC] Action ActionType.PLACE executed in 52.14 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column1
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 4
+[LOG] Saving episode 4 to episode_00004_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode saved: rl/dataset/episode_00004_fc485d86-e325-40bc-9e73-7f08eaa0e34c.yaml
+[LOG] Episode reset
+Step 6
+No valid actions in policy for a given state, stopping
+Run 9 finished.
+Goal achieved: True
+Goal percentage: 100.0%
+Number of actions: 6
+Total task time: 36.4800000000014 sec
+Starting run 10/10
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column2, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column2 with top_0
+
+[INFO] Found 2176 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.88 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02603192914555403
+[INFO] Pick action completed successfully.in execution time: 3.88 seconds
+[EXEC] Action ActionType.PICK executed in 30.96 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 5
+Step 1
+Action: Action(ActionType.PLACE, obj=/column2, slot=/goal_2,grasp=GraspType.RIGHT_0)
+[EXEC] Placing at [-0.6000000000000001, 0.8250000000000003, 0.5] with grasp right_0
+
+[INFO] Found 2496 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 5.36 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column2 to target position
+[EXEC] Action ActionType.PLACE executed in 28.28 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column2
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 5
+Step 2
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column0 with front_270
+
+[INFO] Found 2944 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 2.36 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.02773770907521327
+[INFO] Pick action completed successfully.in execution time: 2.36 seconds
+[EXEC] Action ActionType.PICK executed in 22.09 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: fc485d86-e325-40bc-9e73-7f08eaa0e34c - Episode 5
+Step 3
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_0,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.27499999999999986, 0.8250000000000005, 0.5] with grasp top_0
+
+[INFO] Found 2880 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 4.60 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 48.89 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition contains 'unknown' state, not logging to MongoDB.
+Step 4
+No valid actions in policy for a given state, stopping
+Run 10 finished.
+Goal achieved: False
+Goal percentage: 33.333333333333336%
+Number of actions: 4
+Total task time: 16.199999999999697 sec
+Finished all runs for permutation 1. Results saved to results/pick-place-informed_2500_points_perm_1.csv
