@@ -1,0 +1,48 @@
+[LOG] TransitionLogger initialized with ID: 79184783-dcc9-47e5-93a4-28ab964fabce
+[LOG] MongoDB connection established
+Executing policy for pick-place-random with limit 15000 and permutation 5 on port 23011
+{'/column0': '/region_2', '/column1': '/region_1', '/column2': '/region_0'}
+Starting run 1/1
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 4736 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026417374848436467
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 9.27 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: 79184783-dcc9-47e5-93a4-28ab964fabce - Episode 0
+Step 1
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 3584 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 6.00 seconds
+[INFO] Found a reachable configuration for place action after 1 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 11.77 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: 79184783-dcc9-47e5-93a4-28ab964fabce - Episode 0
+Step 2
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3904 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.13 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+[LOG] Transition logged to MongoDB: 79184783-dcc9-47e5-93a4-28ab964fabce - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Run 1 finished.
+Goal achieved: False
+Goal percentage: 33.333333333333336%
+Number of actions: 3
+Total task time: 9.8409999999999 sec
+Finished all runs for permutation 5. Results saved to results/pick-place-random_15000_points_perm_5.csv

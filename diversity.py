@@ -57,7 +57,7 @@ def fetch_data_trends(uri, db_name, collection_name):
 if __name__ == "__main__":
     CONNECTION_URI = "mongodb://localhost:27017/"
     DATABASE_NAME = "refine-plan-v2"
-    collections =['example-a-random', 'example-a-informed','pick-place-random','pick-place-informed']#,'manipulator-informed-data']
+    collections =['informed-exploration','random-exploration']#['example-a-random', 'example-a-informed','pick-place-random','pick-place-informed']#,'manipulator-informed-data']
     
     all_results = []
     for coll in collections:

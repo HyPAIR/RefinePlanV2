@@ -10,13 +10,14 @@ from manipulator_utils import _get_enabled_cond,state_to_policy_state
 from robot.robot_interface import RoboticsEnvironment
 from robot.action_executor import ActionExecutor
 from state.scene_state import SceneState
+from state.slot_config import SHOP_SLOTS
 from rl.reward_function import compute_reward
 from rl.transition_logger import TransitionLogger
 import csv
 from itertools import permutations
 import argparse
 MAX_EPISODE_LEGTH =30
-SAMPLE_COUNT = 10
+SAMPLE_COUNT = 5
 db_collection_name ="manipulator-refined-data"#"cubic-objects-manipulator-exploration"
 training_data_collection_name = "manipulator-informed-data"
 connection_string="mongodb://localhost:27017/"
@@ -51,29 +52,29 @@ if __name__ == "__main__":
     with open(policy_filename, 'r') as f:
         policy_data = yaml.safe_load(f)
 
-    if 'initial_permutation' not in policy_data:
+    if 'initial_state' not in policy_data:
         print(f"Policy file {policy_filename} does not contain 'initial_permutation' key.")
         print("Please regenerate the policy file with the updated policy_generator.py script.")
         sys.exit(1)
 
-    permuted_objects = policy_data['initial_permutation']
+    intial_state = policy_data['initial_state']
+    print(intial_state)
     policy = Policy({},policy_file=policy_filename)
 
     # Define initial locations to determine the permutation for the simulation
     initial_locations = [
         [0.35, 0.8, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],  # Corresponds to region_0
-        [0.6, 0.8000057601488304, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838], # Corresponds to region_1
-        [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484]   # Corresponds to region_2
+        [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],   # Corresponds to region_1
+        [0.6, 0.8000057601488304, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838] # Corresponds to region_2
     ]
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
 
     # Use the loaded permutation to determine the object locations for the simulation
-    sim_object_locations = []
-    for obj in goal_objects:
-        # Find the index of obj in the permuted list
-        idx = permuted_objects.index(obj)
-        # The location for this object is the location corresponding to that index
-        sim_object_locations.append(initial_locations[idx])
+    sim_objects = []
+    sim_object_locations =[]
+    for key,value in intial_state.items():
+        sim_objects.append(key)
+        sim_object_locations.append(SHOP_SLOTS[value]+[0,0,0,1])
 
 
     results_filename = f'results/{args.training_data_collection_name}_{args.limit}_points_perm_{args.perm_index}.csv'
@@ -98,7 +99,7 @@ if __name__ == "__main__":
         scene = SceneState(robot)
         executor = ActionExecutor(robot)
 
-        robot.reset_scene(goal_objects, sim_object_locations, initial_arm_config, domain_randomization=False)
+        robot.reset_scene(sim_objects, sim_object_locations, initial_arm_config, domain_randomization=False)
 
         scene.update()
         state = scene.get_state()

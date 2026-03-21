@@ -24,13 +24,13 @@ import time
 import argparse
 import sys
 # Define constants
-collection_name ="pick-place-informed"#"cubic-objects-manipulator-exploration"
+collection_name ="informed-exploration"#"cubic-objects-manipulator-exploration"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
 goal_slots=["/goal_0","/goal_1","/goal_2"]
 objects_formatted =[obj.replace('/','') for obj in goal_objects] #Boolean conversion issue
-EPISODE_LENGTH =30
+EPISODE_LENGTH =50
 EPISIDE_COUNT = 20
 FAILSAFE_LIMIT = 6
 
@@ -139,7 +139,7 @@ def build_exploration_policy(initial_state,option_names,motion_params,connection
         collection_name=collection_name,
         sf_list=sf_list,
         option_names=option_names_formatted,
-        ensemble_size=9,
+        ensemble_size=8,
         horizon=EPISODE_LENGTH,
         enabled_conds=enabled_conds,
         initial_state=initial_state,
@@ -192,14 +192,7 @@ def run_plan_manually(plan:list,executor:ActionExecutor,state:SceneState):
         success,exec_time = executor.execute(action)
         if not success:
             print(f"Action failed ! time elapsed: {exec_time}")
-            # if not robot.test_motion_planner():
-            #     print("Resetting scene because of OMPL failure")
-            #     robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=False)
-            #     scene.update()
-            #     state = scene.get_state()
-            #     continue
-            #robot.leave_object(action=action)#this changes the state without an action: not good
-            #find where it was taken from
+
             
         #update the scene state
         scene.update()
@@ -218,9 +211,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(f"Connecting to port {args.port}")
     #setup the initial state
-    initial_locations =[[0.35, 0.8, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#column0
-                        [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#column1
-                        [0.6, 0.8000057601488304, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838]#column2
+    initial_locations =[[0.35, 0.8, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838],#region 0
+                        [0.6, 1.075, 0.5625, 3.7923564988209e-08, 6.836504668418399e-08, -0.0009820818013717147, 0.9999995177575484],#region 1
+                        [0.6, 0.8000057601488304, 0.5625, 3.071012527623134e-08, 2.2171811830454326e-08, 1.8385622863714705e-05, 0.9999999998309838]#region 2
                         ]
 
     initial_arm_config = [-1.5708021642299306, 1.5708124107873083, -2.443460952792223, 0.8726616556125304, 1.5707974398473405, 1.0471975511966667]
@@ -262,182 +255,58 @@ if __name__ == "__main__":
     ###RANDOM ACTION SET FOR EXPLORATION ####
     action_set = ActionSet(goal_objects=goal_objects,obstacle_objects=[],shop_slots=SHOP_SLOTS,goal_slots=GOAL_SLOTS)
 
-    random_collection = True
+    random_collection = False
     picked_grasp = None
     #Run 3 pilot runs to have seed data for exploration and save them to the database
+    PILOT_EPISODES = 1
+    PILOT_STEP_LIMIT = 100 # Allow more time to stumble into success
 
-    warmup = False
-    if warmup:
-        try:
-            policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
-            reset_limit = 50
-            step =0
-            failsafe =0
-            while type(policy) == list:
-                for action in policy:
-                    action = executor.policy_action_to_executor_action(action,state=state)
-                    print(f'planned action: {action}')
-                    #check if action is valid
-                    if action_set.is_action_valid(action= action, state=state):
-                        print(f'[INFO] {action} is valid')
-                        print(f"Executing planned action: {action}")
-                        #try to execute the action if it is valid in the current state
-                        success,exec_time = executor.execute(action)
-                    else:
-                        print('planned action invalid')
-                        #try to execute anyway and log to teach the policy about the failure
-                        success,exec_time = executor.execute(action)
-                        #if it succeeds due to sim error reset the scene to avoid learning from sim errors
-                        if success:
-                            robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-                            scene.update()
-                            state = scene.get_state()
-                            continue
-                        else:
-                            scene.update()
-                            next_state = scene.get_state()
-                            reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
-                            logger.log_transition(state,action,reward,state,False,exec_time)
-                            state = next_state
-                        print(f'[INFO] {action} is invalid')
-                        print(f"Action failed ! time elapsed: {exec_time}")
-                        #to keep the exploration going, look for a valid action next
-                        valid_actions,_ = action_set.valid_actions(state=state)
-                        #reset the scene if there are no available valid actions
-                        if not valid_actions:
-                            print("[Error] No valid actions found, object lost in scene")
-                            print("Resetting scene due to no valid actions")
-                            robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-                            scene.update()
-                            state = scene.get_state()
-                            continue
-                        #if valid actions are availabe, excecute a random choice of valid action
-                        else:
-                            # Excecute a random valid action
-                            action,picked_grasp = select_random_action(valid_actions,motion_params)
-                            print(f"Executing random valid action: {action}")
-                    
-                            success,exec_time = executor.execute(action)
-                            #log if a valid action fails to execute to teach the policy about it
-                            if not success:
-                                print(f"Action failed ! time elapsed: {exec_time}")
-                                failsafe +=1
-                                if failsafe>=FAILSAFE_LIMIT:
-                                    print("Too many failures, resetting scene")
-                                    robot.leave_object(action=action)
-                                    robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-                                    scene.update()
-                                    state = scene.get_state()
-                                    failsafe=0
-                                    break
-                            else:
-                                failsafe=0
-           
-                        
-                    #update the scene state
-                    scene.update()
-                    next_state = scene.get_state()
-                    reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
-                    done = scene.is_goal_achieved()
-                    #log the transition
-                    logger.log_transition(state,action,reward,next_state,done,exec_time)
-                    #update state
-                    state = next_state
-                    step+=1
-                    if step>= reset_limit:
-                        robot.leave_object(action=action)
-                        robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-                        scene.update()
-                        state = scene.get_state()
-                        break
-                policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
-        except Exception as e:
-            if e == AssertionError:
-                print("Not enough data to build exploration policy perform warmup")
-            else:
-                print(f"[ERROR] Failed to build exploration policy due to {e}")
+    for ep in range(PILOT_EPISODES):
+        if not random_collection:
+            break
+        robot.reset_scene(goal_objects, initial_locations, initial_arm_config, domain_randomization=True)
+        scene.update()
+        state = scene.get_state()
+        
+        for step in range(PILOT_STEP_LIMIT):
+            # 1. TRULY RANDOM: Don't use a policy yet
+            valid_actions, _ = action_set.valid_actions(state)
+            action, _ = select_random_action(valid_actions, motion_params)
+            
+            # 2. EXECUTE EVERYTHING: Even if it fails, the model needs to see it
+            success, exec_time = executor.execute(action)
+            
+            scene.update()
+            next_state = scene.get_state()
+            
+            # 3. LOG ALWAYS: Model needs to learn P(s' | s, a) for failures too
+            reward = compute_reward(state, action, next_state, exec_time)
+            done = scene.is_goal_achieved()
+            logger.log_transition(state, action, reward, next_state, done, exec_time)
+            
+            state = next_state
+            # No "failsafe" reset here unless the simulator actually crashes.
+
+    try:
+        policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
+        if type(policy) == list:
+            print("Policy building failed, not enough data, skipping informed exploration")
             robot.stop_simulation()
             sys.exit(1)
-    else:
-        print("Warmup not selected, attempting to build policy for informed exploration")
-        try:
-            policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
-            if type(policy) == list:
-                print("Policy building failed, not enough data, skipping informed exploration")
-                robot.stop_simulation()
-                sys.exit(1)
-        except Exception as e:
-            if e == AssertionError:
-                print("Not enough data to build exploration policy, skipping informed collection")
-            else:
-                print(f"[ERROR] Failed to build exploration policy due to {e}, skipping informed collection")
+    except Exception as e:
+        if e == AssertionError:
+            print("Not enough data to build exploration policy, skipping informed collection")
+        else:
+            print(f"[ERROR] Failed to build exploration policy due to {e}, skipping informed collection")
 
-    # print("Informed collection will begin if selected")
-    # exploration_episodes =EPISIDE_COUNT
     explore = True
-    # if explore:
-    #     for episode in range(exploration_episodes):
-    #         print('Resetting the scene for new episode')
-    #         robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-    #         #execute the exploration policy
-    #         step =0
-    #         episode_length =EPISODE_LENGTH
-    #         #get the initial state
-    #         scene.update()
-    #         state = scene.get_state()
-    #         #if we have an uknow state factor value just reset again
-    #         if 'unknown' in state['object_slots'].values():
-    #             break
-    #         failsafe =0
-    #         while step<=episode_length:
-    #             print(f"Step {step}")
-    #             policy_state = state_to_policy_state(state)
-    #             action = policy.get_action(state=policy_state,time=step)
-    #             print(f'policy value {policy.get_value(policy_state,time=step)}')
-    #             if policy.get_value(policy_state,time=step)==None:
-    #                 print("No more valid actions in policy")
-    #                 break
-    #             print(policy_state)
-    #             print(action)
-    #             action = executor.policy_action_to_executor_action(action,state)
-    #             print(f"Action: {action}")
-    #             if action is None:
-    #                 print("No action found, stopping")
-    #                 robot.leave_object(action=action)
-    #                 robot.reset_scene(goal_objects,initial_locations,initial_arm_config,domain_randomization=True)
-    #             success,exec_time = executor.execute(action)
-    #             print(f'Action duration: {exec_time}')
 
-    #             #update the scene state
-    #             scene.update()
-    #             next_state = scene.get_state()
-    #             reward = compute_reward(prev_state=state,action=action,next_state=next_state,duration=exec_time)
-    #             done = scene.is_goal_achieved()
-    #             #log the transition
-    #             logger.log_transition(state,action,reward,next_state,done,exec_time)
-    #             state = next_state
-    #             step+=1
-    #             if not success:
-    #                 print(f"Action failed, stopping. Time elapsed: {exec_time}")
-    #                 failsafe +=1
-    #                 if failsafe>=FAILSAFE_LIMIT:
-    #                     print("Too many failures, resetting episode")
-    #                     failsafe=0
-    #                     break
-                
-    #             else:
-    #                 failsafe=0
-                
-    #         print(f"Episode {episode} ended")
-    #         print("Revising policy")
-    #         policy = build_exploration_policy(initial_state=state,option_names=option_names,motion_params=motion_params,connection_str=connection_string,collection_name=collection_name)
-    # print("Exploration finished")
 
 # --- RESTRUCTURED MAX EXPLORATION LOOP ---
     exploration_episodes = EPISIDE_COUNT
-    REBUILD_FREQUENCY = 1  # Re-plan every step (MAX theoretical optimal) or every 3-5 steps for speed
+    REBUILD_FREQUENCY = 5  # Re-plan every step (MAX theoretical optimal) or every 3-5 steps for speed
     ENSEMBLE_SIZE = 8      # Higher diversity for your 3-object/36-action space
-
+    start_time = time.time()
     if explore:
         for episode in range(exploration_episodes):
             print(f"\n--- Starting Exploration Episode {episode} ---")
@@ -448,19 +317,23 @@ if __name__ == "__main__":
             step = 0
             failsafe = 0
             policy = None
-
+            success_flag =False
             while step < EPISODE_LENGTH:
                 # 1. ACTIVE PLANNING: Rebuild policy based on the latest model ensemble
                 # We do this at the start of the episode and every REBUILD_FREQUENCY steps
-                if step % REBUILD_FREQUENCY == 0:
+                if step % REBUILD_FREQUENCY == 0 or success_flag:
                     print(f"[MAX] Re-calculating exploration policy at step {step}...")
+                    success_flag = False
                     try:
+                        ptime = time.time()
                         policy = build_exploration_policy(
                             initial_state=state, 
                             option_names=option_names, 
                             motion_params=motion_params, 
-                            ensemble_size=ENSEMBLE_SIZE
+                            connection_str=connection_string,
+                            collection_name=collection_name
                         )
+                        print(f'policy built in {time.time() - ptime} seconds')
                     except Exception as e:
                         print(f"[ERROR] Policy rebuild failed: {e}")
                         break
@@ -503,12 +376,13 @@ if __name__ == "__main__":
                         break
                 else:
                     failsafe = 0
+                    success_flag = True
                 
                 if done:
                     print("Goal reached during exploration!")
                     break
 
-    print("MAX Exploration Cycle Finished.")
+    print(f"MAX Exploration Cycle Finished, exploration time {time.time() - start_time}")
 
     robot.stop_simulation()
     sys.exit(0)

@@ -24,7 +24,7 @@ from itertools import permutations
 import argparse
 MAX_EPISODE_LEGTH =30
 SAMPLE_COUNT = 7
-db_collection_name ="manipulator-refined-data"#"cubic-objects-manipulator-exploration"
+db_collection_name ="informed-exploration"#"cubic-objects-manipulator-exploration"
 training_data_collection_name = "manipulator-informed-data"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
@@ -121,21 +121,21 @@ def run_planner(initial_state:State, policy_path:str):
     print("Creating MDP...")
     semi_mdp = SemiMDP(sf_list, option_list, labels, initial_state=initial_state)
     print("Synthesising Policy...")
-    policy = synthesise_policy(semi_mdp, prism_prop='Rmin=?[F "goal"]')
+    policy = synthesise_policy(semi_mdp, prism_prop='Pmax=?[F "goal"]')
     policy.write_policy(policy_path)
     
 
 
 if __name__ == "__main__":
     print("Starting Manipulator Policy Generation")
-    training_dbs=['pick-place-random','pick-place-informed']
+    training_dbs=['pick-place-random']#'informed-exploration','random-exploration']
     
     # Create policies directory if it doesn't exist
     if not os.path.exists('policies'):
         os.makedirs('policies')
 
     for training_data_collection_name in training_dbs:
-        for limit in range(500,8001,500):
+        for limit in range(10000,16001,1000):
             print(f"Using first {limit} entries from {training_data_collection_name}")
             write_mongodb_to_yaml(connection_string,collection_name = training_data_collection_name,limit=limit)
             learn_options()
@@ -145,19 +145,19 @@ if __name__ == "__main__":
             initial_slots = ["/region_0", "/region_1", "/region_2"]
             
             # Generate all permutations of objects in initial slots
-            object_permutations = list(permutations(objects))
+            initial_sate_permutations = list(permutations(initial_slots))
             
-            for perm_index, perm in enumerate(object_permutations):
+            for perm_index, perm in enumerate(initial_sate_permutations):
                 policy_filename = f'policies/{training_data_collection_name}_{limit}_points_perm_{perm_index}.yaml'
                 
                 if os.path.isfile(policy_filename):
                     print(f"Policy already exists for permutation {perm_index}, at limit {limit}, skipping")
-                    continue
+                    # continue
                 
                 print(f"Generating policy for permutation {perm_index}, at limit {limit}")
 
                 # Construct the initial state for the planner
-                object_slots = {perm[i]: initial_slots[i] for i in range(len(objects))}
+                object_slots = {objects[i]: perm[i] for i in range(len(objects))}
                 initial_state = {
                     'object_slots': object_slots,
                     'gripper_status': {'holding': None}
@@ -172,7 +172,8 @@ if __name__ == "__main__":
                     policy_data = yaml.safe_load(f)
                 
                 # Add the permutation as a list
-                policy_data['initial_permutation'] = list(perm)
+                policy_data['initial_state'] = initial_state["object_slots"]
+
                 
                 with open(policy_filename, 'w') as f:
                     yaml.dump(policy_data, f)

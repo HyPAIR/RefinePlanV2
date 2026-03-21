@@ -1,0 +1,52 @@
+[LOG] TransitionLogger initialized with ID: af313330-9824-4fee-8438-1fdc7ca00f9f
+[LOG] MongoDB connection established
+Executing policy for pick-place-random with limit 16000 and permutation 5 on port 23011
+{'/column0': '/region_2', '/column1': '/region_1', '/column2': '/region_0'}
+Starting run 1/1
+connected to simulation
+simulation is explicitly stepped
+Joint handles retrieved
+Step 0
+Action: Action(ActionType.PICK, obj=/column0, slot=None,grasp=GraspType.TOP_0)
+[EXEC] Picking /column0 with top_0
+
+[INFO] Found 4288 potential configurations.
+[INFO] Motion completed successfully with result: success,in execution time: 3.84 seconds
+[INFO] Found a reachable configuration for pick action after 1 attempts.
+Tip distance after pick: 0.026432701478658525
+[INFO] Pick action completed successfully.in execution time: 3.84 seconds
+[EXEC] Action ActionType.PICK executed in 10.03 seconds
+[SUCCESS] Action ActionType.PICK succeeded for object /column0
+[LOG] Transition logged to MongoDB: af313330-9824-4fee-8438-1fdc7ca00f9f - Episode 0
+Step 1
+Action: Action(ActionType.PLACE, obj=/column0, slot=/goal_1,grasp=GraspType.TOP_0)
+[EXEC] Placing at [-0.2749999999999999, 1.0750000000000006, 0.5] with grasp top_0
+
+[INFO] Found 2112 potential configurations.
+[ERROR] Motion failed (collision or invalid path)
+[ERROR] Motion result: no_path
+[WARN] Failed to find a path to the selected place config on attempt 1.
+[WARN] No path found to selected place config, discarding and trying next valid config...
+[INFO] Motion completed successfully with result: success,in execution time: 11.88 seconds
+[INFO] Found a reachable configuration for place action after 2 attempts.
+[INFO] Place action completed successfully.
+realigning placed object /column0 to target position
+[EXEC] Action ActionType.PLACE executed in 27.23 seconds
+[SUCCESS] Action ActionType.PLACE succeeded for object /column0
+[LOG] Transition logged to MongoDB: af313330-9824-4fee-8438-1fdc7ca00f9f - Episode 0
+Step 2
+Action: Action(ActionType.PICK, obj=/column1, slot=None,grasp=GraspType.FRONT_270)
+[EXEC] Picking /column1 with front_270
+
+[INFO] Found 3904 potential configurations.
+[WARN] No valid configuration found (all tested configs invalid).
+[EXEC] Action ActionType.PICK executed in 2.28 seconds
+[ERROR] Action ActionType.PICK failed for object /column1
+[LOG] Transition logged to MongoDB: af313330-9824-4fee-8438-1fdc7ca00f9f - Episode 0
+Action failed, stopping. Time elapsed: 0.001
+Run 1 finished.
+Goal achieved: False
+Goal percentage: 33.333333333333336%
+Number of actions: 3
+Total task time: 15.721 sec
+Finished all runs for permutation 5. Results saved to results/pick-place-random_16000_points_perm_5.csv

@@ -1,49 +1,31 @@
 #!/bin/bash
 
-export OMP_NUM_THREADS=1
 ############################################
 # args
 ############################################
+
 PERM=$1
 PORT=$2
-PRIORITY=$3   # optional, default random
-LIMIT_START=$4 # optional, default 7000
-LIMIT_END=$5   # optional, default 8000
-LIMIT_STEP=$6  # optional, default 1000
+PRIORITY=$3   # optional
 
 if [ -z "$PERM" ] || [ -z "$PORT" ]; then
     echo "Usage: ./worker_tmux_single.sh <perm_index> <port> [priority=random|informed]"
     exit 1
 fi
 
-# Default priority
 if [ -z "$PRIORITY" ]; then
     PRIORITY="random"
 fi
 
-# Default limits
-if [ -z "$LIMIT_START" ]; then
-    LIMIT_START=1000
-fi
-if [ -z "$LIMIT_END" ]; then
-    LIMIT_END=8000
-fi
-if [ -z "$LIMIT_STEP" ]; then
-    LIMIT_STEP=1000
-fi
-
-
 ############################################
-# dataset order based on priority
+# dataset order
 ############################################
 
 if [ "$PRIORITY" == "informed" ]; then
-    COLLECTION_NAMES=("pick-place-informed pick-place-random")
+    COLLECTION_NAMES=("informed-exploration random-exploration")
 else
-    COLLECTION_NAMES=("pick-place-random pick-place-informed")
+    COLLECTION_NAMES=("informed-exploration random-exploration")
 fi
-
-echo "Worker perm=$PERM | port=$PORT | dataset priority=$PRIORITY"
 
 ############################################
 # config
@@ -51,14 +33,17 @@ echo "Worker perm=$PERM | port=$PORT | dataset priority=$PRIORITY"
 
 SESSION="worker_perm_${PERM}_port_${PORT}"
 PROJECT_DIR="$(pwd)"
-RUN_ROOT="$PROJECT_DIR/runs/runs_perm_${PERM}_$(date +%Y_%m_%d_%H_%M_%S)"
+RUN_ROOT="$PROJECT_DIR/runs_perm_${PERM}_$(date +%Y_%m_%d_%H_%M_%S)"
 
-
-
+LIMIT_START=1000
+LIMIT_END=2000
+LIMIT_STEP=1000
 
 mkdir -p "$RUN_ROOT"
 
 SIM_CMD="coppeliasim -h -GzmqRemoteApi.rpcPort=$PORT $PROJECT_DIR/scenes/example_a_pick_place.ttt"
+
+echo "Starting Worker | Perm=$PERM | Port=$PORT | Priority=$PRIORITY"
 
 ############################################
 # tmux setup
@@ -67,7 +52,7 @@ SIM_CMD="coppeliasim -h -GzmqRemoteApi.rpcPort=$PORT $PROJECT_DIR/scenes/example
 tmux kill-session -t "$SESSION" 2>/dev/null
 tmux new-session -d -s "$SESSION" -n runner -c "$PROJECT_DIR"
 
-# layout: top runner, bottom split
+# Layout: top runner, bottom split
 tmux split-window -v -t "$SESSION:runner"
 tmux select-pane -t 1
 tmux split-window -h -t "$SESSION:runner"
@@ -80,10 +65,16 @@ tmux select-pane -t 0
 tmux send-keys "
 cd $PROJECT_DIR
 
-source ~/miniconda3/etc/profile.d/conda.sh
+source ~/anaconda3/etc/profile.d/conda.sh
+
+# dynamic totals
+NUM_DATASETS=\${#COLLECTION_NAMES[@]}
+NUM_LIMITS=\$(( (LIMIT_END - LIMIT_START) / LIMIT_STEP + 1 ))
+TOTAL=\$(( NUM_DATASETS * NUM_LIMITS ))
 
 RUN_COUNT=0
-TOTAL=\$((2 * ((($LIMIT_END-$LIMIT_START)/$LIMIT_STEP))+1))
+
+echo \"Datasets: \$NUM_DATASETS | Limits: \$NUM_LIMITS | Total: \$TOTAL\"
 
 for DATASET in ${COLLECTION_NAMES[@]}; do
 for ((LIMIT=$LIMIT_START; LIMIT<=$LIMIT_END; LIMIT+=$LIMIT_STEP)); do
@@ -115,7 +106,7 @@ for ((LIMIT=$LIMIT_START; LIMIT<=$LIMIT_END; LIMIT+=$LIMIT_STEP)); do
     sleep 5
 
     ################################
-    # capture PIDs (CORRECT WAY)
+    # capture PIDs (robust)
     ################################
 
     SIM_PID=\$(pgrep -nf \"coppeliaSim.*rpcPort=$PORT\")
@@ -156,7 +147,6 @@ done
 done
 
 echo 'All runs complete.'
-
 " C-m
 
 ############################################
