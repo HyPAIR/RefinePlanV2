@@ -121,7 +121,7 @@ def run_planner(initial_state:State, policy_path:str):
     print("Creating MDP...")
     semi_mdp = SemiMDP(sf_list, option_list, labels, initial_state=initial_state)
     print("Synthesising Policy...")
-    policy = synthesise_policy(semi_mdp, prism_prop='Pmax=?[F "goal"]')
+    policy = synthesise_policy(semi_mdp, prism_prop='Rmin=?[F "goal"]')
     policy.write_policy(policy_path)
     
 
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         os.makedirs('policies')
 
     for training_data_collection_name in training_dbs:
-        for limit in range(10000,16001,1000):
+        for limit in range(15000,16001,1000):
             print(f"Using first {limit} entries from {training_data_collection_name}")
             write_mongodb_to_yaml(connection_string,collection_name = training_data_collection_name,limit=limit)
             learn_options()

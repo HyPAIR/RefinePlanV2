@@ -85,7 +85,8 @@ if __name__ == "__main__":
         with open(results_filename, 'r') as f:
             lines = f.readlines()
             if len(lines) > SAMPLE_COUNT+1:
-                skip = True
+                # skip = True
+                pass
             
 
     for run in range(SAMPLE_COUNT):

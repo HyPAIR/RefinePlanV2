@@ -450,10 +450,14 @@ class RoboticsEnvironment():
 
             # try to plan a path to this config
             #1.set the config to goal signal
+            print(f'Sending goal signal {pickConfig} to sim')
             self.sim.setStringSignal(
                 'GoalConfig',
                 self.sim.packTable(pickConfig)
                 )
+         
+            print('Goal signal sent to sim')
+        
             #2.wait for the motion status from lua
             success,duration = self.waitForMotion(timeout=100.0)
             if success:
@@ -986,7 +990,7 @@ class RoboticsEnvironment():
         return 1
 
 def main():
-    env = RoboticsEnvironment(port=23000)
+    env = RoboticsEnvironment(port=23010)
     env.connect()
     env.initialize_params()
     # initConfig = env.getConfig()
