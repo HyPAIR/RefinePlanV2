@@ -66,6 +66,7 @@ class IsObjectHeld(py_trees.behaviour.Behaviour):
         holding_obj = self.scene_state.gripper_status["holding"]
         if holding_obj == self.object_name:
             print(f"[BT] object {self.object_name} is held by gripper")
-            return py_trees.common.Status.SUCCESS
-        else:
             return py_trees.common.Status.FAILURE
+        else:
+            print(f"[BT] object {self.object_name} is not held by gripper")
+            return py_trees.common.Status.SUCCESS

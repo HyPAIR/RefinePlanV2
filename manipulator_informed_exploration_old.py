@@ -24,14 +24,14 @@ import time
 import argparse
 import sys
 # Define constants
-collection_name ="informed-exploration"#"cubic-objects-manipulator-exploration"
+collection_name ="pick-place-informed"#"cubic-objects-manipulator-exploration"
 connection_string="mongodb://localhost:27017/"
 goal_objects = ["/column0","/column1","/column2"]
 shop_slots =["/region_0","/region_1","/region_2"]
 goal_slots=["/goal_0","/goal_1","/goal_2"]
 objects_formatted =[obj.replace('/','') for obj in goal_objects] #Boolean conversion issue
 EPISODE_LENGTH =30
-EPISIDE_COUNT = 20
+EPISIDE_COUNT = 100
 FAILSAFE_LIMIT = 6
 
 

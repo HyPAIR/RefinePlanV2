@@ -28,7 +28,7 @@ mkdir -p "$RUN_DIR"
 
 # Define commands with absolute clarity for pgrep
 SIM_CMD="coppeliasim -h -GzmqRemoteApi.rpcPort=$PORT scenes/example_a_pick_place.ttt"
-PY_CMD="conda activate rpenv && python3 -u manipulator_informed_exploration.py -p $PORT"
+PY_CMD="conda activate rpenv && python3 -u manipulator_informed_exploration_old.py -p $PORT"
 
 echo "Initializing Session: $SESSION on Port: $PORT"
 

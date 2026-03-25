@@ -1,0 +1,58 @@
+digraph pastafarianism {
+ordering=out;
+graph [fontname="times-roman"];
+node [fontname="times-roman"];
+edge [fontname="times-roman"];
+root [label="Ⓜ root", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+"/column0_root" [label="Ⓜ /column0_root", shape=octagon, style=filled, fillcolor=cyan, fontsize=9, fontcolor=black];
+root -> "/column0_root";
+"/column0 on goal?" [label="/column0 on goal?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column0_root" -> "/column0 on goal?";
+"/column0_pick_place" [label="Ⓜ /column0_pick_place", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+"/column0_root" -> "/column0_pick_place";
+"/column0_pick" [label="Ⓜ /column0_pick", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+"/column0_pick_place" -> "/column0_pick";
+"Is /column0 not held?" [label="Is /column0 not held?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column0_pick" -> "Is /column0 not held?";
+"Pick /column0" [label="Pick /column0", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column0_pick" -> "Pick /column0";
+"Place /column0" [label="Place /column0", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column0_pick_place" -> "Place /column0";
+"/column1_root" [label="Ⓜ /column1_root", shape=octagon, style=filled, fillcolor=cyan, fontsize=9, fontcolor=black];
+root -> "/column1_root";
+"/column1 on goal?" [label="/column1 on goal?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column1_root" -> "/column1 on goal?";
+"/column1_pick_place" [label="Ⓜ /column1_pick_place", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+"/column1_root" -> "/column1_pick_place";
+"/column1_pick" [label="Ⓜ /column1_pick", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+"/column1_pick_place" -> "/column1_pick";
+"Is /column1 not held?" [label="Is /column1 not held?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column1_pick" -> "Is /column1 not held?";
+"Pick /column1" [label="Pick /column1", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column1_pick" -> "Pick /column1";
+"Place /column1" [label="Place /column1", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column1_pick_place" -> "Place /column1";
+"/column2_root" [label="Ⓜ /column2_root", shape=octagon, style=filled, fillcolor=cyan, fontsize=9, fontcolor=black];
+root -> "/column2_root";
+"/column2 on goal?" [label="/column2 on goal?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column2_root" -> "/column2 on goal?";
+"/column2_pick_place" [label="Ⓜ /column2_pick_place", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+"/column2_root" -> "/column2_pick_place";
+"/column2_pick" [label="Ⓜ /column2_pick", shape=box, style=filled, fillcolor=orange, fontsize=9, fontcolor=black];
+"/column2_pick_place" -> "/column2_pick";
+"Is /column2 not held?" [label="Is /column2 not held?", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column2_pick" -> "Is /column2 not held?";
+"Pick /column2" [label="Pick /column2", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column2_pick" -> "Pick /column2";
+"Place /column2" [label="Place /column2", shape=ellipse, style=filled, fillcolor=gray, fontsize=9, fontcolor=black];
+"/column2_pick_place" -> "Place /column2";
+"/current_action" -> bt [color=green, constraint=false, weight=0];
+bt -> "/current_action" [color=blue, constraint=false, weight=0];
+subgraph Blackboard {
+id=Blackboard;
+label=Blackboard;
+rank=sink;
+bt [label=bt, shape=ellipse, style=filled, color=blue, fillcolor=gray, fontsize=7, fontcolor=blue];
+"/current_action" [label="/current_action: None", shape=box, style=filled, color=blue, fillcolor=white, fontsize=8, fontcolor=blue, width=0, height=0, fixedsize=false];
+}
+}
